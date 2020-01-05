@@ -96,12 +96,12 @@ CREATE TABLE app_transaction (
 	start_station_id     UUID NOT NULL REFERENCES station (id),
 	planned_station_id   UUID NOT NULL REFERENCES station (id),
 	finish_station_id    UUID REFERENCES station (id),
-	start_time           TIMESTAMP NOT NULL,
-	planned_time         TIMESTAMP NOT NULL,
-	finish_time          TIMESTAMP,
+	discount_id          UUID REFERENCES discount (id),
+	start_time           TIME NOT NULL,
+	planned_time         TIME NOT NULL,
+	finish_time          TIME,
 	initial_cost         NUMERIC(11,2) NOT NULL CHECK (initial_cost > 0),
-	penalty              NUMERIC(11,2) DEFAULT 0 CHECK (penalty >= 0),
-	discount             NUMERIC(11,2) DEFAULT 0 CHECK (discount >= 0)
+	penalty              NUMERIC(11,2) DEFAULT 0 CHECK (penalty >= 0)
 );
 
 CREATE TABLE report (
