@@ -97,9 +97,9 @@ CREATE TABLE app_transaction (
 	planned_station_id   UUID NOT NULL REFERENCES station (id),
 	finish_station_id    UUID REFERENCES station (id),
 	discount_id          UUID REFERENCES discount (id),
-	start_time           TIME NOT NULL,
-	planned_time         TIME NOT NULL,
-	finish_time          TIME,
+	start_time           TIMESTAMP NOT NULL,
+	planned_time         TIMESTAMP NOT NULL,
+	finish_time          TIMESTAMP,
 	initial_cost         NUMERIC(11,2) NOT NULL CHECK (initial_cost > 0),
 	penalty              NUMERIC(11,2) DEFAULT 0 CHECK (penalty >= 0)
 );
@@ -139,13 +139,12 @@ CREATE TABLE staff (
 );
 
 CREATE TABLE inspection (
-	id            UUID PRIMARY KEY,
+	report_id     UUID PRIMARY KEY,
 	staff_id      UUID NOT NULL REFERENCES staff (id),
-	report_id     UUID NOT NULL REFERENCES report (id),
 	description   TEXT NOT NULL,
 	fake          BOOLEAN NOT NULL,
 	date          TIMESTAMP NOT NULL,
-	CONSTRAINT unique_report UNIQUE(report_id)
+	FOREIGN KEY (report_id) REFERENCES report (id)
 );
 
 CREATE TABLE message (

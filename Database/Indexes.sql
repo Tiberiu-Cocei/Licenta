@@ -2,8 +2,6 @@ CREATE INDEX ON transport (date);
 
 CREATE INDEX ON transport_line (transport_id);
 
-CREATE INDEX ON inspection (report_id);
-
 CREATE INDEX ON report (bicycle_id, reviewed);
 
 CREATE INDEX ON app_admin (username);

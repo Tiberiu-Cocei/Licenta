@@ -133,7 +133,7 @@ CREATE OR REPLACE FUNCTION transaction_on_insert_modifies_tables() RETURNS trigg
 	UPDATE bicycle
 		SET station_id = NEW.planned_station_id,
 		    status = 'User',
-			arrival_time = NEW.planned_time,
+			arrival_time = NEW.planned_time::time,
 			lock_number = NULL
 		WHERE id = NEW.bicycle_id;
 		
@@ -160,7 +160,8 @@ CREATE OR REPLACE FUNCTION transaction_on_insert_modifies_tables() RETURNS trigg
 	
 	UPDATE activity
         SET bicycles_taken = bicycles_taken + 1
-        WHERE station_id = NEW.start_station_id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.start_time));
+        WHERE station_id = NEW.start_station_id AND day = NEW.start_time::DATE
+			AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.start_time));
 	
  	RETURN NEW;
     END;
@@ -206,7 +207,8 @@ CREATE OR REPLACE FUNCTION transaction_on_update_modifies_activity_and_penalty()
 		
 	UPDATE activity
         SET bicycles_brought = bicycles_brought + 1
-        WHERE station_id = NEW.finish_station_id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.finish_time));
+        WHERE station_id = NEW.finish_station_id AND day = NEW.finish_time::DATE 
+			AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.finish_time));
 	
  	RETURN NEW;
     END;
