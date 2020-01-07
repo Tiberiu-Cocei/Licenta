@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION transport_line_update_on_station_capacity() RETURNS trigger
+CREATE OR REPLACE FUNCTION transport_line_update_on_station_and_bicycle() RETURNS trigger
     LANGUAGE plpgsql
     SET SCHEMA 'public'
     AS $$
@@ -7,30 +7,21 @@ CREATE OR REPLACE FUNCTION transport_line_update_on_station_capacity() RETURNS t
     UPDATE station 
         SET current_capacity = 
             current_capacity - 1
-        WHERE id = (SELECT station_id FROM bicycle WHERE id = NEW.bicycle_id);
+        WHERE id = NEW.station_from;
 		
     UPDATE station
-		 SET current_capacity =
-	    	 current_capacity + 1
-		 WHERE id = NEW.station_id;
- 
- 	RETURN NEW;
-    END;
-    $$;
-
-CREATE OR REPLACE FUNCTION update_bicycle_arrival_time() RETURNS trigger
-    LANGUAGE plpgsql
-    SET SCHEMA 'public'
-    AS $$
-    BEGIN
- 
-    UPDATE bicycle 
+		SET current_capacity =
+	    	current_capacity + 1
+		WHERE id = NEW.station_to;
+		 
+	UPDATE bicycle 
         SET arrival_time = NEW.arrival_time,
-	     	 station_id = NEW.station_id,
-			 status = 'Transport',
-			 lock_number = NEW.lock_number
+	     	station_id = NEW.station_to,
+		    status = 'Transport',
+			lock_number = NEW.lock_number
         WHERE id = NEW.bicycle_id;
  
+ 	RETURN NULL;
     END;
     $$;
 
@@ -42,9 +33,10 @@ CREATE OR REPLACE FUNCTION inspection_update_on_report() RETURNS trigger
  
     UPDATE report
         SET reviewed = TRUE,
-	   	 	 fake = NEW.fake
+	   	 	fake = NEW.fake
         WHERE id = NEW.report_id;
  
+	 RETURN NULL;
     END;
     $$;
 
@@ -66,6 +58,7 @@ CREATE OR REPLACE FUNCTION report_update_on_user_and_bicycle() RETURNS trigger
         	WHERE id = OLD.bicycle_id;
  	END IF;
  
+	 RETURN NULL;
     END;
     $$;
 
@@ -81,6 +74,7 @@ CREATE OR REPLACE FUNCTION user_on_update_check_for_ban() RETURNS trigger
         	WHERE id = OLD.id;
  	END IF;
  
+	 RETURN NULL;
     END;
     $$;
 
@@ -100,6 +94,7 @@ CREATE OR REPLACE FUNCTION discount_update_on_activity() RETURNS trigger
             discounts_to + NEW.discounts_left
         WHERE station_id = NEW.to_station_id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NOW()));
  
+	 RETURN NULL;
     END;
     $$;
 
@@ -121,6 +116,7 @@ CREATE OR REPLACE FUNCTION station_on_update_change_activity() RETURNS trigger
 			WHERE station_id = OLD.id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NOW()));
 	END IF;
  
+	 RETURN NULL;
     END;
     $$;
 
@@ -198,7 +194,7 @@ CREATE OR REPLACE FUNCTION transaction_on_update_modifies_activity_and_penalty()
 		SET station_id = NEW.finish_station_id,
 			status = 'Station',
 			arrival_time = NULL,
-			lock_number = 0
+			lock_number = 1
 		WHERE id = OLD.bicycle_id;
 
 	UPDATE app_user

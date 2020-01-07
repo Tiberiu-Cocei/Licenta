@@ -1,12 +1,7 @@
-CREATE TRIGGER transport_line_update_on_station
-    BEFORE INSERT ON transport_line
-    FOR EACH ROW
-    EXECUTE PROCEDURE transport_line_update_on_station_capacity();
-
-CREATE TRIGGER transport_line_update_on_bicycle
+CREATE TRIGGER transport_line_update_on_station_and_bicycle
     AFTER INSERT ON transport_line
     FOR EACH ROW
-    EXECUTE PROCEDURE update_bicycle_arrival_time();
+    EXECUTE PROCEDURE transport_line_update_on_station_and_bicycle();
 
 CREATE TRIGGER inspection_update_on_report
     AFTER INSERT ON inspection
