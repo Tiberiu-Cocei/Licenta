@@ -1,6 +1,7 @@
 INSERT INTO city VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'Test');
 INSERT INTO station VALUES ('41e6215d-b5c6-4896-987c-f30f3678f608', '40e6215d-b5c6-4896-987c-f30f3678f608', 'Test', '(0.0, 0.0)', 20, 3);
 INSERT INTO station VALUES ('41a6215d-b5c6-4896-987c-f30f3678f608', '40e6215d-b5c6-4896-987c-f30f3678f608', 'Test2', '(2.0, 3.0)', 20, 0);
+INSERT INTO station VALUES ('41d6215d-b5c6-4896-987c-f30f3678f608', '40e6215d-b5c6-4896-987c-f30f3678f608', 'Test3', '(4.0, 6.0)', 20, 1);
 INSERT INTO bicycle VALUES ('42e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', NULL, 'Station', 'Test1M', 1);
 INSERT INTO bicycle VALUES ('43e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', NULL, 'Station', 'Test2M', 1);
 INSERT INTO bicycle VALUES ('44e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', NULL, 'Station', 'Test3M', 1);
@@ -21,3 +22,18 @@ INSERT INTO activity VALUES ('02e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b
 INSERT INTO activity VALUES ('03e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', NOW()::DATE, 16, 17, 0, 0, 0, 0, FALSE, FALSE);
 INSERT INTO activity VALUES ('04e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', NOW()::DATE, 17, 18, 0, 0, 0, 0, FALSE, FALSE);
 INSERT INTO activity VALUES ('05e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', NOW()::DATE, 18, 19, 0, 0, 0, 0, FALSE, FALSE);
+INSERT INTO activity VALUES ('06e6215d-b5c6-4896-987c-f30f3678f608', '41d6215d-b5c6-4896-987c-f30f3678f608', NOW()::DATE, 17, 18, 0, 0, 0, 0, FALSE, FALSE);
+-- cele 2 insert-uri de mai jos activeaza trigger-ul "discount_update_on_activity"
+INSERT INTO discount VALUES('52e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', 5, 25.0, NOW(), NOW() + INTERVAL '1 HOUR');
+INSERT INTO discount VALUES('53e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', 3, 20.0, NOW() + INTERVAL '1 HOUR', NOW() + INTERVAL '2 HOUR');
+-- cele 2 update-uri de mai jos activeaza trigger-ul "station_on_update_change_activity"
+UPDATE station SET current_capacity = 0 WHERE id = '41e6215d-b5c6-4896-987c-f30f3678f608';
+UPDATE station SET current_capacity = 20 WHERE id = '41a6215d-b5c6-4896-987c-f30f3678f608';
+UPDATE station SET current_capacity = 2 WHERE id = '41e6215d-b5c6-4896-987c-f30f3678f608';
+UPDATE station SET current_capacity = 1 WHERE id = '41a6215d-b5c6-4896-987c-f30f3678f608';
+-- cele 2 insert-uri de mai jos activeaza trigger-ul "transaction_on_insert_modifies_tables"
+INSERT INTO app_transaction VALUES('54e6215d-b5c6-4896-987c-f30f3678f608', '48e6215d-b5c6-4896-987c-f30f3678f608', '49e6215d-b5c6-4896-987c-f30f3678f608', '44e6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', NULL, '52e6215d-b5c6-4896-987c-f30f3678f608', NOW(), NOW() + INTERVAL '10 MINUTE', NULL, 10.0, 0);
+INSERT INTO app_transaction VALUES('55e6215d-b5c6-4896-987c-f30f3678f608', '48e6215d-b5c6-4896-987c-f30f3678f608', '49e6215d-b5c6-4896-987c-f30f3678f608', '44e6215d-b5c6-4896-987c-f30f3678f608', '41a6215d-b5c6-4896-987c-f30f3678f608', '41e6215d-b5c6-4896-987c-f30f3678f608', NULL, '53e6215d-b5c6-4896-987c-f30f3678f608', NOW(), NOW() + INTERVAL '10 MINUTE', NULL, 10.0, 0);
+-- cele 2 update-uri de mai jos activeaza trigger-ul "transaction_on_update_modifies_activity_and_penalty"
+UPDATE app_transaction SET finish_station_id = '41a6215d-b5c6-4896-987c-f30f3678f608', finish_time = NOW() WHERE id = '54e6215d-b5c6-4896-987c-f30f3678f608';
+UPDATE app_transaction SET finish_station_id = '41d6215d-b5c6-4896-987c-f30f3678f608', finish_time = NOW() + INTERVAL '15 MINUTE' WHERE id = '55e6215d-b5c6-4896-987c-f30f3678f608';

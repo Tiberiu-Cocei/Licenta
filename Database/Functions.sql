@@ -87,12 +87,12 @@ CREATE OR REPLACE FUNCTION discount_update_on_activity() RETURNS trigger
     UPDATE activity
         SET discounts_from = 
             discounts_from + NEW.discounts_left
-        WHERE station_id = NEW.from_station_id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NOW()));
+        WHERE station_id = NEW.from_station_id AND day = NEW.start_time::DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.start_time));
 		
     UPDATE activity
         SET discounts_to = 
             discounts_to + NEW.discounts_left
-        WHERE station_id = NEW.to_station_id AND day = CURRENT_DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NOW()));
+        WHERE station_id = NEW.to_station_id AND day = NEW.start_time::DATE AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.start_time));
  
 	 RETURN NULL;
     END;
@@ -145,7 +145,7 @@ CREATE OR REPLACE FUNCTION transaction_on_insert_modifies_tables() RETURNS trigg
 		SET bicycle_id = NEW.bicycle_id
 		WHERE id = NEW.user_id;
 		
-	IF NEW.discount IS NOT NULL THEN
+	IF NEW.discount_id IS NOT NULL THEN
 		UPDATE discount
 			SET discounts_left = discounts_left - 1
 			WHERE id = NEW.discount_id;
