@@ -37,3 +37,5 @@ INSERT INTO app_transaction VALUES('55e6215d-b5c6-4896-987c-f30f3678f608', '48e6
 -- cele 2 update-uri de mai jos activeaza trigger-ul "transaction_on_update_modifies_activity_and_penalty"
 UPDATE app_transaction SET finish_station_id = '41a6215d-b5c6-4896-987c-f30f3678f608', finish_time = NOW() WHERE id = '54e6215d-b5c6-4896-987c-f30f3678f608';
 UPDATE app_transaction SET finish_station_id = '41d6215d-b5c6-4896-987c-f30f3678f608', finish_time = NOW() + INTERVAL '15 MINUTE' WHERE id = '55e6215d-b5c6-4896-987c-f30f3678f608';
+-- update-ul de mai jos activeaza trigger-ul "user_on_warning_count_update_create_message"
+UPDATE app_user SET warning_count = 3 WHERE id = '49e6215d-b5c6-4896-987c-f30f3678f608';

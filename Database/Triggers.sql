@@ -37,3 +37,8 @@ CREATE TRIGGER transaction_on_update_modifies_activity_and_penalty
     BEFORE UPDATE ON app_transaction
     FOR EACH ROW
     EXECUTE PROCEDURE transaction_on_update_modifies_activity_and_penalty();
+
+CREATE TRIGGER user_on_update_create_message
+    AFTER UPDATE OF warning_count ON app_user
+    FOR EACH ROW
+    EXECUTE PROCEDURE user_on_update_create_message();

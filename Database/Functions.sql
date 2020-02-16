@@ -209,3 +209,19 @@ CREATE OR REPLACE FUNCTION transaction_on_update_modifies_activity_and_penalty()
  	RETURN NEW;
     END;
     $$;
+
+CREATE OR REPLACE FUNCTION user_on_update_create_message() RETURNS trigger
+    LANGUAGE plpgsql
+    SET SCHEMA 'public'
+    AS $$
+    BEGIN
+ 
+ 	IF NEW.warning_count > OLD.warning_count THEN
+		INSERT INTO message VALUES
+			(md5(random()::text || clock_timestamp()::text)::uuid, '080fd2aa-43ff-4ddb-af72-9c2c8fdec295', OLD.id, 
+			 'Atentie! Ai primit un avertisment. La trei avertismente accesul tau la aceasta aplicatie va fi blocat.', NOW(), False);
+	END IF;
+ 
+	RETURN NULL;
+    END;
+    $$;

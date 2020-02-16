@@ -115,17 +115,14 @@ CREATE TABLE report (
 );
 
 CREATE TABLE app_admin (
-	id           UUID PRIMARY KEY,
-	email        TEXT NOT NULL,
+	staff_id     UUID PRIMARY KEY,
 	username     TEXT NOT NULL,
 	password     TEXT NOT NULL,
-	first_name   TEXT NOT NULL,
-	last_name    TEXT NOT NULL,
-	active       BOOLEAN DEFAULT false,
-	CONSTRAINT admin_username UNIQUE(username)
+	CONSTRAINT admin_username UNIQUE(username),
+	FOREIGN KEY (staff_id) REFERENCES staff (id)
 );
 
-CREATE TYPE staff_position AS ENUM ('Driver', 'Programmer', 'Others');
+CREATE TYPE staff_position AS ENUM ('Driver', 'Programmer', 'Inspector', 'Administrator', 'Cleaner');
 
 CREATE TABLE staff (
 	id            UUID PRIMARY KEY,
