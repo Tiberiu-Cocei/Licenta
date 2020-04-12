@@ -8,9 +8,9 @@ CREATE TABLE settings (
 	base_price            NUMERIC(12,2) NOT NULL CHECK (base_price > 0),
 	interval_price        NUMERIC(12,2) NOT NULL CHECK (interval_price > 0),
 	interval_time         INTEGER NOT NULL CHECK (interval_time > 0),
-	are_discounts_used    BOOLEAN NOT NULL,
+	discounts_used        BOOLEAN NOT NULL,
 	discount_value        NUMERIC(3,1) NOT NULL CHECK (discount_value > 0), CHECK (discount_value <= 50),
-	are_transports_used   BOOLEAN NOT NULL,
+	transports_used       BOOLEAN NOT NULL,
 	FOREIGN KEY (city_id) REFERENCES city (id)
 );
 
