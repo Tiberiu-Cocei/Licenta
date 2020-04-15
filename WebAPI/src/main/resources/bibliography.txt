@@ -1,0 +1,3 @@
+Swagger - https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
+Jasypt - https://www.baeldung.com/jasypt, https://www.baeldung.com/spring-boot-jasypt
+Email - https://www.baeldung.com/spring-email

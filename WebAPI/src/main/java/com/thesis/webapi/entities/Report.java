@@ -1,6 +1,7 @@
 package com.thesis.webapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.thesis.webapi.dtos.ReportCreateDto;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -34,6 +35,18 @@ public class Report {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "report")
     @JsonManagedReference
     private Inspection inspection;
+
+    public Report() {}
+
+    public Report(ReportCreateDto reportCreateDto) {
+        this.id = UUID.randomUUID();
+        this.userId = reportCreateDto.getUserId();
+        this.bicycleId = reportCreateDto.getBicycleId();
+        this.severity = reportCreateDto.getSeverity();
+        this.description = reportCreateDto.getDescription();
+        this.reviewed = false;
+        this.fake = null;
+    }
 
     public UUID getId() {
         return id;
