@@ -38,12 +38,6 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ResponseEntity<String> saveReport(ReportCreateDto reportCreateDto) {
-        if(reportCreateDto.getSeverity() <= 1 || reportCreateDto.getSeverity() > 10)
-            return new ResponseEntity<>("Severity must be greater or equal to 1 and less or equal to 10.", HttpStatus.BAD_REQUEST);
-        if(reportCreateDto.getDescription() == null || reportCreateDto.getDescription().length() < 10)
-            return new ResponseEntity<>("Description must have at least 10 characters.", HttpStatus.BAD_REQUEST);
-        if(reportCreateDto.getUserId() == null || reportCreateDto.getBicycleId() == null)
-            return new ResponseEntity<>("Ids must not be null.", HttpStatus.BAD_REQUEST);
         reportRepository.save(new Report(reportCreateDto));
         return new ResponseEntity<>("Successfully created report.", HttpStatus.CREATED);
     }

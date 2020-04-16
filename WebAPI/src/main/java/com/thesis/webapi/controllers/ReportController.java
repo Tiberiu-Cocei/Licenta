@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class ReportController {
     }
 
     @PostMapping
-    public ResponseEntity<String> saveReport(@RequestBody ReportCreateDto reportCreateDto) {
+    public ResponseEntity<String> saveReport(@Valid @RequestBody ReportCreateDto reportCreateDto) {
         return reportService.saveReport(reportCreateDto);
     }
 
