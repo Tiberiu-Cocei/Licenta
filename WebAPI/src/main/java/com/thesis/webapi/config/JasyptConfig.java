@@ -14,7 +14,8 @@ import java.nio.file.Paths;
 
 @Configuration
 @EnableEncryptableProperties
-public class SecurityConfig {
+public class JasyptConfig {
+
     private static String readFile(String path) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, StandardCharsets.US_ASCII);
@@ -34,4 +35,5 @@ public class SecurityConfig {
         encryptor.setConfig(config);
         return encryptor;
     }
+
 }

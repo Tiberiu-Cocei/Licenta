@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/reports")
+@RequestMapping(value = "/api/secure/reports")
 public class ReportController {
 
     private final ReportService reportService;

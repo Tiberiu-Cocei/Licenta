@@ -77,14 +77,17 @@ CREATE TABLE bicycle (
 );
 
 CREATE TABLE app_user (
-	id                  UUID PRIMARY KEY,
-	payment_method_id   UUID REFERENCES payment_method (id),
-	bicycle_id          UUID REFERENCES bicycle (id),
-	email               TEXT NOT NULL,
-	username            TEXT NOT NULL,
-	password            TEXT NOT NULL,
-	warning_count       INTEGER DEFAULT 0,
-	banned              BOOLEAN DEFAULT false,
+	id                    UUID PRIMARY KEY,
+	payment_method_id     UUID REFERENCES payment_method (id),
+	bicycle_id            UUID REFERENCES bicycle (id),
+	email                 TEXT NOT NULL,
+	username              TEXT NOT NULL,
+	password              TEXT NOT NULL,
+	warning_count         INTEGER DEFAULT 0,
+	banned                BOOLEAN DEFAULT false,
+	password_reset_code   TEXT,
+	authentication_token  UUID,
+	salt                  TEXT,
 	CONSTRAINT app_username UNIQUE(username)
 );
 

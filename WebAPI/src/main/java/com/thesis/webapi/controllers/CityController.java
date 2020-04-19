@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/cities")
+@RequestMapping(value = "/api/secure/cities")
 public class CityController {
 
     private final CityService cityService;
