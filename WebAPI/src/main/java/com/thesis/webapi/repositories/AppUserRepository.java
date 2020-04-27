@@ -22,6 +22,10 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     @Query(value = "SELECT email FROM AppUser u WHERE u.email = :email")
     String isEmailTaken(String email);
 
+    AppUser getAppUserById(UUID id);
+
+    AppUser getAppUserByUsername(String username);
+
     Optional<AppUser> findUserByAuthenticationToken(UUID authenticationToken);
 
 }

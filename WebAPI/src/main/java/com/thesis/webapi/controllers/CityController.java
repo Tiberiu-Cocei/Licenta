@@ -30,7 +30,7 @@ public class CityController {
     }
 
     @GetMapping(value = "/settings/{id}")
-    public ResponseEntity<Settings> getSettingsForCityId(@PathVariable("id") UUID cityId) {
+    public ResponseEntity<Settings> getSettingsByCityId(@PathVariable("id") UUID cityId) {
         return cityService.getSettingsByCityId(cityId);
     }
 

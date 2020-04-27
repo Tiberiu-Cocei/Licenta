@@ -1,11 +1,9 @@
 package com.thesis.webapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thesis.webapi.dtos.AppUserCreateDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -15,9 +13,6 @@ public class AppUser {
     @Id
     @Column(name="id")
     private UUID id;
-
-    @Column(name="payment_method_id")
-    private UUID paymentMethodId;
 
     @Column(name="bicycle_id")
     private UUID bicycleId;
@@ -46,11 +41,15 @@ public class AppUser {
     @Column(name="salt")
     private String salt;
 
+    @OneToOne
+    @JsonManagedReference
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
+
     public AppUser() {}
 
     public AppUser(AppUserCreateDto appUserCreateDto) {
         this.id = UUID.randomUUID();
-        this.paymentMethodId = null;
         this.bicycleId = null;
         this.email = appUserCreateDto.getEmail();
         this.username = appUserCreateDto.getUsername();
@@ -68,14 +67,6 @@ public class AppUser {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getPaymentMethodId() {
-        return paymentMethodId;
-    }
-
-    public void setPaymentMethodId(UUID paymentMethodId) {
-        this.paymentMethodId = paymentMethodId;
     }
 
     public UUID getBicycleId() {
@@ -148,5 +139,13 @@ public class AppUser {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }
