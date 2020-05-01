@@ -17,10 +17,10 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     AppUser login(@Param("username") String username, @Param("password") String password);
 
     @Query(value = "SELECT username FROM AppUser u WHERE u.username = :username")
-    String isUsernameTaken(String username);
+    String isUsernameTaken(@Param("username") String username);
 
     @Query(value = "SELECT email FROM AppUser u WHERE u.email = :email")
-    String isEmailTaken(String email);
+    String isEmailTaken(@Param("email") String email);
 
     AppUser getAppUserById(UUID id);
 
