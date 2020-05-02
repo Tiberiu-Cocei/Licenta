@@ -11,11 +11,18 @@ public class AppTransactionPreviewDto {
     @NotNull(message = "Planned time cannot be null.")
     private Date plannedTime;
 
+    @NotNull(message = "City id cannot be null.")
+    private UUID cityId;
+
     public UUID getDiscountId() {
         return discountId;
     }
 
     public Date getPlannedTime() {
         return plannedTime;
+    }
+
+    public UUID getCityId() {
+        return cityId;
     }
 }

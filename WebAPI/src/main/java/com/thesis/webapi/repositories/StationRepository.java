@@ -10,4 +10,6 @@ public interface StationRepository extends JpaRepository<Station, UUID> {
 
     List<Station> getStationsByCityId(UUID cityId);
 
+    Station getStationById(UUID id);
+
 }

@@ -17,6 +17,6 @@ public interface AppTransactionService {
 
     ResponseEntity<String> finalizeTransaction(AppTransactionUpdateDto appTransactionUpdateDto);
 
-    ResponseEntity<String> previewTransaction(AppTransactionPreviewDto appTransactionPreviewDto);
+    ResponseEntity<Double> previewTransaction(AppTransactionPreviewDto appTransactionPreviewDto);
 
 }

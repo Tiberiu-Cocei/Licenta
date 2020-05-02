@@ -16,4 +16,6 @@ public interface DiscountRepository extends JpaRepository<Discount, UUID> {
     List<Discount> getDiscountsByStationAndTime(@Param("fromStationId") UUID fromStationId,
                                                 @Param("currentTime") Date currentTime);
 
+    Discount getDiscountById(UUID id);
+
 }
