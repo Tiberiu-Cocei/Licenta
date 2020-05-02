@@ -4,14 +4,16 @@ CREATE TABLE city (
 );
 
 CREATE TABLE settings (
-	city_id               UUID PRIMARY KEY,
-	base_price            NUMERIC(12,2) NOT NULL CHECK (base_price > 0),
-	interval_price        NUMERIC(12,2) NOT NULL CHECK (interval_price > 0),
-	interval_time         INTEGER NOT NULL CHECK (interval_time > 0),
-	discounts_used        BOOLEAN NOT NULL,
-	discount_value        NUMERIC(3,1) NOT NULL CHECK (discount_value > 0), CHECK (discount_value <= 50),
-	transports_used       BOOLEAN NOT NULL,
-	FOREIGN KEY (city_id) REFERENCES city (id)
+	city_id                      UUID PRIMARY KEY,
+	base_price                   NUMERIC(12,2) NOT NULL CHECK (base_price > 0),
+	interval_price               NUMERIC(12,2) NOT NULL CHECK (interval_price > 0),
+	interval_time                INTEGER NOT NULL CHECK (interval_time > 0),
+	discounts_used               BOOLEAN NOT NULL,
+	discount_value               NUMERIC(3,1) NOT NULL CHECK (discount_value > 0), CHECK (discount_value <= 50),
+	transports_used              BOOLEAN NOT NULL,
+	transport_activation_value   NUMERIC(3,1) DEFAULT 25.0 NOT NULL CHECK (transport_activation_value > 0),
+	discount_activation_value    NUMERIC(3,1) DEFAULT 50.0 NOT NULL CHECK(discount_activation_value > 0),
+	FOREIGN KEY (city_id)        REFERENCES city (id)
 );
 
 CREATE TABLE station (
@@ -34,27 +36,27 @@ CREATE TABLE discount (
 );
 
 CREATE TABLE activity (
-	id                   UUID PRIMARY KEY,
-	station_id           UUID NOT NULL REFERENCES station (id),
-	day                  DATE NOT NULL,
-	hour_from            INTEGER NOT NULL CHECK (hour_from >= 7), CHECK (hour_from <= 21),
-	hour_to              INTEGER NOT NULL CHECK (hour_to >= 8), CHECK (hour_to <= 22),
-	bicycles_taken       INTEGER DEFAULT 0 CHECK (bicycles_taken >= 0),
-	bicycles_brought     INTEGER DEFAULT 0 CHECK (bicycles_brought >= 0),
-	discounts_from       INTEGER DEFAULT 0 CHECK (discounts_from >= 0),
-	discounts_to         INTEGER DEFAULT 0 CHECK (discounts_to >= 0),
-	was_station_empty    BOOLEAN DEFAULT false,
-	was_station_full     BOOLEAN DEFAULT false,
-	CONSTRAINT unique_datetime_activity UNIQUE(station_id, day, hour_from)
+	id                                    UUID PRIMARY KEY,
+	station_id                            UUID NOT NULL REFERENCES station (id),
+	day                                   DATE NOT NULL,
+	hour_from                             INTEGER NOT NULL CHECK (hour_from >= 7), CHECK (hour_from <= 21),
+	hour_to                               INTEGER NOT NULL CHECK (hour_to >= 8), CHECK (hour_to <= 22),
+	bicycles_taken                        INTEGER DEFAULT 0 CHECK (bicycles_taken >= 0),
+	bicycles_brought                      INTEGER DEFAULT 0 CHECK (bicycles_brought >= 0),
+	discounts_from                        INTEGER DEFAULT 0 CHECK (discounts_from >= 0),
+	discounts_to                          INTEGER DEFAULT 0 CHECK (discounts_to >= 0),
+	was_station_empty                     BOOLEAN DEFAULT false,
+	was_station_full                      BOOLEAN DEFAULT false,
+	CONSTRAINT unique_datetime_activity   UNIQUE(station_id, day, hour_from)
 );
 
 CREATE TABLE predicted_activity (
-	id                   UUID PRIMARY KEY,
-	station_id           UUID NOT NULL REFERENCES station (id),
-	day                  DATE NOT NULL,
-	hour                 INTEGER NOT NULL CHECK (hour >= 7), CHECK (hour < 22),
-	number_of_bicycles   INTEGER NOT NULL CHECK (number_of_bicycles >= 0),
-	CONSTRAINT unique_datetime_pred_activity UNIQUE(station_id, day, hour)
+	id                                         UUID PRIMARY KEY,
+	station_id                                 UUID NOT NULL REFERENCES station (id),
+	day                                        DATE NOT NULL,
+	hour                                       INTEGER NOT NULL CHECK (hour >= 7), CHECK (hour < 22),
+	number_of_bicycles                         INTEGER NOT NULL CHECK (number_of_bicycles >= 0),
+	CONSTRAINT unique_datetime_pred_activity   UNIQUE(station_id, day, hour)
 );
 
 CREATE TABLE payment_method (
@@ -77,18 +79,18 @@ CREATE TABLE bicycle (
 );
 
 CREATE TABLE app_user (
-	id                    UUID PRIMARY KEY,
-	payment_method_id     UUID REFERENCES payment_method (id),
-	bicycle_id            UUID REFERENCES bicycle (id),
-	email                 TEXT NOT NULL,
-	username              TEXT NOT NULL,
-	password              TEXT NOT NULL,
-	warning_count         INTEGER DEFAULT 0,
-	banned                BOOLEAN DEFAULT false,
-	password_reset_code   TEXT,
-	authentication_token  UUID,
-	salt                  TEXT,
-	CONSTRAINT app_username UNIQUE(username)
+	id                        UUID PRIMARY KEY,
+	payment_method_id         UUID REFERENCES payment_method (id),
+	bicycle_id                UUID REFERENCES bicycle (id),
+	email                     TEXT NOT NULL,
+	username                  TEXT NOT NULL,
+	password                  TEXT NOT NULL,
+	warning_count             INTEGER DEFAULT 0,
+	banned                    BOOLEAN DEFAULT false,
+	password_reset_code       TEXT,
+	authentication_token      UUID,
+	salt                      TEXT,
+	CONSTRAINT app_username   UNIQUE(username)
 );
 
 CREATE TABLE app_transaction (
@@ -118,11 +120,11 @@ CREATE TABLE report (
 );
 
 CREATE TABLE app_admin (
-	staff_id     UUID PRIMARY KEY,
-	username     TEXT NOT NULL,
-	password     TEXT NOT NULL,
-	CONSTRAINT admin_username UNIQUE(username),
-	FOREIGN KEY (staff_id) REFERENCES staff (id)
+	staff_id                      UUID PRIMARY KEY,
+	username                      TEXT NOT NULL,
+	password                      TEXT NOT NULL,
+	CONSTRAINT admin_username     UNIQUE(username),
+	FOREIGN KEY (staff_id)        REFERENCES staff (id)
 );
 
 CREATE TYPE staff_position AS ENUM ('Driver', 'Programmer', 'Inspector', 'Administrator', 'Cleaner');
@@ -140,12 +142,12 @@ CREATE TABLE staff (
 );
 
 CREATE TABLE inspection (
-	report_id     UUID PRIMARY KEY,
-	staff_id      UUID NOT NULL REFERENCES staff (id),
-	description   TEXT NOT NULL,
-	fake          BOOLEAN NOT NULL,
-	date          TIMESTAMP NOT NULL,
-	FOREIGN KEY (report_id) REFERENCES report (id)
+	report_id                 UUID PRIMARY KEY,
+	staff_id                  UUID NOT NULL REFERENCES staff (id),
+	description               TEXT NOT NULL,
+	fake                      BOOLEAN NOT NULL,
+	date                      TIMESTAMP NOT NULL,
+	FOREIGN KEY (report_id)   REFERENCES report (id)
 );
 
 CREATE TABLE message (

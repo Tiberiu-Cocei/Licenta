@@ -29,6 +29,12 @@ public class Settings {
     @Column(name="transports_used")
     private boolean transportsUsed;
 
+    @Column(name="transport_activation_value")
+    private double transportActivationValue;
+
+    @Column(name="discount_activation_value")
+    private double discountActivationValue;
+
     public UUID getCityId() {
         return cityId;
     }
@@ -55,5 +61,13 @@ public class Settings {
 
     public boolean areTransportsUsed() {
         return transportsUsed;
+    }
+
+    public double getTransportActivationValue() {
+        return transportActivationValue;
+    }
+
+    public double getDiscountActivationValue() {
+        return discountActivationValue;
     }
 }
