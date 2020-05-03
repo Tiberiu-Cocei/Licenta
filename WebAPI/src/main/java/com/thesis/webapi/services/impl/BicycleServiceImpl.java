@@ -28,7 +28,11 @@ public class BicycleServiceImpl implements BicycleService {
 
     @Override
     public ResponseEntity<Bicycle> getBicycleById(UUID bicycleId) {
-        return new ResponseEntity<>(bicycleRepository.getBicycleById(bicycleId), HttpStatus.OK);
+        Bicycle bicycle = bicycleRepository.getBicycleById(bicycleId);
+        if(bicycle != null) {
+            return new ResponseEntity<>(bicycle, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
 }

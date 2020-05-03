@@ -21,6 +21,15 @@ public class ReportCreateDto {
     @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters.")
     private String description;
 
+    public ReportCreateDto() {}
+
+    public ReportCreateDto(String description) {
+        this.userId = UUID.randomUUID();
+        this.bicycleId = UUID.randomUUID();
+        this.severity = 5;
+        this.description = description;
+    }
+
     public UUID getUserId() {
         return userId;
     }

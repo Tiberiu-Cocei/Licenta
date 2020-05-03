@@ -1,13 +1,25 @@
 package com.thesis.webapi;
 
-import org.junit.jupiter.api.Test;
+import com.thesis.webapi.services.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        ReportServiceTest.class,
+        StationServiceTest.class,
+        MessageServiceTest.class,
+        DiscountServiceTest.class,
+        CityServiceTest.class,
+        BicycleServiceTest.class
+})
 @SpringBootTest
-class WebAPIApplicationTests {
+public class WebAPIApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
     }
 
 }

@@ -30,6 +30,17 @@ public class Bicycle {
     @Column(name = "lock_number")
     private Integer lockNumber;
 
+    public Bicycle() {}
+
+    public Bicycle(UUID stationId, String model) {
+        this.id = UUID.randomUUID();
+        this.stationId = stationId;
+        this.arrivalTime = null;
+        this.status = null;
+        this.model = model;
+        this.lockNumber = 1;
+    }
+
     public UUID getId() {
         return id;
     }

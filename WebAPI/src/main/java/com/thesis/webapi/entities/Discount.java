@@ -33,6 +33,18 @@ public class Discount {
     @Column(name="end_time")
     private Date endTime;
 
+    public Discount() {}
+
+    public Discount(UUID fromStationId) {
+        this.id = UUID.randomUUID();
+        this.fromStationId = fromStationId;
+        this.toStationId = UUID.randomUUID();
+        this.discountsLeft = null;
+        this.discountValue = null;
+        this.startTime = null;
+        this.endTime = null;
+    }
+
     public UUID getId() {
         return id;
     }

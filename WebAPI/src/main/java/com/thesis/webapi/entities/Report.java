@@ -38,6 +38,17 @@ public class Report {
 
     public Report() {}
 
+    public Report(UUID userId, String description) {
+        this.id = UUID.randomUUID();
+        this.userId = userId;
+        this.bicycleId = UUID.randomUUID();
+        this.severity = 0;
+        this.description = description;
+        this.reviewed = null;
+        this.fake = null;
+        this.inspection = null;
+    }
+
     public Report(ReportCreateDto reportCreateDto) {
         this.id = UUID.randomUUID();
         this.userId = reportCreateDto.getUserId();

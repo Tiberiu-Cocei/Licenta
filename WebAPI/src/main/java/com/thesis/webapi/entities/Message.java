@@ -30,6 +30,17 @@ public class Message {
     @Column(name = "seen")
     private boolean seen;
 
+    public Message() {}
+
+    public Message(UUID id, UUID userId, String description) {
+        this.id = id;
+        this.adminId = UUID.randomUUID();
+        this.userId = userId;
+        this.description = description;
+        this.date = null;
+        this.seen = false;
+    }
+
     public UUID getId() {
         return id;
     }

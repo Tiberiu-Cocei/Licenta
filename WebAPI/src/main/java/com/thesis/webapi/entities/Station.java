@@ -29,6 +29,17 @@ public class Station {
     @Column(name = "current_capacity")
     private Integer currentCapacity;
 
+    public Station() {}
+
+    public Station(UUID cityId, String name) {
+        this.id = UUID.randomUUID();
+        this.cityId = cityId;
+        this.name = name;
+        this.coordinates = null;
+        this.maxCapacity = null;
+        this.currentCapacity = null;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -14,6 +14,13 @@ public class City {
     @Column(name="name")
     private String name;
 
+    public City() {}
+
+    public City(UUID cityId, String name) {
+        this.cityId = cityId;
+        this.name = name;
+    }
+
     public UUID getCityId() {
         return cityId;
     }
@@ -21,4 +28,5 @@ public class City {
     public String getName() {
         return name;
     }
+
 }
