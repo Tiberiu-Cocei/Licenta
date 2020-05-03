@@ -36,7 +36,7 @@ public class ReportServiceTest {
     private Report report;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
 
         userId = UUID.randomUUID();
@@ -120,7 +120,7 @@ public class ReportServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         userId = null;
         reportList = null;
         reportCreateDto = null;

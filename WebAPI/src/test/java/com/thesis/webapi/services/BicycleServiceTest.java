@@ -35,7 +35,7 @@ public class BicycleServiceTest {
     private ArrayList<Bicycle> bicycleList;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
 
         stationId = UUID.randomUUID();
@@ -104,7 +104,7 @@ public class BicycleServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         stationId = null;
         bicycleList = null;
     }

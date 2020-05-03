@@ -14,6 +14,14 @@ public class AppUserCreateDto {
     @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters.")
     private String password;
 
+    public AppUserCreateDto() {}
+
+    public AppUserCreateDto(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public String getEmail() {
         return email;
     }

@@ -34,7 +34,7 @@ public class DiscountServiceTest {
     private Date date;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
 
         discountId = UUID.randomUUID();
@@ -91,7 +91,7 @@ public class DiscountServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         discountId = null;
         discountList = null;
     }

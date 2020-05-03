@@ -17,6 +17,15 @@ public class PaymentMethodCreateDto {
     @NotNull(message = "Last name cannot be null.")
     private String lastName;
 
+    public PaymentMethodCreateDto() {}
+
+    public PaymentMethodCreateDto(String cardNumber, Date expiryDate, String firstName, String lastName) {
+        this.cardNumber = cardNumber;
+        this.expiryDate = expiryDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }

@@ -39,7 +39,10 @@ public class AppUserServiceImpl implements AppUserService {
     public ResponseEntity<AppUserLoggedInDto> login(String username, String password, PasswordHashing passwordHashing) {
         try {
             String salt = appUserRepository.getSalt(username);
-            AppUser appUser = appUserRepository.login(username, passwordHashing.hashString(password, salt));
+            AppUser appUser = null;
+            if(salt != null) {
+                appUser = appUserRepository.login(username, passwordHashing.hashString(password, salt));
+            }
             if (appUser != null) {
                 UUID authenticationToken = UUID.randomUUID();
                 appUser.setAuthenticationToken(authenticationToken);
@@ -88,7 +91,7 @@ public class AppUserServiceImpl implements AppUserService {
     public ResponseEntity<PaymentMethod> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto) {
         AppUser appUser = appUserRepository.getAppUserById(userId);
         if(appUser == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         UUID paymentMethodId;
         if(appUser.getPaymentMethod() == null) {
@@ -108,8 +111,11 @@ public class AppUserServiceImpl implements AppUserService {
     public ResponseEntity<AppUserLoggedInDto> modifyAppUser(AppUserUpdateDto appUserUpdateDto, PasswordHashing passwordHashing) {
         try {
             String salt = appUserRepository.getSalt(appUserUpdateDto.getUsername());
-            String password = passwordHashing.hashString(appUserUpdateDto.getOldPassword(), salt);
-            AppUser appUser = appUserRepository.login(appUserUpdateDto.getUsername(), password);
+            AppUser appUser = null;
+            if(salt != null) {
+                String password = passwordHashing.hashString(appUserUpdateDto.getOldPassword(), salt);
+                appUser = appUserRepository.login(appUserUpdateDto.getUsername(), password);
+            }
             if(appUser != null) {
                 if(appUserUpdateDto.getEmail() != null) {
                     appUser.setEmail(appUserUpdateDto.getEmail());

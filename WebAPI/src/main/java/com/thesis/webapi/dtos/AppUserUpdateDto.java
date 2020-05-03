@@ -14,6 +14,15 @@ public class AppUserUpdateDto {
 
     private String newPassword;
 
+    public AppUserUpdateDto() {}
+
+    public AppUserUpdateDto(String username, String oldPassword) {
+        this.username = username;
+        this.oldPassword = oldPassword;
+        this.email = null;
+        this.newPassword = null;
+    }
+
     public String getEmail() {
         return email;
     }

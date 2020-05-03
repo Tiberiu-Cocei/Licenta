@@ -38,7 +38,7 @@ public class CityServiceTest {
     private Settings settings;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
 
         cityId = UUID.randomUUID();
@@ -94,7 +94,7 @@ public class CityServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         cityId = null;
         cityList = null;
         settings = null;

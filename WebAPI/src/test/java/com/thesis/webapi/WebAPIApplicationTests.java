@@ -13,7 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
         MessageServiceTest.class,
         DiscountServiceTest.class,
         CityServiceTest.class,
-        BicycleServiceTest.class
+        BicycleServiceTest.class,
+        AppUserServiceTest.class
 })
 @SpringBootTest
 public class WebAPIApplicationTests {

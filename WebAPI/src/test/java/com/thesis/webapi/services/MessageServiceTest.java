@@ -33,7 +33,7 @@ public class MessageServiceTest {
     private ArrayList<Message> messageList;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
 
         userId = UUID.randomUUID();
@@ -103,7 +103,7 @@ public class MessageServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         userId = null;
         messageList = null;
         message = null;
