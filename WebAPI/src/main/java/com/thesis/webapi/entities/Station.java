@@ -40,6 +40,15 @@ public class Station {
         this.currentCapacity = null;
     }
 
+    public Station(UUID cityId, String name, int maxCapacity, int currentCapacity) {
+        this.id = UUID.randomUUID();
+        this.cityId = cityId;
+        this.name = name;
+        this.coordinates = null;
+        this.maxCapacity = maxCapacity;
+        this.currentCapacity = currentCapacity;
+    }
+
     public UUID getId() {
         return id;
     }

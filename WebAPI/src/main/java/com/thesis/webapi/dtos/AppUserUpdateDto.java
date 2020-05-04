@@ -16,10 +16,10 @@ public class AppUserUpdateDto {
 
     public AppUserUpdateDto() {}
 
-    public AppUserUpdateDto(String username, String oldPassword) {
+    public AppUserUpdateDto(String username, String oldPassword, String email) {
         this.username = username;
         this.oldPassword = oldPassword;
-        this.email = null;
+        this.email = email;
         this.newPassword = null;
     }
 

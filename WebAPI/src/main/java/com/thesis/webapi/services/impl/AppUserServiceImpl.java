@@ -38,6 +38,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public ResponseEntity<AppUserLoggedInDto> login(String username, String password, PasswordHashing passwordHashing) {
         try {
+            username = username.toLowerCase();
             String salt = appUserRepository.getSalt(username);
             AppUser appUser = null;
             if(salt != null) {
@@ -70,6 +71,8 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public ResponseEntity<String> saveAppUser(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing) {
+        appUserCreateDto.setUsername(appUserCreateDto.getUsername().toLowerCase());
+        appUserCreateDto.setEmail(appUserCreateDto.getEmail().toLowerCase());
         if(appUserRepository.isUsernameTaken(appUserCreateDto.getUsername()) != null) {
             return new ResponseEntity<>("Username is already in use.", HttpStatus.OK);
         }
@@ -109,6 +112,8 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public ResponseEntity<AppUserLoggedInDto> modifyAppUser(AppUserUpdateDto appUserUpdateDto, PasswordHashing passwordHashing) {
+        appUserUpdateDto.setUsername(appUserUpdateDto.getUsername().toLowerCase());
+        appUserUpdateDto.setEmail(appUserUpdateDto.getEmail().toLowerCase());
         try {
             String salt = appUserRepository.getSalt(appUserUpdateDto.getUsername());
             AppUser appUser = null;
@@ -138,7 +143,7 @@ public class AppUserServiceImpl implements AppUserService {
     public void sendResetCode(AppUserResetCodeDto appUserResetCodeDto, EmailService emailService) {
         int randomNumber = random.nextInt(100000);
         String passwordResetCode = String.format("%05d", randomNumber);
-        AppUser appUser = appUserRepository.getAppUserByUsername(appUserResetCodeDto.getUsername());
+        AppUser appUser = appUserRepository.getAppUserByUsername(appUserResetCodeDto.getUsername().toLowerCase());
         appUser.setPasswordResetCode(passwordResetCode);
         appUserRepository.save(appUser);
         emailService.sendEmail(appUser.getEmail(), "Your app password reset code", passwordResetCode);
@@ -146,6 +151,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public ResponseEntity<String> resetPassword(AppUserResetPasswordDto appUserResetPasswordDto, PasswordHashing passwordHashing) {
+        appUserResetPasswordDto.setUsername(appUserResetPasswordDto.getUsername().toLowerCase());
         try {
             AppUser appUser = appUserRepository.getAppUserByUsername(appUserResetPasswordDto.getUsername());
             if (appUser != null && appUser.getPasswordResetCode() != null) {

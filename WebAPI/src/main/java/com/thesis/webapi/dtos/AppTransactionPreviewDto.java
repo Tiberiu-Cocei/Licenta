@@ -14,6 +14,14 @@ public class AppTransactionPreviewDto {
     @NotNull(message = "City id cannot be null.")
     private UUID cityId;
 
+    public AppTransactionPreviewDto() {}
+
+    public AppTransactionPreviewDto(Date plannedTime, UUID cityId) {
+        this.plannedTime = plannedTime;
+        this.cityId = cityId;
+        this.discountId = null;
+    }
+
     public UUID getDiscountId() {
         return discountId;
     }

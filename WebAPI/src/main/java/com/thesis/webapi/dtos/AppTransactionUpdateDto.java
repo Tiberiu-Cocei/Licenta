@@ -11,6 +11,13 @@ public class AppTransactionUpdateDto {
     @NotNull(message = "Finish station id cannot be null.")
     private UUID finishStationId;
 
+    public AppTransactionUpdateDto() {}
+
+    public AppTransactionUpdateDto(UUID userId, UUID finishStationId) {
+        this.userId = userId;
+        this.finishStationId = finishStationId;
+    }
+
     public UUID getUserId() {
         return userId;
     }

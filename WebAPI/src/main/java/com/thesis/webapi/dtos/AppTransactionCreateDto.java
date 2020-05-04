@@ -32,6 +32,16 @@ public class AppTransactionCreateDto {
     @NotNull(message = "City id cannot be null.")
     private UUID cityId;
 
+    public AppTransactionCreateDto() {}
+
+    public AppTransactionCreateDto(UUID userId, UUID startStationId, UUID plannedStationId, Date plannedTime, UUID cityId) {
+        this.userId = userId;
+        this.startStationId = startStationId;
+        this.plannedStationId = plannedStationId;
+        this.plannedTime = plannedTime;
+        this.cityId = cityId;
+    }
+
     public UUID getPaymentMethodId() {
         return paymentMethodId;
     }

@@ -14,7 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
         DiscountServiceTest.class,
         CityServiceTest.class,
         BicycleServiceTest.class,
-        AppUserServiceTest.class
+        AppUserServiceTest.class,
+        AppTransactionServiceTest.class
 })
 @SpringBootTest
 public class WebAPIApplicationTests {

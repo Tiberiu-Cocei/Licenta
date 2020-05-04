@@ -54,7 +54,7 @@ public class AppUserServiceTest {
         this.paymentMethodCreateDto = new PaymentMethodCreateDto("Test", null, null, null);
         this.passwordHashing = new PasswordHashing();
         this.appUser.setAuthenticationToken(UUID.randomUUID());
-        this.appUserUpdateDto = new AppUserUpdateDto("test_username", "12345");
+        this.appUserUpdateDto = new AppUserUpdateDto("test_username", "12345", "test@gmail.com");
         this.appUserResetPasswordDto = new AppUserResetPasswordDto("test_username", "65432", "123456");
         this.appUser.setPasswordResetCode("65432");
         this.appUser.setSalt("\u0014r�<[H�k�ޮ�\u0003�iR");

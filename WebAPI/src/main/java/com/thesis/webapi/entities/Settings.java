@@ -35,6 +35,20 @@ public class Settings {
     @Column(name="discount_activation_value")
     private double discountActivationValue;
 
+    public Settings() {}
+
+    public Settings(UUID cityId, double basePrice, double intervalPrice, int intervalTime) {
+        this.cityId = cityId;
+        this.basePrice = basePrice;
+        this.intervalPrice = intervalPrice;
+        this.intervalTime = intervalTime;
+        this.discountsUsed = false;
+        this.discountValue = 0.0;
+        this.transportsUsed = false;
+        this.transportActivationValue = 0;
+        this.discountActivationValue = 0;
+    }
+
     public UUID getCityId() {
         return cityId;
     }
