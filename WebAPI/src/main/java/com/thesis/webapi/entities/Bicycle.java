@@ -64,4 +64,8 @@ public class Bicycle {
     public Integer getLockNumber() {
         return lockNumber;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

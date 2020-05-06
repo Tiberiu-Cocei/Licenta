@@ -4,12 +4,10 @@ import com.thesis.webapi.dtos.AppTransactionCreateDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
 import com.thesis.webapi.entities.AppTransaction;
+import com.thesis.webapi.entities.Bicycle;
 import com.thesis.webapi.entities.Settings;
 import com.thesis.webapi.entities.Station;
-import com.thesis.webapi.repositories.AppTransactionRepository;
-import com.thesis.webapi.repositories.DiscountRepository;
-import com.thesis.webapi.repositories.SettingsRepository;
-import com.thesis.webapi.repositories.StationRepository;
+import com.thesis.webapi.repositories.*;
 import com.thesis.webapi.services.impl.AppTransactionServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -41,6 +39,9 @@ public class AppTransactionServiceTest {
     @Mock
     DiscountRepository discountRepository;
 
+    @Mock
+    BicycleRepository bicycleRepository;
+
     @InjectMocks
     AppTransactionServiceImpl appTransactionService;
 
@@ -66,10 +67,14 @@ public class AppTransactionServiceTest {
 
     private AppTransactionPreviewDto appTransactionPreviewDto;
 
+    private Bicycle bicycle;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
+        bicycle = new Bicycle(UUID.randomUUID(), "Test");
+        bicycle.setStatus("Station");
         this.userId = UUID.randomUUID();
         this.settings = new Settings(cityId, 5.0, 5.0, 5);
         this.cityId = UUID.randomUUID();
@@ -77,8 +82,8 @@ public class AppTransactionServiceTest {
         this.plannedStation = new Station(cityId, "Second", 30, 15);
         this.startTime = new Date();
         this.plannedTime = new Date(startTime.getTime() + 100000);
-        this.appTransactionCreateDto = new AppTransactionCreateDto(userId, startStation.getId(), plannedStation.getId(), plannedTime, cityId);
-        AppTransactionCreateDto appTransactionCreateDtoTwo = new AppTransactionCreateDto(userId, null, null, null, null);
+        this.appTransactionCreateDto = new AppTransactionCreateDto(userId, startStation.getId(), plannedStation.getId(), plannedTime, cityId, bicycle.getId());
+        AppTransactionCreateDto appTransactionCreateDtoTwo = new AppTransactionCreateDto(userId, null, null, null, null, bicycle.getId());
         AppTransaction firstAppTransaction = new AppTransaction(appTransactionCreateDto);
         AppTransaction secondAppTransaction = new AppTransaction(appTransactionCreateDtoTwo);
         appTransactions = new ArrayList<>();
@@ -132,12 +137,46 @@ public class AppTransactionServiceTest {
     }
 
     @Test
+    public void whenCreateTransactionIsCalled_WithNonexistentBicycleId_ThenError() {
+        //Arrange
+        Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
+
+        //Act
+        ResponseEntity<String> response = appTransactionService.createTransaction(appTransactionCreateDto);
+
+        //Assert
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getBody()).isEqualTo("No bicycle found for given id.");
+        Assertions.assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void whenCreateTransactionIsCalled_WithBicycleThatDoesNotHaveStationStatus_ThenError() {
+        //Arrange
+        Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
+        Bicycle invalidBicycle = new Bicycle(UUID.randomUUID(), "Test_invalid");
+        invalidBicycle.setStatus("Damaged");
+        Mockito.when(bicycleRepository.getBicycleById(invalidBicycle.getId())).thenReturn(invalidBicycle);
+        AppTransactionCreateDto wrongAppTransactionCreateDto =
+                new AppTransactionCreateDto(userId, startStation.getId(), startStation.getId(), plannedTime, cityId, invalidBicycle.getId());
+
+        //Act
+        ResponseEntity<String> response = appTransactionService.createTransaction(wrongAppTransactionCreateDto);
+
+        //Assert
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getBody()).isEqualTo("Bicycle is not available for transport.");
+        Assertions.assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     public void whenCreateTransactionIsCalled_WithInvalidPlannedTime_ThenError() {
         //Arrange
         Date wrongPlannedTime = new Date(startTime.getTime() - 10000);
         AppTransactionCreateDto wrongAppTransactionCreateDto =
-                new AppTransactionCreateDto(userId, startStation.getId(), plannedStation.getId(), wrongPlannedTime, cityId);
+                new AppTransactionCreateDto(userId, startStation.getId(), plannedStation.getId(), wrongPlannedTime, cityId, bicycle.getId());
         Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
+        Mockito.when(bicycleRepository.getBicycleById(this.bicycle.getId())).thenReturn(this.bicycle);
 
         //Act
         ResponseEntity<String> response = appTransactionService.createTransaction(wrongAppTransactionCreateDto);
@@ -153,9 +192,10 @@ public class AppTransactionServiceTest {
         //Arrange
         Station emptyStation = new Station(cityId, "Empty", 30, 0);
         AppTransactionCreateDto wrongAppTransactionCreateDto =
-                new AppTransactionCreateDto(userId, emptyStation.getId(), plannedStation.getId(), plannedTime, cityId);
+                new AppTransactionCreateDto(userId, emptyStation.getId(), plannedStation.getId(), plannedTime, cityId, bicycle.getId());
         Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
         Mockito.when(stationRepository.getStationById(emptyStation.getId())).thenReturn(emptyStation);
+        Mockito.when(bicycleRepository.getBicycleById(this.bicycle.getId())).thenReturn(this.bicycle);
 
         //Act
         ResponseEntity<String> response = appTransactionService.createTransaction(wrongAppTransactionCreateDto);
@@ -171,10 +211,11 @@ public class AppTransactionServiceTest {
         //Arrange
         Station fullStation = new Station(cityId, "Full", 30, 30);
         AppTransactionCreateDto wrongAppTransactionCreateDto =
-                new AppTransactionCreateDto(userId, startStation.getId(), fullStation.getId(), plannedTime, cityId);
+                new AppTransactionCreateDto(userId, startStation.getId(), fullStation.getId(), plannedTime, cityId, bicycle.getId());
         Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
         Mockito.when(stationRepository.getStationById(startStation.getId())).thenReturn(startStation);
         Mockito.when(stationRepository.getStationById(fullStation.getId())).thenReturn(fullStation);
+        Mockito.when(bicycleRepository.getBicycleById(this.bicycle.getId())).thenReturn(this.bicycle);
 
         //Act
         ResponseEntity<String> response = appTransactionService.createTransaction(wrongAppTransactionCreateDto);
@@ -191,6 +232,7 @@ public class AppTransactionServiceTest {
         Mockito.when(settingsRepository.getSettingsByCityId(cityId)).thenReturn(settings);
         Mockito.when(stationRepository.getStationById(startStation.getId())).thenReturn(startStation);
         Mockito.when(stationRepository.getStationById(plannedStation.getId())).thenReturn(plannedStation);
+        Mockito.when(bicycleRepository.getBicycleById(this.bicycle.getId())).thenReturn(this.bicycle);
 
         //Act
         ResponseEntity<String> response = appTransactionService.createTransaction(appTransactionCreateDto);
@@ -323,6 +365,8 @@ public class AppTransactionServiceTest {
         plannedTime = null;
         appTransactions = null;
         appTransactionUpdateDto = null;
+        appTransactionPreviewDto = null;
+        bicycle = null;
     }
 
 }

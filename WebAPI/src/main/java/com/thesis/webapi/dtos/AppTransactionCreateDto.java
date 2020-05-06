@@ -34,12 +34,13 @@ public class AppTransactionCreateDto {
 
     public AppTransactionCreateDto() {}
 
-    public AppTransactionCreateDto(UUID userId, UUID startStationId, UUID plannedStationId, Date plannedTime, UUID cityId) {
+    public AppTransactionCreateDto(UUID userId, UUID startStationId, UUID plannedStationId, Date plannedTime, UUID cityId, UUID bicycleId) {
         this.userId = userId;
         this.startStationId = startStationId;
         this.plannedStationId = plannedStationId;
         this.plannedTime = plannedTime;
         this.cityId = cityId;
+        this.bicycleId = bicycleId;
     }
 
     public UUID getPaymentMethodId() {

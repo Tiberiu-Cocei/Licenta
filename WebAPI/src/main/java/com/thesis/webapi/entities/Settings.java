@@ -29,12 +29,6 @@ public class Settings {
     @Column(name="transports_used")
     private boolean transportsUsed;
 
-    @Column(name="transport_activation_value")
-    private double transportActivationValue;
-
-    @Column(name="discount_activation_value")
-    private double discountActivationValue;
-
     public Settings() {}
 
     public Settings(UUID cityId, double basePrice, double intervalPrice, int intervalTime) {
@@ -45,8 +39,6 @@ public class Settings {
         this.discountsUsed = false;
         this.discountValue = 0.0;
         this.transportsUsed = false;
-        this.transportActivationValue = 0;
-        this.discountActivationValue = 0;
     }
 
     public UUID getCityId() {
@@ -75,13 +67,5 @@ public class Settings {
 
     public boolean areTransportsUsed() {
         return transportsUsed;
-    }
-
-    public double getTransportActivationValue() {
-        return transportActivationValue;
-    }
-
-    public double getDiscountActivationValue() {
-        return discountActivationValue;
     }
 }

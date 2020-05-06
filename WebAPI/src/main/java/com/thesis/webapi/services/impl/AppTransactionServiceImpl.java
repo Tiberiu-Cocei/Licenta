@@ -3,14 +3,8 @@ package com.thesis.webapi.services.impl;
 import com.thesis.webapi.dtos.AppTransactionCreateDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
-import com.thesis.webapi.entities.AppTransaction;
-import com.thesis.webapi.entities.Discount;
-import com.thesis.webapi.entities.Settings;
-import com.thesis.webapi.entities.Station;
-import com.thesis.webapi.repositories.AppTransactionRepository;
-import com.thesis.webapi.repositories.DiscountRepository;
-import com.thesis.webapi.repositories.SettingsRepository;
-import com.thesis.webapi.repositories.StationRepository;
+import com.thesis.webapi.entities.*;
+import com.thesis.webapi.repositories.*;
 import com.thesis.webapi.services.AppTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,15 +26,19 @@ public class AppTransactionServiceImpl implements AppTransactionService {
 
     private final DiscountRepository discountRepository;
 
+    private final BicycleRepository bicycleRepository;
+
     @Autowired
     public AppTransactionServiceImpl(AppTransactionRepository appTransactionRepository,
                                      SettingsRepository settingsRepository,
                                      StationRepository stationRepository,
-                                     DiscountRepository discountRepository) {
+                                     DiscountRepository discountRepository,
+                                     BicycleRepository bicycleRepository) {
         this.appTransactionRepository = appTransactionRepository;
         this.settingsRepository = settingsRepository;
         this.stationRepository = stationRepository;
         this.discountRepository = discountRepository;
+        this.bicycleRepository = bicycleRepository;
     }
 
     @Override
@@ -53,6 +51,13 @@ public class AppTransactionServiceImpl implements AppTransactionService {
         Settings settings = settingsRepository.getSettingsByCityId(appTransactionCreateDto.getCityId());
         if(settings == null) {
             return new ResponseEntity<>("No city settings found.", HttpStatus.BAD_REQUEST);
+        }
+        Bicycle bicycle = bicycleRepository.getBicycleById(appTransactionCreateDto.getBicycleId());
+        if(bicycle == null) {
+            return new ResponseEntity<>("No bicycle found for given id.", HttpStatus.BAD_REQUEST);
+        }
+        if(bicycle.getStatus().compareTo("Station") != 0) {
+            return new ResponseEntity<>("Bicycle is not available for transport.", HttpStatus.BAD_REQUEST);
         }
         AppTransaction appTransaction = new AppTransaction(appTransactionCreateDto);
         if(appTransaction.getStartTime().compareTo(appTransaction.getPlannedTime()) > 0) {
