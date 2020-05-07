@@ -45,6 +45,22 @@ public class Activity {
     @Column(name = "was_station_full")
     private boolean wasStationFull;
 
+    public Activity() {}
+
+    public Activity(UUID stationId, Date day, int hourFrom) {
+        this.id = UUID.randomUUID();
+        this.stationId = stationId;
+        this.day = day;
+        this.hourFrom = hourFrom;
+        this.hourTo = hourFrom + 1;
+        this.bicyclesTaken = 0;
+        this.bicyclesBrought = 0;
+        this.discountsFrom = 0;
+        this.discountsTo = 0;
+        this.wasStationEmpty = false;
+        this.wasStationFull = false;
+    }
+
     public UUID getId() {
         return id;
     }
