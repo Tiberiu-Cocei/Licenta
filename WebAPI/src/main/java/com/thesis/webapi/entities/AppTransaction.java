@@ -134,4 +134,8 @@ public class AppTransaction {
     public void setInitialCost(Double initialCost) {
         this.initialCost = initialCost;
     }
+
+    public void setPenalty(Double penalty) {
+        this.penalty = penalty;
+    }
 }

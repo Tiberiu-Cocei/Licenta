@@ -19,4 +19,10 @@ public interface AppTransactionService {
 
     ResponseEntity<Double> previewTransaction(AppTransactionPreviewDto appTransactionPreviewDto);
 
+    void solveOverdueTransactions();
+
+    void onScheduleCallSolveOverdueTransactions();
+
+    void onStartupCallSolveOverdueTransactions();
+
 }

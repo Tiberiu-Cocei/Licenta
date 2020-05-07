@@ -12,7 +12,10 @@ public interface AppTransactionRepository extends JpaRepository<AppTransaction, 
 
     List<AppTransaction> getAppTransactionsByUserId(UUID userId);
 
-    @Query(value = "SELECT u FROM AppTransaction u WHERE u.userId = :userId AND u.finishStationId IS NULL")
-    List<AppTransaction> getUnfinishedTransactions(@Param("userId") UUID userId);
+    @Query(value = "SELECT u FROM AppTransaction u WHERE u.userId = :userId AND u.finishStationId IS NULL AND u.finishTime IS NULL")
+    List<AppTransaction> getUnfinishedTransactionsByUser(@Param("userId") UUID userId);
+
+    @Query(value = "SELECT u FROM AppTransaction u WHERE u.finishStationId IS NULL AND u.finishTime IS NULL")
+    List<AppTransaction> getAllUnfinishedTransactions();
 
 }
