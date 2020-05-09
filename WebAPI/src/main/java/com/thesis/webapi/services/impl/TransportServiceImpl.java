@@ -9,6 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +70,7 @@ public class TransportServiceImpl implements TransportService {
                         Transport transport = new Transport(staff.getId(), date);
                         transportRepository.save(transport);
                         UUID warehouseId = stationRepository.getWarehouseId(city.getCityId());
-                        Date arrivalTime = new Date(date.getTime() + 120 * 60);
+                        LocalTime arrivalTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime().plusHours(1);
                         for(Bicycle bicycle : bicycleList) {
                             TransportLine transportLine = new TransportLine(transport.getId(), bicycle.getId(),
                                     bicycle.getStationId(), warehouseId, arrivalTime);

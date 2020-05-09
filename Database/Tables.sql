@@ -99,7 +99,7 @@ CREATE TABLE app_transaction (
 	user_id              UUID NOT NULL REFERENCES app_user (id),
 	bicycle_id           UUID NOT NULL REFERENCES bicycle (id),
 	start_station_id     UUID NOT NULL REFERENCES station (id),
-	planned_station_id   UUID NOT NULL REFERENCES station (id),
+	planned_station_id   UUID REFERENCES station (id),
 	finish_station_id    UUID REFERENCES station (id),
 	discount_id          UUID REFERENCES discount (id),
 	start_time           TIMESTAMP NOT NULL,

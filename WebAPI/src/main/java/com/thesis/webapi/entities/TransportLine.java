@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -28,14 +28,14 @@ public class TransportLine {
     private UUID stationToId;
 
     @Column(name = "arrival_time")
-    private Date arrivalTime;
+    private LocalTime arrivalTime;
 
     @Column(name = "lock_number")
     private int lockNumber;
 
     public TransportLine() {}
 
-    public TransportLine(UUID transportId, UUID bicycleId, UUID stationFromId, UUID stationToId, Date arrivalTime) {
+    public TransportLine(UUID transportId, UUID bicycleId, UUID stationFromId, UUID stationToId, LocalTime arrivalTime) {
         this.id = UUID.randomUUID();
         this.transportId = transportId;
         this.bicycleId = bicycleId;
@@ -65,7 +65,7 @@ public class TransportLine {
         return stationToId;
     }
 
-    public Date getArrivalTime() {
+    public LocalTime getArrivalTime() {
         return arrivalTime;
     }
 

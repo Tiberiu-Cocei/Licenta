@@ -34,7 +34,7 @@ CREATE TRIGGER transaction_on_insert_modifies_tables
     EXECUTE PROCEDURE transaction_on_insert_modifies_tables();
 
 CREATE TRIGGER transaction_on_update_modifies_activity_and_penalty
-    BEFORE UPDATE ON app_transaction
+    BEFORE UPDATE OF finish_station_id, finish_time ON app_transaction
     FOR EACH ROW
     EXECUTE PROCEDURE transaction_on_update_modifies_activity_and_penalty();
 

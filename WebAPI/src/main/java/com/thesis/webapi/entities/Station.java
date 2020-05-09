@@ -72,4 +72,8 @@ public class Station {
     public Integer getCurrentCapacity() {
         return currentCapacity;
     }
+
+    public void decrementCurrentCapacity() {
+        this.currentCapacity -= 1;
+    }
 }

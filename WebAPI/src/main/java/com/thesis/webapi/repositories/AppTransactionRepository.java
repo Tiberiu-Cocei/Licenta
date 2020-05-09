@@ -18,4 +18,7 @@ public interface AppTransactionRepository extends JpaRepository<AppTransaction, 
     @Query(value = "SELECT u FROM AppTransaction u WHERE u.finishStationId IS NULL AND u.finishTime IS NULL")
     List<AppTransaction> getAllUnfinishedTransactions();
 
+    @Query(value = "SELECT u FROM AppTransaction u WHERE u.bicycleId = :bicycleId AND u.finishStationId IS NULL AND u.finishTime IS NULL")
+    AppTransaction getUnfinishedTransactionByBicycleId(@Param("bicycleId") UUID bicycleId);
+
 }

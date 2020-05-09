@@ -138,4 +138,8 @@ public class AppTransaction {
     public void setPenalty(Double penalty) {
         this.penalty = penalty;
     }
+
+    public void setPlannedStationId(UUID plannedStationId) {
+        this.plannedStationId = plannedStationId;
+    }
 }

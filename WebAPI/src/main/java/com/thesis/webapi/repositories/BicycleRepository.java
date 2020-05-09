@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,5 +17,11 @@ public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
 
     @Query(value = "SELECT u FROM Bicycle u WHERE u.stationId IN (SELECT id FROM Station WHERE cityId = :cityId) AND u.status = 'Damaged'")
     List<Bicycle> getDamagedBicycles(@Param("cityId") UUID cityId);
+
+    @Query(value = "SELECT u FROM Bicycle u WHERE u.arrivalTime < :currentTime AND u.status = 'User'")
+    List<Bicycle> getLateBicycles(@Param("currentTime") LocalTime currentTime);
+
+    @Query(value = "SELECT u FROM Bicycle u WHERE u.arrivalTime < :currentTime AND u.status = 'Transport'")
+    List<Bicycle> getArrivedTransportBicycles(@Param("currentTime") LocalTime currentTime);
 
 }

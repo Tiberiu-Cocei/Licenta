@@ -68,4 +68,12 @@ public class Bicycle {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public void setStationId(UUID stationId) {
+        this.stationId = stationId;
+    }
 }

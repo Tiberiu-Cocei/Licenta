@@ -12,4 +12,12 @@ public interface BicycleService {
 
     ResponseEntity<Bicycle> getBicycleById(UUID bicycleId);
 
+    void clearStationsOfLateBicycles();
+
+    void onScheduleCallClearStationsOfLateBicycles();
+
+    void changeStatusForArrivedTransportBicycles();
+
+    void onScheduleCallChangeStatusForArrivedTransportBicycles();
+
 }
