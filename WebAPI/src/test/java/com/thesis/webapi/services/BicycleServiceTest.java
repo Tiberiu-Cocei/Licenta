@@ -1,12 +1,8 @@
 package com.thesis.webapi.services;
 
-import com.thesis.webapi.dtos.ReportCreateDto;
 import com.thesis.webapi.entities.Bicycle;
-import com.thesis.webapi.entities.Report;
 import com.thesis.webapi.repositories.BicycleRepository;
-import com.thesis.webapi.repositories.ReportRepository;
 import com.thesis.webapi.services.impl.BicycleServiceImpl;
-import com.thesis.webapi.services.impl.ReportServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;

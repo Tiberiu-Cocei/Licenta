@@ -33,6 +33,18 @@ public class TransportLine {
     @Column(name = "lock_number")
     private int lockNumber;
 
+    public TransportLine() {}
+
+    public TransportLine(UUID transportId, UUID bicycleId, UUID stationFromId, UUID stationToId, Date arrivalTime) {
+        this.id = UUID.randomUUID();
+        this.transportId = transportId;
+        this.bicycleId = bicycleId;
+        this.stationFromId = stationFromId;
+        this.stationToId = stationToId;
+        this.arrivalTime = arrivalTime;
+        this.lockNumber = 1;
+    }
+
     public UUID getId() {
         return id;
     }

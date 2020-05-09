@@ -21,6 +21,14 @@ public class Transport {
     @Column(name = "date")
     private Date date;
 
+    public Transport() {}
+
+    public Transport(UUID staffId, Date date) {
+        this.id = UUID.randomUUID();
+        this.staffId = staffId;
+        this.date = date;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -17,9 +17,19 @@ CREATE OR REPLACE FUNCTION transport_line_update_on_station_and_bicycle() RETURN
 	UPDATE bicycle 
         SET arrival_time = NEW.arrival_time,
 	     	station_id = NEW.station_to,
-		    status = 'Transport',
 			lock_number = NEW.lock_number
         WHERE id = NEW.bicycle_id;
+		
+	IF (SELECT name FROM station WHERE id = NEW.station_to) = 'Warehouse' THEN
+		UPDATE bicycle
+			SET status = 'Warehouse'
+		WHERE id = NEW.bicycle_id;
+	ELSE
+		UPDATE bicycle
+			SET status = 'Transport'
+		WHERE id = NEW.bicycle_id;
+	END IF;
+	
  
  	RETURN NULL;
     END;
