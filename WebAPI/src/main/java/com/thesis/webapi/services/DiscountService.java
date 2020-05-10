@@ -10,4 +10,8 @@ public interface DiscountService {
 
     ResponseEntity<List<Discount>> getDiscountsByStationAndTime(UUID stationId);
 
+    void bringStationBicycleNumbersToPredictedValues();
+
+    void onScheduleCallBringStationBicycleNumbersToPredictedValues();
+
 }

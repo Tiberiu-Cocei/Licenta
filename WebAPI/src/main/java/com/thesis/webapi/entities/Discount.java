@@ -45,6 +45,16 @@ public class Discount {
         this.endTime = null;
     }
 
+    public Discount(UUID fromStationId, UUID toStationId, int discountsLeft, double discountValue, Date startTime) {
+        this.id = UUID.randomUUID();
+        this.fromStationId = fromStationId;
+        this.toStationId = toStationId;
+        this.discountsLeft = discountsLeft;
+        this.discountValue = discountValue;
+        this.startTime = startTime;
+        this.endTime = new Date(startTime.getTime() + 20*60);
+    }
+
     public UUID getId() {
         return id;
     }

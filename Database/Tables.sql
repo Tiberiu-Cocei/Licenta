@@ -11,8 +11,6 @@ CREATE TABLE settings (
 	discounts_used               BOOLEAN NOT NULL,
 	discount_value               NUMERIC(3,1) NOT NULL CHECK (discount_value > 0), CHECK (discount_value <= 50),
 	transports_used              BOOLEAN NOT NULL,
-	transport_activation_value   NUMERIC(3,1) DEFAULT 25.0 NOT NULL CHECK (transport_activation_value > 0),
-	discount_activation_value    NUMERIC(3,1) DEFAULT 50.0 NOT NULL CHECK(discount_activation_value > 0),
 	FOREIGN KEY (city_id)        REFERENCES city (id)
 );
 
