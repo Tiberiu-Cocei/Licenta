@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -31,6 +33,8 @@ public class DiscountServiceImpl implements DiscountService {
 
     private final SettingsRepository settingsRepository;
 
+    private final BicycleRepository bicycleRepository;
+
     @Autowired
     public DiscountServiceImpl(DiscountRepository discountRepository,
                                CityRepository cityRepository,
@@ -39,7 +43,8 @@ public class DiscountServiceImpl implements DiscountService {
                                StationRepository stationRepository,
                                PredictedActivityRepository predictedActivityRepository,
                                StaffRepository staffRepository,
-                               SettingsRepository settingsRepository) {
+                               SettingsRepository settingsRepository,
+                               BicycleRepository bicycleRepository) {
         this.discountRepository = discountRepository;
         this.cityRepository = cityRepository;
         this.transportRepository = transportRepository;
@@ -48,6 +53,7 @@ public class DiscountServiceImpl implements DiscountService {
         this.predictedActivityRepository = predictedActivityRepository;
         this.staffRepository = staffRepository;
         this.settingsRepository = settingsRepository;
+        this.bicycleRepository = bicycleRepository;
     }
 
     @Override
@@ -84,27 +90,60 @@ public class DiscountServiceImpl implements DiscountService {
                         }
                     }
                     else {
-                        System.out.println("Predicted activity wasn't generated for station " +
-                                station.getName() + " of city " + city.getName());
+                        System.out.println("Predicted activity wasn't generated for the station " +
+                                station.getName() + " of city " + city.getName() + ".");
                     }
                 }
-                for(Map.Entry<Station, Integer> positivePair : positiveDifference.entrySet()) {
-                    int maxValueForDiscount = (int)(positivePair.getKey().getMaxCapacity()*(25.0f / 100.0f));
-                    if(positivePair.getValue() <= maxValueForDiscount) {
-                        for(Map.Entry<Station, Integer> negativePair : negativeDifference.entrySet()) {
-                            int minValueForDiscount = -(int)(negativePair.getKey().getMaxCapacity()*(25.0f / 100.0f));
-                            if(positivePair.getValue() > 0 && negativePair.getValue() >= minValueForDiscount && negativePair.getValue() < 0) {
-                                int numberOfDiscounts = Math.min(positivePair.getValue(), -negativePair.getValue());
-                                Discount discount = new Discount(positivePair.getKey().getId(), negativePair.getKey().getId(), numberOfDiscounts,
-                                        settings.getDiscountValue(), date);
-                                discountRepository.save(discount);
-                                positivePair.setValue(positivePair.getValue() - numberOfDiscounts);
-                                negativePair.setValue(negativePair.getValue() + numberOfDiscounts);
-                            }
-                        }
+                createDiscountsAndTransports(positiveDifference, negativeDifference, staffList, settings);
+            }
+        }
+    }
+
+    private void createDiscountsAndTransports(HashMap<Station, Integer> positiveDifference,
+                                              HashMap<Station, Integer> negativeDifference,
+                                              List<Staff> staffList,
+                                              Settings settings) {
+        Date date = new Date();
+        LocalTime arrivalTime = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).toLocalTime().plusMinutes(20);
+        Collections.shuffle(staffList);
+        for(Map.Entry<Station, Integer> positivePair : positiveDifference.entrySet()) {
+            int maxValueForDiscount = (int)(positivePair.getKey().getMaxCapacity()*(25.0f / 100.0f));
+            if(positivePair.getValue() <= maxValueForDiscount || staffList.size() == 0) {
+                for(Map.Entry<Station, Integer> negativePair : negativeDifference.entrySet()) {
+                    int minValueForDiscount = -(int)(negativePair.getKey().getMaxCapacity()*(25.0f / 100.0f));
+                    if(positivePair.getValue() > 0 && negativePair.getValue() >= minValueForDiscount && negativePair.getValue() < 0) {
+                        int numberOfDiscounts = Math.min(positivePair.getValue(), -negativePair.getValue());
+                        Discount discount = new Discount(positivePair.getKey().getId(), negativePair.getKey().getId(), numberOfDiscounts,
+                                settings.getDiscountValue(), date);
+                        discountRepository.save(discount);
+                        System.out.println("Successfully created discount from the station " + positivePair.getKey().getName() +
+                                "to the station " + negativePair.getKey().getName() + ". Number of discounts: " + numberOfDiscounts);
+                        positivePair.setValue(positivePair.getValue() - numberOfDiscounts);
+                        negativePair.setValue(negativePair.getValue() + numberOfDiscounts);
                     }
-                    else {
-                        //TO DO TRANSPORTS + VERIFICAT CE AM SCRIS SUS LA DISCOUNT + PUS IN METODA NOUA
+                }
+            }
+            else {
+                Staff staff = staffList.get(0);
+                staffList.remove(0);
+                List<Bicycle> availableBicycles = bicycleRepository.getAvailableBicycles(positivePair.getKey().getId());
+                positivePair.setValue(availableBicycles.size());
+                for(Map.Entry<Station, Integer> negativePair : negativeDifference.entrySet()) {
+                    int maxValueForTransport = -(int)(negativePair.getKey().getMaxCapacity()*(25.0f / 100.0f));
+                    if(positivePair.getValue() > 0 && negativePair.getValue() < maxValueForTransport) {
+                        Transport transport = new Transport(staff.getId(), date);
+                        transportRepository.save(transport);
+                        int numberOfTransportLines = Math.min(positivePair.getValue(), -negativePair.getValue());
+                        for(int i = 0; i < numberOfTransportLines; i++) {
+                            TransportLine transportLine = new TransportLine(transport.getId(), availableBicycles.get(0).getId(),
+                                    positivePair.getKey().getId(), negativePair.getKey().getId(), arrivalTime);
+                            availableBicycles.remove(0);
+                            transportLineRepository.save(transportLine);
+                        }
+                        System.out.println("Successfully created transport from the station " + positivePair.getKey().getName() +
+                                "to the station " + negativePair.getKey().getName() + ". Number of bicycles: " + numberOfTransportLines);
+                        positivePair.setValue(positivePair.getValue() - numberOfTransportLines);
+                        negativePair.setValue(negativePair.getValue() + numberOfTransportLines);
                     }
                 }
             }

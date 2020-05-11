@@ -52,7 +52,7 @@ public class Discount {
         this.discountsLeft = discountsLeft;
         this.discountValue = discountValue;
         this.startTime = startTime;
-        this.endTime = new Date(startTime.getTime() + 20*60);
+        this.endTime = new Date(startTime.getTime() + 20*60*1000);
     }
 
     public UUID getId() {

@@ -24,4 +24,7 @@ public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
     @Query(value = "SELECT u FROM Bicycle u WHERE u.arrivalTime < :currentTime AND u.status = 'Transport'")
     List<Bicycle> getArrivedTransportBicycles(@Param("currentTime") LocalTime currentTime);
 
+    @Query(value = "SELECT u FROM Bicycle u WHERE u.stationId = :stationId AND u.status = 'Station'")
+    List<Bicycle> getAvailableBicycles(@Param("stationId") UUID stationId);
+
 }
