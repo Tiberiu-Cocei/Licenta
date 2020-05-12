@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.*;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
-public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProvider authenticationProvider;
 
@@ -30,7 +30,7 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
             = new OrRequestMatcher(new AntPathRequestMatcher("/api/secure/**"));
 
     @Autowired
-    public AuthenticationConfig(AuthenticationProvider authenticationProvider) {
+    public SecurityConfig(AuthenticationProvider authenticationProvider) {
         super();
         this.authenticationProvider = authenticationProvider;
     }
@@ -61,7 +61,10 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
-                    .logout().disable();
+                    .logout().disable()
+                    .requiresChannel()
+                    .anyRequest()
+                    .requiresSecure();
     }
 
     @Bean

@@ -8,3 +8,4 @@ Token authentication   https://www.javadevjournal.com/spring/securing-a-restful-
                        https://docs.spring.io/spring-security/site/docs/current/reference/html5/
 Async methods          https://www.baeldung.com/spring-async
 Scheduled tasks        https://www.baeldung.com/spring-scheduled-tasks
+Enable HTTPS           https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
