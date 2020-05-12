@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Android</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="username_empty_warning">Username field cannot be empty.</string>
+    <string name="password_empty_warning">Password field cannot be empty.</string>
 </resources>
