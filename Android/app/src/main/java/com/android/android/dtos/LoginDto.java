@@ -6,11 +6,17 @@ public class LoginDto {
 
     private String password;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public LoginDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
-
-    //todo: to json method or use GSON?
 
 }

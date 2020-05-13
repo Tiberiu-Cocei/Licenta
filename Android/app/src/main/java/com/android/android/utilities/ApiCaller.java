@@ -13,6 +13,7 @@ public class ApiCaller extends AsyncTask<String, Void, String> {
 
     @Override
     public String doInBackground(String... strings) {
+        //TODO: check code 200, 201 etc
         String requestMethod = strings[0];
         String stringUrl = strings[1];
         String serverErrorMessage = strings[2];

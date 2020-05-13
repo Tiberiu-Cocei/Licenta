@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.android.R;
+import com.android.android.dtos.LoginDto;
 import com.android.android.utilities.ApiCaller;
+import com.android.android.utilities.JsonConverter;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,11 +42,12 @@ public class LoginActivity extends AppCompatActivity {
                     messageText.setText(R.string.password_empty_warning);
                 }
                 else {
+                    LoginDto loginDto = new LoginDto(username, password);
                     ApiCaller apiCaller = new ApiCaller();
                     String url = getResources().getString(R.string.api_unsecure_prefix) + "/users/login";
                     String serverErrorMessage = getResources().getString(R.string.api_generic_call_failure);
                     String userErrorMessage = getResources().getString(R.string.api_failed_login);
-                    String jsonString = "{\"username\":" + "\"" + username + "\", \"password\":" + "\"" + password + "\"}";
+                    String jsonString = JsonConverter.objectToJson(loginDto);
                     try {
                         apiCaller.execute("POST", url, serverErrorMessage, userErrorMessage, jsonString);
                         messageText.setText(apiCaller.get());
