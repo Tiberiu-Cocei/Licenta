@@ -15,10 +15,11 @@ public class ApiCaller extends AsyncTask<String, Void, String> {
     public String doInBackground(String... strings) {
         String requestMethod = strings[0];
         String stringUrl = strings[1];
-        String errorMessage = strings[2];
+        String serverErrorMessage = strings[2];
+        String userErrorMessage = strings[3];
 
         if(requestMethod.equals("POST")) {
-            String jsonBody = strings[3];
+            String jsonBody = strings[4];
             try {
                 URL apiUrl = new URL(stringUrl);
                 HttpURLConnection connection = (HttpURLConnection)apiUrl.openConnection();
@@ -31,7 +32,7 @@ public class ApiCaller extends AsyncTask<String, Void, String> {
                     os.write(input, 0, input.length);
                 } catch(Exception e) {
                     e.printStackTrace();
-                    return "1";
+                    return serverErrorMessage;
                 }
                 try(BufferedReader br = new BufferedReader(
                         new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
@@ -43,20 +44,15 @@ public class ApiCaller extends AsyncTask<String, Void, String> {
                     return response.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "2";
+                    return userErrorMessage;
                 }
             } catch(Exception e) {
-                //return errorMessage;
                 e.printStackTrace();
-                return "3";
+                return serverErrorMessage;
             }
         }
 
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-    }
 }

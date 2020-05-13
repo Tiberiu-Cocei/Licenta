@@ -61,10 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
-                    .logout().disable()
-                    .requiresChannel()
-                    .anyRequest()
-                    .requiresSecure();
+                    .logout().disable();
+                    //.requiresChannel()
+                    //.anyRequest()
+                    //.requiresSecure();
     }
 
     @Bean

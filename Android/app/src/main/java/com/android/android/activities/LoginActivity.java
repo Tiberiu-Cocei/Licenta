@@ -19,8 +19,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView messageText;
 
-    private ApiCaller apiCaller;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.loginUsername);
         passwordText = findViewById(R.id.loginPassword);
         messageText = findViewById(R.id.loginMessage);
-        apiCaller = new ApiCaller();
 
         final Button login = findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
@@ -43,16 +40,18 @@ public class LoginActivity extends AppCompatActivity {
                     messageText.setText(R.string.password_empty_warning);
                 }
                 else {
+                    ApiCaller apiCaller = new ApiCaller();
                     String url = getResources().getString(R.string.api_unsecure_prefix) + "/users/login";
-                    String errorMessage = getResources().getString(R.string.api_generic_call_failure);
+                    String serverErrorMessage = getResources().getString(R.string.api_generic_call_failure);
+                    String userErrorMessage = getResources().getString(R.string.api_failed_login);
                     String jsonString = "{\"username\":" + "\"" + username + "\", \"password\":" + "\"" + password + "\"}";
                     try {
-                        apiCaller.execute("POST", url, errorMessage, jsonString);
+                        apiCaller.execute("POST", url, serverErrorMessage, userErrorMessage, jsonString);
                         messageText.setText(apiCaller.get());
                     }
                     catch(Exception e) {
                         e.printStackTrace();
-                        messageText.setText(errorMessage);
+                        messageText.setText(serverErrorMessage);
                     }
                 }
             }
