@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.android.R;
-import com.android.android.dtos.LoginDto;
+import com.android.android.utilities.ApiCaller;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView messageText;
 
+    private ApiCaller apiCaller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.loginUsername);
         passwordText = findViewById(R.id.loginPassword);
         messageText = findViewById(R.id.loginMessage);
+        apiCaller = new ApiCaller();
 
         final Button login = findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +43,17 @@ public class LoginActivity extends AppCompatActivity {
                     messageText.setText(R.string.password_empty_warning);
                 }
                 else {
-                    LoginDto loginDto = new LoginDto(username, password);
-                    //call api
+                    String url = getResources().getString(R.string.api_unsecure_prefix) + "/users/login";
+                    String errorMessage = getResources().getString(R.string.api_generic_call_failure);
+                    String jsonString = "{\"username\":" + "\"" + username + "\", \"password\":" + "\"" + password + "\"}";
+                    try {
+                        apiCaller.execute("POST", url, errorMessage, jsonString);
+                        messageText.setText(apiCaller.get());
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                        messageText.setText(errorMessage);
+                    }
                 }
             }
         });

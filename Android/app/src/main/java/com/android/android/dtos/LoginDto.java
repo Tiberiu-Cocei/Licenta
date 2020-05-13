@@ -11,4 +11,6 @@ public class LoginDto {
         this.password = password;
     }
 
+    //todo: to json method or use GSON?
+
 }

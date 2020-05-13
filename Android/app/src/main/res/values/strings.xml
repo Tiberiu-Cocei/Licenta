@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Android</string>
+
+    <string name="api_secure_prefix">https://10.0.2.2:8085/api/secure</string>
+    <string name="api_unsecure_prefix">https://10.0.2.2:8085/api/unsecure</string>
+    <string name="api_generic_call_failure">Unexpected error while calling API.</string>
+
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
