@@ -15,8 +15,4 @@ public class JsonConverter {
         }
     }
 
-    public static <T> void jsonToObject(T object, String json) {
-        //TODO: json to object with jackson
-    }
-
 }

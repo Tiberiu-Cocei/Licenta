@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.android.android.R;
 import com.android.android.dtos.LoginDto;
 import com.android.android.utilities.ApiCaller;
+import com.android.android.utilities.ApiResponse;
 import com.android.android.utilities.JsonConverter;
+
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,16 +48,17 @@ public class LoginActivity extends AppCompatActivity {
                     LoginDto loginDto = new LoginDto(username, password);
                     ApiCaller apiCaller = new ApiCaller();
                     String url = getResources().getString(R.string.api_unsecure_prefix) + "/users/login";
-                    String serverErrorMessage = getResources().getString(R.string.api_generic_call_failure);
-                    String userErrorMessage = getResources().getString(R.string.api_failed_login);
                     String jsonString = JsonConverter.objectToJson(loginDto);
                     try {
-                        apiCaller.execute("POST", url, serverErrorMessage, userErrorMessage, jsonString);
-                        messageText.setText(apiCaller.get());
+                        apiCaller.execute("POST", url, null, jsonString);
+                        ApiResponse apiResponse = apiCaller.get();
+                        if(apiResponse != null) {
+                            messageText.setText(String.format(Locale.getDefault(), "%d", apiResponse.getCode()));
+                        }
                     }
                     catch(Exception e) {
                         e.printStackTrace();
-                        messageText.setText(serverErrorMessage);
+                        messageText.setText(getResources().getString(R.string.api_generic_call_failure));
                     }
                 }
             }
