@@ -11,6 +11,18 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
+    <string name="login_to_register_button">Register</string>
+    <string name="login_to_reset_button">Reset Password</string>
+
+    <string name="register_username">Username</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_button">Register</string>
+    <string name="register_to_login_button">Return</string>
+
     <string name="username_empty_warning">Username field cannot be empty.</string>
+    <string name="username_length_warning">Username field must be between 5 and 30 characters.</string>
+    <string name="email_invalid_warning">The email is invalid.</string>
     <string name="password_empty_warning">Password field cannot be empty.</string>
+    <string name="password_length_warning">Password field must be between 8 and 50 characters.</string>
 </resources>
