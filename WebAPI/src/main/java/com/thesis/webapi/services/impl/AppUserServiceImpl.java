@@ -141,12 +141,14 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public void sendResetCode(AppUserResetCodeDto appUserResetCodeDto, EmailService emailService) {
-        int randomNumber = random.nextInt(100000);
-        String passwordResetCode = String.format("%05d", randomNumber);
         AppUser appUser = appUserRepository.getAppUserByUsername(appUserResetCodeDto.getUsername().toLowerCase());
-        appUser.setPasswordResetCode(passwordResetCode);
-        appUserRepository.save(appUser);
-        emailService.sendEmail(appUser.getEmail(), "Your app password reset code", passwordResetCode);
+        if(appUser != null) {
+            int randomNumber = random.nextInt(100000);
+            String passwordResetCode = String.format("%05d", randomNumber);
+            appUser.setPasswordResetCode(passwordResetCode);
+            appUserRepository.save(appUser);
+            emailService.sendEmail(appUser.getEmail(), "Your app password reset code", passwordResetCode);
+        }
     }
 
     @Override

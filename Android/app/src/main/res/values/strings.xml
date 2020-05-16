@@ -15,17 +15,31 @@
     <string name="login_to_register_button">Register</string>
     <string name="login_to_reset_button">Reset Password</string>
     <string name="login_city_choice">Select city</string>
-    <string name="login_city_api_error">Could not get city list.</string>
+    <string name="login_city_api_error">Could not get response from server for city list.</string>
 
     <string name="register_username">Username</string>
     <string name="register_email">Email</string>
     <string name="register_password">Password</string>
+    <string name="register_confirm_password">Confirm Password</string>
     <string name="register_button">Register</string>
     <string name="register_to_login_button">Return</string>
+
+    <string name="reset_code_username">Username</string>
+    <string name="reset_code_submit">Send reset code</string>
+    <string name="reset_code_return_to_login">Return</string>
+    <string name="reset_code_sent">Please check your email for the reset code.</string>
+
+    <string name="reset_password_username">Username</string>
+    <string name="reset_password_code">Reset code</string>
+    <string name="reset_password_password">New password</string>
+    <string name="reset_password_confirm_password">Confirm new password</string>
+    <string name="reset_password_submit">Submit</string>
+    <string name="reset_password_return_to_login">Return</string>
 
     <string name="username_empty_warning">Username field cannot be empty.</string>
     <string name="username_length_warning">Username field must be between 5 and 30 characters.</string>
     <string name="email_invalid_warning">The email is invalid.</string>
     <string name="password_empty_warning">Password field cannot be empty.</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
     <string name="password_length_warning">Password field must be between 8 and 50 characters.</string>
 </resources>

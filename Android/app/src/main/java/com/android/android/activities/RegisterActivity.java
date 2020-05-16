@@ -25,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText passwordText;
 
+    private EditText confirmPasswordText;
+
     private TextView messageText;
 
     @Override
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailText = findViewById(R.id.registerEmail);
         passwordText = findViewById(R.id.registerPassword);
         messageText = findViewById(R.id.registerMessage);
+        confirmPasswordText = findViewById(R.id.registerConfirmPassword);
 
         final Button register = findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         String username = usernameText.getText().toString();
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
+        String confirmPassword = confirmPasswordText.getText().toString();
         boolean isEmailValid = EmailValidator.getInstance().isValid(email);
         if(username.length() < 5 || username.length() > 30) {
             messageText.setText(R.string.username_length_warning);
@@ -70,6 +74,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else if(password.length() < 8 || password.length() > 50) {
             messageText.setText(R.string.password_length_warning);
+        }
+        else if(!password.equals(confirmPassword)) {
+            messageText.setText(R.string.passwords_do_not_match);
         }
         else {
             RegisterDto registerDto = new RegisterDto(email, username, password);

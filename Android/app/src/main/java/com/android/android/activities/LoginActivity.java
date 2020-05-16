@@ -61,6 +61,18 @@ public class LoginActivity extends AppCompatActivity {
                 openRegisterActivity();
             }
         });
+
+        final Button toReset = findViewById(R.id.loginToReset);
+        toReset.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openResetCodeActivity();
+            }
+        });
+    }
+
+    private void openResetCodeActivity() {
+        Intent intent = new Intent(this, ResetCodeActivity.class);
+        startActivity(intent);
     }
 
     private void openRegisterActivity() {

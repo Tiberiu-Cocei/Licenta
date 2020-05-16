@@ -50,6 +50,8 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             HttpURLConnection connection = (HttpURLConnection)apiUrl.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
             if(bearerToken != null) {
                 connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
             }
@@ -57,14 +59,7 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             int responseCode = connection.getResponseCode();
             String responseMessage = connection.getResponseMessage();
             try {
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-                StringBuilder responseJson = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    responseJson.append(responseLine.trim());
-                }
-                return new ApiResponse(responseJson.toString(), responseCode, responseMessage);
+                return processApiStream(connection, responseCode, responseMessage);
             } catch(Exception e) {
                 e.printStackTrace();
                 return new ApiResponse(null, responseCode, responseMessage);
@@ -85,6 +80,8 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
             connection.setDoOutput(true);
             if(bearerToken != null) {
                 connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
@@ -97,14 +94,7 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             int responseCode = connection.getResponseCode();
             String responseMessage = connection.getResponseMessage();
             try {
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-                StringBuilder responseJson = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    responseJson.append(responseLine.trim());
-                }
-                return new ApiResponse(responseJson.toString(), responseCode, responseMessage);
+                return processApiStream(connection, responseCode, responseMessage);
             } catch(Exception e) {
                 e.printStackTrace();
                 return new ApiResponse(null, responseCode, responseMessage);
@@ -113,6 +103,24 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private ApiResponse processApiStream(HttpURLConnection connection, int responseCode, String responseMessage) throws Exception {
+        BufferedReader bufferedReader;
+        if(responseCode < 400) {
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+        }
+        else {
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+        }
+        StringBuilder responseJson = new StringBuilder();
+        String responseLine;
+        while ((responseLine = bufferedReader.readLine()) != null) {
+            responseJson.append(responseLine.trim());
+        }
+        return new ApiResponse(responseJson.toString(), responseCode, responseMessage);
     }
 
 }
