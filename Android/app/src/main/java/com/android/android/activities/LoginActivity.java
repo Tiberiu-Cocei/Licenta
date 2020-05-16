@@ -5,16 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.android.R;
 import com.android.android.dtos.LoginDto;
+import com.android.android.entities.AppDetails;
+import com.android.android.entities.City;
 import com.android.android.entities.User;
 import com.android.android.utilities.ApiCaller;
 import com.android.android.utilities.ApiResponse;
 import com.android.android.utilities.JsonConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +32,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView messageText;
 
+    private TextView citySelection;
+
+    private City selectedCity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.loginUsername);
         passwordText = findViewById(R.id.loginPassword);
         messageText = findViewById(R.id.loginMessage);
+        citySelection = findViewById(R.id.loginCityChoice);
+
+        createAndListenToCitySpinner();
 
         final Button login = findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +68,56 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void createAndListenToCitySpinner() {
+        final List<City> cityList = getAllCities();
+        if(cityList != null) {
+            selectedCity = cityList.get(0);
+            ArrayList<String> cityNames = new ArrayList<>();
+            for(City city : cityList) {
+                cityNames.add(city.getName());
+            }
+            Spinner cityNameSpinner = findViewById(R.id.loginCitySpinner);
+            ArrayAdapter<String> cityNameAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cityNames);
+            cityNameSpinner.setAdapter(cityNameAdapter);
+
+            cityNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    selectedCity = cityList.get(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {}
+            });
+        }
+        else {
+            citySelection.setText(getResources().getString(R.string.login_city_api_error));
+        }
+    }
+
+    private List<City> getAllCities() {
+        ApiCaller apiCaller = new ApiCaller();
+        String url = getResources().getString(R.string.api_unsecure_prefix) + "/cities";
+        try {
+            apiCaller.execute("GET", url, null, null);
+            ApiResponse apiResponse = apiCaller.get();
+            if(apiResponse != null) {
+                if(apiResponse.getCode() == 200) {
+                    return City.createCityListFromJson(apiResponse.getJson());
+                }
+            }
+            return null;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void attemptLogin() {
+        if(selectedCity == null) {
+            messageText.setText(getResources().getString(R.string.login_button_with_no_selected_city));
+            return;
+        }
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
         if(username.length() == 0) {
@@ -73,7 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(apiResponse != null) {
                     if(apiResponse.getCode() == 200) {
                         try {
-                            User.createUser(apiResponse.getJson());
+                            User.createUserFromJson(apiResponse.getJson());
+                            AppDetails.getAppDetails().setCity(selectedCity);
                             messageText.setText(getResources().getString(R.string.api_successful_login));
                             //TODO: intent for "main menu"
                         } catch(Exception e) {

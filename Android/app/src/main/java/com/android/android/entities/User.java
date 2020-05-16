@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
 
 public class User {
+
     private static User user = null;
 
     private UUID id;
@@ -23,7 +24,7 @@ public class User {
 
     private PaymentMethod paymentMethod;
 
-    public static void createUser(String json) throws Exception {
+    public static void createUserFromJson(String json) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         user = objectMapper.readValue(json, User.class);
     }

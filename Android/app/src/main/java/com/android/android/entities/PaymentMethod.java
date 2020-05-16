@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 class PaymentMethod {
+
     private UUID id;
 
     private String cardNumber;

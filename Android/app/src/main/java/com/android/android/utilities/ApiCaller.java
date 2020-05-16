@@ -17,28 +17,60 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
     public ApiResponse doInBackground(String... strings) {
         String[] alphabet = new String[]{"PUT", "POST", "GET"};
         List<String> requestMethodList = Arrays.asList(alphabet);
-        if(strings.length < 3
-                || (!requestMethodList.contains(strings[0]))
-                || (!strings[0].equals("GET") && strings.length < 4)) {
+        if(strings.length < 4 || !requestMethodList.contains(strings[0])) {
             return null;
         }
         String requestMethod = strings[0];
         String stringUrl = strings[1];
         String bearerToken = strings[2];
-        String jsonBody = null;
-        if(strings.length == 4) {
-            jsonBody = strings[3];
-        }
+        String body = strings[3];
 
         if(requestMethod.equals("POST")) {
-            return callPostApi(stringUrl, bearerToken, jsonBody);
+            return callPostApi(stringUrl, bearerToken, body);
         }
 
         else if(requestMethod.equals("GET")) {
-            return null;
+            return callGetApi(stringUrl, bearerToken, body);
         }
 
         else {
+            return null;
+        }
+    }
+
+    private ApiResponse callGetApi(String stringUrl, String bearerToken, String getId) {
+        if(stringUrl == null) {
+            return null;
+        }
+        try {
+            if(getId != null) {
+                stringUrl += "/" + getId;
+            }
+            URL apiUrl = new URL(stringUrl);
+            HttpURLConnection connection = (HttpURLConnection)apiUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            if(bearerToken != null) {
+                connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
+            }
+
+            int responseCode = connection.getResponseCode();
+            String responseMessage = connection.getResponseMessage();
+            try {
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+                StringBuilder responseJson = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    responseJson.append(responseLine.trim());
+                }
+                return new ApiResponse(responseJson.toString(), responseCode, responseMessage);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return new ApiResponse(null, responseCode, responseMessage);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

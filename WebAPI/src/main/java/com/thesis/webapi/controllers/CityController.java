@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/secure/cities")
+@RequestMapping(value = "/api")
 public class CityController {
 
     private final CityService cityService;
@@ -24,12 +24,12 @@ public class CityController {
         this.cityService = cityService;
     }
 
-    @GetMapping
+    @GetMapping(value = "/unsecure/cities")
     public ResponseEntity<List<City>> getAllCities(){
         return cityService.getAll();
     }
 
-    @GetMapping(value = "/settings/{id}")
+    @GetMapping(value = "/secure/cities/settings/{id}")
     public ResponseEntity<Settings> getSettingsByCityId(@PathVariable("id") UUID cityId) {
         return cityService.getSettingsByCityId(cityId);
     }

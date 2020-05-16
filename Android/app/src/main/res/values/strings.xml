@@ -11,8 +11,11 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
+    <string name="login_button_with_no_selected_city">Unable to login without a selected city.</string>
     <string name="login_to_register_button">Register</string>
     <string name="login_to_reset_button">Reset Password</string>
+    <string name="login_city_choice">Select city</string>
+    <string name="login_city_api_error">Could not get city list.</string>
 
     <string name="register_username">Username</string>
     <string name="register_email">Email</string>
