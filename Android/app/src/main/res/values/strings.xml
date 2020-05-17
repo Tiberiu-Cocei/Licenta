@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">Android</string>
+    <string name="google_maps_key">AIzaSyCAsU-buJQSH1QW-LR9bPKGv2l8cEO8Mas</string>
 
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
     <string name="api_unsecure_prefix">http://10.0.2.2:8085/api/unsecure</string>
     <string name="api_generic_call_failure">Unexpected error while calling API.</string>
     <string name="api_successful_login">Successfully logged in.</string>
     <string name="api_failed_login">Wrong username or password.</string>
-    <string name="api_failed_json_to_user_object">There was an error with the JSON.</string>
+    <string name="api_failed_json_to_details">There was an error while processing user details.</string>
 
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
@@ -16,6 +17,7 @@
     <string name="login_to_reset_button">Reset Password</string>
     <string name="login_city_choice">Select city</string>
     <string name="login_city_api_error">Could not get response from server for city list.</string>
+    <string name="login_station_api_error">Could not get response from server for station list.</string>
 
     <string name="register_username">Username</string>
     <string name="register_email">Email</string>

@@ -35,4 +35,5 @@ dependencies {
     implementation('commons-validator:commons-validator:1.4.1') {
         exclude module: 'commons-collections'
     }
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }

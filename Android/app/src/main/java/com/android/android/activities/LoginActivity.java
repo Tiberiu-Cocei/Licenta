@@ -16,6 +16,7 @@ import com.android.android.R;
 import com.android.android.dtos.LoginDto;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.City;
+import com.android.android.entities.Station;
 import com.android.android.entities.User;
 import com.android.android.utilities.ApiCaller;
 import com.android.android.utilities.ApiResponse;
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private City selectedCity = null;
 
+    private AppDetails appDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.loginPassword);
         messageText = findViewById(R.id.loginMessage);
         citySelection = findViewById(R.id.loginCityChoice);
+        appDetails = AppDetails.getAppDetails();
 
         createAndListenToCitySpinner();
 
@@ -77,6 +81,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void openRegisterActivity() {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMapActivity() {
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 
@@ -150,11 +159,18 @@ public class LoginActivity extends AppCompatActivity {
                     if(apiResponse.getCode() == 200) {
                         try {
                             User.createUserFromJson(apiResponse.getJson());
-                            AppDetails.getAppDetails().setCity(selectedCity);
-                            messageText.setText(getResources().getString(R.string.api_successful_login));
-                            //TODO: intent for "main menu"
+                            appDetails.setCity(selectedCity);
+                            List<Station> stationList = getStationsForSelectedCity();
+                            if(stationList != null) {
+                                appDetails.setStationList(stationList);
+                                messageText.setText(getResources().getString(R.string.api_successful_login));
+                                openMapActivity();
+                            }
+                            else {
+                                messageText.setText(getResources().getString(R.string.login_station_api_error));
+                            }
                         } catch(Exception e) {
-                            messageText.setText(getResources().getString(R.string.api_failed_json_to_user_object));
+                            messageText.setText(getResources().getString(R.string.api_failed_json_to_details));
                         }
                     }
                     else {
@@ -167,5 +183,30 @@ public class LoginActivity extends AppCompatActivity {
                 messageText.setText(getResources().getString(R.string.api_generic_call_failure));
             }
         }
+    }
+
+    private List<Station> getStationsForSelectedCity() {
+        List<Station> stationList = null;
+        ApiCaller apiCaller = new ApiCaller();
+        String url = getResources().getString(R.string.api_secure_prefix) + "/stations/city";
+        try {
+            apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
+                    appDetails.getCity().getCityId().toString());
+            ApiResponse apiResponse = apiCaller.get();
+            if(apiResponse != null) {
+                if(apiResponse.getCode() == 200) {
+                    try {
+                        stationList = Station.createStationListFromJson(apiResponse.getJson());
+                    } catch(Exception e) {
+                        messageText.setText(getResources().getString(R.string.api_failed_json_to_details));
+                    }
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            messageText.setText(getResources().getString(R.string.api_generic_call_failure));
+        }
+        return stationList;
     }
 }
