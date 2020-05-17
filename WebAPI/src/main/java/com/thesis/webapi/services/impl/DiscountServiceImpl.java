@@ -140,6 +140,8 @@ public class DiscountServiceImpl implements DiscountService {
                             availableBicycles.remove(0);
                             transportLineRepository.save(transportLine);
                         }
+                        staff.setAvailable(false);
+                        staffRepository.save(staff);
                         System.out.println("Successfully created transport from the station " + positivePair.getKey().getName() +
                                 "to the station " + negativePair.getKey().getName() + ". Number of bicycles: " + numberOfTransportLines);
                         positivePair.setValue(positivePair.getValue() - numberOfTransportLines);

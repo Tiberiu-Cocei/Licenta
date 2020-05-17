@@ -16,8 +16,4 @@ public interface BicycleService {
 
     void onScheduleCallClearStationsOfLateBicycles();
 
-    void changeStatusForArrivedTransportBicycles();
-
-    void onScheduleCallChangeStatusForArrivedTransportBicycles();
-
 }

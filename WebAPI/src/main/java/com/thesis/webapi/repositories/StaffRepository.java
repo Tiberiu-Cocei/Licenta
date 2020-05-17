@@ -12,4 +12,7 @@ public interface StaffRepository extends JpaRepository<Staff, UUID> {
     @Query(value = "SELECT u FROM Staff u WHERE u.position = 'Driver' AND u.available = true")
     List<Staff> getAvailableDriversForTransport();
 
+    @Query(value = "SELECT u FROM Staff u WHERE u.position = 'Driver' AND u.available = false")
+    List<Staff> getUnavailableDriversForTransport();
+
 }

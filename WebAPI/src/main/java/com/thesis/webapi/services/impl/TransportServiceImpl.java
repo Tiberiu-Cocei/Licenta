@@ -76,6 +76,8 @@ public class TransportServiceImpl implements TransportService {
                                     bicycle.getStationId(), warehouseId, arrivalTime);
                             transportLineRepository.save(transportLine);
                         }
+                        staff.setAvailable(false);
+                        staffRepository.save(staff);
                     }
                     else {
                         System.out.println("Cannot create transport for the damaged bicycles. There is no available driver.");

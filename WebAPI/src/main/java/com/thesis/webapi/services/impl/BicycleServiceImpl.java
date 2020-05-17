@@ -79,26 +79,4 @@ public class BicycleServiceImpl implements BicycleService {
         clearStationsOfLateBicycles();
     }
 
-    @Override
-    public void changeStatusForArrivedTransportBicycles() {
-        Date date = new Date();
-        LocalTime localTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
-        int hour = localTime.getHour();
-        if(hour > 5 && hour < 22) {
-            System.out.println("Checking for finished transports...");
-            List<Bicycle> bicycleList = bicycleRepository.getArrivedTransportBicycles(localTime);
-            for(Bicycle bicycle : bicycleList) {
-                bicycle.setStatus("Station");
-                bicycle.setArrivalTime(null);
-                bicycleRepository.save(bicycle);
-            }
-            System.out.println("Changed status and arrival time for " + bicycleList.size() + " bicycle(s).");
-        }
-    }
-
-    @Override
-    @Scheduled(cron = "0 */5 * * * *")
-    public void onScheduleCallChangeStatusForArrivedTransportBicycles() {
-        changeStatusForArrivedTransportBicycles();
-    }
 }
