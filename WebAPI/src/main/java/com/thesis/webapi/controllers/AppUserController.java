@@ -52,7 +52,7 @@ public class AppUserController {
     }
 
     @PutMapping(value = "/secure/users/payment-methods/{id}")
-    public ResponseEntity<PaymentMethod> savePaymentMethod(
+    public ResponseEntity<UUID> savePaymentMethod(
             @PathVariable("id") UUID userId,
             @Valid @RequestBody PaymentMethodCreateDto paymentMethodCreateDto) {
         return appUserService.savePaymentMethod(userId, paymentMethodCreateDto);

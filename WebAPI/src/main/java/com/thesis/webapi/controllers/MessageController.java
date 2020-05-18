@@ -26,8 +26,8 @@ public class MessageController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> markMessageAsSeen(@PathVariable("id") UUID messageId) {
-        return messageService.markMessageAsSeen(messageId);
+    public ResponseEntity<String> markMessagesAsSeen(@PathVariable("id") UUID userId) {
+        return messageService.markMessagesAsSeen(userId);
     }
 
 }

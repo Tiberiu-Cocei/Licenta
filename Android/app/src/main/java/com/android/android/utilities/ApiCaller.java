@@ -26,7 +26,7 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
         String body = strings[3];
 
         if(requestMethod.equals("POST")) {
-            return callPostApi(stringUrl, bearerToken, body);
+            return callPostOrPutApi(stringUrl, bearerToken, body, "POST");
         }
 
         else if(requestMethod.equals("GET")) {
@@ -34,7 +34,7 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
         }
 
         else {
-            return null;
+            return callPostOrPutApi(stringUrl, bearerToken, body, "PUT");
         }
     }
 
@@ -70,14 +70,14 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
         }
     }
 
-    private ApiResponse callPostApi(String stringUrl, String bearerToken, String jsonBody) {
+    private ApiResponse callPostOrPutApi(String stringUrl, String bearerToken, String jsonBody, String type) {
         if(stringUrl == null || jsonBody == null) {
             return null;
         }
         try {
             URL apiUrl = new URL(stringUrl);
             HttpURLConnection connection = (HttpURLConnection)apiUrl.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(type);
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setConnectTimeout(3000);

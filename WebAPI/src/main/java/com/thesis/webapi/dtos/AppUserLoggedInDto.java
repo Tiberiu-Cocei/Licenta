@@ -21,7 +21,7 @@ public class AppUserLoggedInDto {
 
     private UUID authenticationToken;
 
-    private PaymentMethod paymentMethod;
+    private UUID paymentMethodId;
 
     public AppUserLoggedInDto() {}
 
@@ -33,7 +33,7 @@ public class AppUserLoggedInDto {
         this.warningCount = appUser.getWarningCount();
         this.banned = appUser.isBanned();
         this.authenticationToken = appUser.getAuthenticationToken();
-        this.paymentMethod = appUser.getPaymentMethod();
+        this.paymentMethodId = appUser.getPaymentMethod().getId();
     }
 
     public UUID getId() {
@@ -92,11 +92,11 @@ public class AppUserLoggedInDto {
         this.authenticationToken = authenticationToken;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public UUID getPaymentMethodId() {
+        return paymentMethodId;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPaymentMethodId(UUID paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
     }
 }

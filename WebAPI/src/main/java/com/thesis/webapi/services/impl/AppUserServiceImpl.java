@@ -91,7 +91,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public ResponseEntity<PaymentMethod> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto) {
+    public ResponseEntity<UUID> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto) {
         AppUser appUser = appUserRepository.getAppUserById(userId);
         if(appUser == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -107,7 +107,7 @@ public class AppUserServiceImpl implements AppUserService {
         paymentMethodRepository.save(paymentMethod);
         appUser.setPaymentMethod(paymentMethod);
         appUserRepository.save(appUser);
-        return new ResponseEntity<>(paymentMethod, HttpStatus.OK);
+        return new ResponseEntity<>(paymentMethod.getId(), HttpStatus.OK);
     }
 
     @Override

@@ -10,10 +10,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.android.android.R;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Station;
+import com.android.android.utilities.ActivityStarter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -155,5 +158,34 @@ public class MapActivity extends AppCompatActivity
             hasZoomedOnCurrentPosition = true;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_account:
+                ActivityStarter.openAccountActivity(this);
+                return true;
+            case R.id.menu_message:
+                ActivityStarter.openMessageActivity(this);
+                return true;
+            case R.id.menu_payment:
+                ActivityStarter.openPaymentActivity(this);
+                return true;
+            case R.id.menu_report_history:
+                ActivityStarter.openReportHistoryActivity(this);
+                return true;
+            case R.id.menu_transaction_history:
+                ActivityStarter.openTransactionHistoryActivity(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
-//TODO: 3. on click listener pt markere de statii

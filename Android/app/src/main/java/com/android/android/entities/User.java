@@ -22,7 +22,7 @@ public class User {
 
     private UUID authenticationToken;
 
-    private PaymentMethod paymentMethod;
+    private UUID paymentMethodId;
 
     public static void createUserFromJson(String json) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -89,11 +89,11 @@ public class User {
         this.authenticationToken = authenticationToken;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public UUID getPaymentMethodId() {
+        return paymentMethodId;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPaymentMethodId(UUID paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
     }
 }

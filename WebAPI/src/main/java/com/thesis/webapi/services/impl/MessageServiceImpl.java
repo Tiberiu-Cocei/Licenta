@@ -27,14 +27,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResponseEntity<String> markMessageAsSeen(UUID messageId) {
-        Message message = messageRepository.getMessageById(messageId);
-        if(message != null) {
+    public ResponseEntity<String> markMessagesAsSeen(UUID userId) {
+        List<Message> messageList = messageRepository.getUnseenMessagesByUserId(userId);
+        for(Message message : messageList) {
             message.setSeen(true);
             messageRepository.save(message);
-            return new ResponseEntity<>("Successfully marked message as seen.", HttpStatus.OK);
         }
-        return new ResponseEntity<>("No message found with given id.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Successfully marked messages as seen.", HttpStatus.OK);
     }
 
 }

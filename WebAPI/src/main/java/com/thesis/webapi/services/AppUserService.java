@@ -17,7 +17,7 @@ public interface AppUserService {
 
     ResponseEntity<String> saveAppUser(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing);
 
-    ResponseEntity<PaymentMethod> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto);
+    ResponseEntity<UUID> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto);
 
     ResponseEntity<AppUserLoggedInDto> modifyAppUser(AppUserUpdateDto appUserUpdateDto, PasswordHashing passwordHashing);
 

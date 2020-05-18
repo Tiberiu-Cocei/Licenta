@@ -78,14 +78,14 @@ public class MessageServiceTest {
     @Test
     public void whenMarkMessageAsSeenIsCalled_WithExistingId_ThenReturnCorrectResponse() {
         //Arrange
-        Mockito.when(messageRepository.getMessageById(message.getId())).thenReturn(message);
+        Mockito.when(messageRepository.getUnseenMessagesByUserId(message.getId())).thenReturn(messageList);
 
         //Act
-        ResponseEntity<String> result = messageService.markMessageAsSeen(message.getId());
+        ResponseEntity<String> result = messageService.markMessagesAsSeen(userId);
 
         //Assert
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getBody()).isEqualTo("Successfully marked message as seen.");
+        Assertions.assertThat(result.getBody()).isEqualTo("Successfully marked messages as seen.");
         Assertions.assertThat(result.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
     }
 
@@ -94,12 +94,12 @@ public class MessageServiceTest {
         //Arrange
 
         //Act
-        ResponseEntity<String> result = messageService.markMessageAsSeen(UUID.randomUUID());
+        ResponseEntity<String> result = messageService.markMessagesAsSeen(UUID.randomUUID());
 
         //Assert
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getBody()).isEqualTo("No message found with given id.");
-        Assertions.assertThat(result.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+        Assertions.assertThat(result.getBody()).isEqualTo("Successfully marked messages as seen.");
+        Assertions.assertThat(result.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
     }
 
     @After

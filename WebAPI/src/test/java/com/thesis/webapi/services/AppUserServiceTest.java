@@ -58,6 +58,7 @@ public class AppUserServiceTest {
         this.appUserResetPasswordDto = new AppUserResetPasswordDto("test_username", "65432", "123456");
         this.appUser.setPasswordResetCode("65432");
         this.appUser.setSalt("\u0014r�<[H�k�ޮ�\u0003�iR");
+        this.appUser.setPaymentMethod(new PaymentMethod(UUID.randomUUID(), paymentMethodCreateDto));
     }
 
     @Test
@@ -163,12 +164,12 @@ public class AppUserServiceTest {
         //Arrange
 
         //Act
-        ResponseEntity<PaymentMethod> paymentMethod = appUserService.savePaymentMethod(null, this.paymentMethodCreateDto);
+        ResponseEntity<UUID> paymentMethodId = appUserService.savePaymentMethod(null, this.paymentMethodCreateDto);
 
         //Assert
-        Assertions.assertThat(paymentMethod).isNotNull();
-        Assertions.assertThat(paymentMethod.getBody()).isNull();
-        Assertions.assertThat(paymentMethod.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+        Assertions.assertThat(paymentMethodId).isNotNull();
+        Assertions.assertThat(paymentMethodId.getBody()).isNull();
+        Assertions.assertThat(paymentMethodId.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -177,13 +178,12 @@ public class AppUserServiceTest {
         Mockito.when(appUserRepository.getAppUserById(appUser.getId())).thenReturn(appUser);
 
         //Act
-        ResponseEntity<PaymentMethod> paymentMethod = appUserService.savePaymentMethod(appUser.getId(), this.paymentMethodCreateDto);
+        ResponseEntity<UUID> paymentMethodId = appUserService.savePaymentMethod(appUser.getId(), this.paymentMethodCreateDto);
 
         //Assert
-        Assertions.assertThat(paymentMethod).isNotNull();
-        Assertions.assertThat(paymentMethod.getBody()).isNotNull();
-        Assertions.assertThat(paymentMethod.getBody().getCardNumber()).isEqualTo("Test");
-        Assertions.assertThat(paymentMethod.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        Assertions.assertThat(paymentMethodId).isNotNull();
+        Assertions.assertThat(paymentMethodId.getBody()).isNotNull();
+        Assertions.assertThat(paymentMethodId.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
     }
 
     @Test

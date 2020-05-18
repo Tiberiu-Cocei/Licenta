@@ -10,6 +10,6 @@ public interface MessageService {
 
     ResponseEntity<List<Message>> getMessagesByUserId(UUID userId);
 
-    ResponseEntity<String> markMessageAsSeen(UUID messageId);
+    ResponseEntity<String> markMessagesAsSeen(UUID userId);
 
 }

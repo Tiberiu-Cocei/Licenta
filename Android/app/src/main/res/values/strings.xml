@@ -2,12 +2,41 @@
     <string name="app_name">Android</string>
     <string name="google_maps_key">AIzaSyCAsU-buJQSH1QW-LR9bPKGv2l8cEO8Mas</string>
 
+    <string name="menu_map">Map</string>
+    <string name="menu_account">Account</string>
+    <string name="menu_message">Messages</string>
+    <string name="menu_payment">Payment</string>
+    <string name="menu_report_history">Report History</string>
+    <string name="menu_transaction_history">Transaction History</string>
+
+    <string name="payment_card_number">Card number</string>
+    <string name="payment_expiry_date">Expiry date</string>
+    <string name="payment_first_name">First name</string>
+    <string name="payment_last_name">Last name</string>
+    <string name="payment_submit_button">Save</string>
+
+    <string name="payment_method_missing">Your user does not currently have any payment details.</string>
+    <string name="payment_method_found">Your user already has a payment method. You may replace it.</string>
+    <string name="payment_empty_card_number">Card number cannot be empty.</string>
+    <string name="payment_null_date">Expiry date cannot be empty.</string>
+    <string name="payment_empty_first_name">First name cannot be empty.</string>
+    <string name="payment_empty_last_name">Last name cannot be empty.</string>
+    <string name="payment_invalid_date">Invalid date in input.</string>
+
+    <string name="message_list_view_description">Message description</string>
+    <string name="message_list_view_date">Message date</string>
+    <string name="message_saved_payment_successfully">Successfully saved the payment details.</string>
+    <string name="message_json_failure">There was an error while processing payment details.</string>
+
+    <string name="api_failed_to_get_user_messages">Failed to get user messages.</string>
+    <string name="api_success_to_get_user_messages">Successfully loaded user messages.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
     <string name="api_unsecure_prefix">http://10.0.2.2:8085/api/unsecure</string>
     <string name="api_generic_call_failure">Unexpected error while calling API.</string>
     <string name="api_successful_login">Successfully logged in.</string>
     <string name="api_failed_login">Wrong username or password.</string>
     <string name="api_failed_json_to_details">There was an error while processing user details.</string>
+    <string name="api_failed_payment_save">Invalid payment details.</string>
 
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
