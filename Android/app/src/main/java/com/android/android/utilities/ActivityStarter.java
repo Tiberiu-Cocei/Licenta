@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.android.android.activities.MapActivity;
 import com.android.android.activities.MessageActivity;
 import com.android.android.activities.PaymentActivity;
+import com.android.android.activities.ReportHistoryActivity;
 
 public class ActivityStarter {
 
@@ -25,8 +26,8 @@ public class ActivityStarter {
     }
 
     public static void openReportHistoryActivity(Context context) {
-        //Intent intent = new Intent(context, ReportHistoryActivity.class);
-        //context.startActivity(intent);
+        Intent intent = new Intent(context, ReportHistoryActivity.class);
+        context.startActivity(intent);
     }
 
     public static void openTransactionHistoryActivity(Context context) {

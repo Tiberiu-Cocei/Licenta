@@ -25,11 +25,14 @@
 
     <string name="message_list_view_description">Message description</string>
     <string name="message_list_view_date">Message date</string>
+
     <string name="message_saved_payment_successfully">Successfully saved the payment details.</string>
     <string name="message_json_failure">There was an error while processing payment details.</string>
 
     <string name="api_failed_to_get_user_messages">Failed to get user messages.</string>
     <string name="api_success_to_get_user_messages">Successfully loaded user messages.</string>
+    <string name="api_failed_to_get_user_reports">Failed to get user reports.</string>
+    <string name="api_success_to_get_user_reports">Successfully loaded user reports.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
     <string name="api_unsecure_prefix">http://10.0.2.2:8085/api/unsecure</string>
     <string name="api_generic_call_failure">Unexpected error while calling API.</string>
@@ -66,6 +69,11 @@
     <string name="reset_password_confirm_password">Confirm new password</string>
     <string name="reset_password_submit">Submit</string>
     <string name="reset_password_return_to_login">Return</string>
+
+    <string name="report_hlv_report_description">Report description</string>
+    <string name="report_hlv_report_severity">Report severity</string>
+    <string name="report_hlv_inspection_description">The report has not been reviewed yet.</string>
+    <string name="report_hlv_inspection_review">N/A</string>
 
     <string name="username_empty_warning">Username field cannot be empty.</string>
     <string name="username_length_warning">Username field must be between 5 and 30 characters.</string>

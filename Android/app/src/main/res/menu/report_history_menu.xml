@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title = "@string/menu_map"
+        android:id = "@+id/menu_map"
+        />
+    <item
+        android:title = "@string/menu_account"
+        android:id = "@+id/menu_account"
+        />
+    <item
+        android:title = "@string/menu_message"
+        android:id = "@+id/menu_message"
+        />
+    <item
+        android:title = "@string/menu_payment"
+        android:id = "@+id/menu_payment"
+        />
+    <item
+        android:title = "@string/menu_transaction_history"
+        android:id = "@+id/menu_transaction_history"
+        />
+</menu>
