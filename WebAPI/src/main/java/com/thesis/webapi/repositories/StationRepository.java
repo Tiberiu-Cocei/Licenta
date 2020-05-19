@@ -18,4 +18,7 @@ public interface StationRepository extends JpaRepository<Station, UUID> {
     @Query(value = "SELECT u.id FROM Station u WHERE u.cityId = :cityId AND u.name LIKE 'Warehouse'")
     UUID getWarehouseId(@Param("cityId") UUID cityId);
 
+    @Query(value = "SELECT u.name FROM Station u WHERE u.id = :stationId")
+    String getStationNameById(@Param("stationId") UUID stationId);
+
 }

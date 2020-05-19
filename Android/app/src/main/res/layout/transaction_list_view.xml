@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/transaction_lv_start_station"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_start_station" />
+
+    <TextView
+        android:id="@+id/transaction_lv_planned_station"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_planned_station" />
+
+    <TextView
+        android:id="@+id/transaction_lv_finish_station"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_finish_station" />
+
+    <TextView
+        android:id="@+id/transaction_lv_start_time"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_start_time" />
+
+    <TextView
+        android:id="@+id/transaction_lv_planned_time"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_planned_time" />
+
+    <TextView
+        android:id="@+id/transaction_lv_finish_time"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_finish_time" />
+
+    <TextView
+        android:id="@+id/transaction_lv_initial_cost"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_initial_cost" />
+
+    <TextView
+        android:id="@+id/transaction_lv_discount_value"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_discount" />
+
+    <TextView
+        android:id="@+id/transaction_lv_penalty"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="@string/transaction_list_view_penalty" />
+
+</LinearLayout>

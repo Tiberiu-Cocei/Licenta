@@ -1,6 +1,7 @@
 package com.thesis.webapi.services.impl;
 
 import com.thesis.webapi.dtos.AppTransactionCreateDto;
+import com.thesis.webapi.dtos.AppTransactionHistoryDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
 import com.thesis.webapi.entities.*;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -50,8 +52,39 @@ public class AppTransactionServiceImpl implements AppTransactionService {
     }
 
     @Override
-    public ResponseEntity<List<AppTransaction>> getAppTransactionsByUserId(UUID userId) {
-        return new ResponseEntity<>(appTransactionRepository.getAppTransactionsByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<List<AppTransactionHistoryDto>> getAppTransactionsByUserId(UUID userId) {
+        List<AppTransaction> appTransactionList = appTransactionRepository.getAppTransactionsByUserId(userId);
+        List<AppTransactionHistoryDto> userTransactions = new ArrayList<>();
+        for(AppTransaction appTransaction : appTransactionList) {
+            String startStation = stationRepository.getStationNameById(appTransaction.getStartStationId());
+            String plannedStation = null;
+            String finishStation = null;
+            if(appTransaction.getPlannedStationId() != null) {
+                plannedStation = stationRepository.getStationNameById(appTransaction.getPlannedStationId());
+            }
+            if(appTransaction.getFinishStationId() != null) {
+                finishStation = stationRepository.getStationNameById(appTransaction.getFinishStationId());
+            }
+            Double discountValue = null;
+            if(appTransaction.getDiscountId() != null) {
+                discountValue = discountRepository.getDiscountValueById(appTransaction.getDiscountId());
+            }
+
+            AppTransactionHistoryDto appTransactionHistoryDto = new AppTransactionHistoryDto.Builder()
+                    .withStartStation(startStation)
+                    .withPlannedStation(plannedStation)
+                    .withFinishStation(finishStation)
+                    .withDiscountValue(discountValue)
+                    .withStartTime(appTransaction.getStartTime())
+                    .withPlannedTime(appTransaction.getPlannedTime())
+                    .withFinishTime(appTransaction.getFinishTime())
+                    .withInitialCost(appTransaction.getInitialCost())
+                    .withPenalty(appTransaction.getPenalty())
+                    .build();
+
+            userTransactions.add(appTransactionHistoryDto);
+        }
+        return new ResponseEntity<>(userTransactions, HttpStatus.OK);
     }
 
     @Override

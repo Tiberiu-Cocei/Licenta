@@ -1,9 +1,9 @@
 package com.thesis.webapi.controllers;
 
 import com.thesis.webapi.dtos.AppTransactionCreateDto;
+import com.thesis.webapi.dtos.AppTransactionHistoryDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
-import com.thesis.webapi.entities.AppTransaction;
 import com.thesis.webapi.services.AppTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class AppTransactionController {
     }
 
     @GetMapping(value = "/user/{id}")
-    public ResponseEntity<List<AppTransaction>> getTransactionsByUserId(@PathVariable("id") UUID userId) {
+    public ResponseEntity<List<AppTransactionHistoryDto>> getTransactionsByUserId(@PathVariable("id") UUID userId) {
         return appTransactionService.getAppTransactionsByUserId(userId);
     }
 

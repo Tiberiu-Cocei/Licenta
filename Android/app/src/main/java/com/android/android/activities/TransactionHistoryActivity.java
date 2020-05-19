@@ -9,8 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.android.R;
-import com.android.android.adapters.ReportHistoryListAdapter;
-import com.android.android.entities.Report;
+import com.android.android.adapters.TransactionHistoryListAdapter;
+import com.android.android.entities.Transaction;
 import com.android.android.entities.User;
 import com.android.android.utilities.ActivityStarter;
 import com.android.android.utilities.ApiCaller;
@@ -19,32 +19,32 @@ import com.android.android.utilities.ApiResponse;
 import java.util.List;
 import java.util.UUID;
 
-public class ReportHistoryActivity extends AppCompatActivity {
+public class TransactionHistoryActivity extends AppCompatActivity {
 
     private User user;
 
-    private ListView reportHistoryListView;
+    private ListView transactionListView;
 
     private TextView messageText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_history);
+        setContentView(R.layout.activity_transaction_history);
         user = User.getUser();
-        reportHistoryListView = findViewById(R.id.reportHistoryList);
+        transactionListView = findViewById(R.id.transactionList);
         messageText = findViewById(R.id.messageText);
-        List<Report> reportList = getUserReports();
-        if(reportList != null) {
-            populateReportList(reportList);
+        List<Transaction> transactionList = getUserTransactions();
+        if(transactionList != null) {
+            populateTransactionList(transactionList);
         }
     }
 
-    private List<Report> getUserReports() {
+    private List<Transaction> getUserTransactions() {
         UUID userId = user.getId();
-        List<Report> reportList = null;
+        List<Transaction> transactionList = null;
         ApiCaller apiCaller = new ApiCaller();
-        String url = getResources().getString(R.string.api_secure_prefix) + "/reports/user";
+        String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/user";
         try {
             apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
                     userId.toString());
@@ -52,10 +52,10 @@ public class ReportHistoryActivity extends AppCompatActivity {
             if(apiResponse != null) {
                 if(apiResponse.getCode() == 200) {
                     try {
-                        reportList = Report.createReportListFromJson(apiResponse.getJson());
-                        messageText.setText(getResources().getString(R.string.api_success_to_get_user_reports));
+                        transactionList = Transaction.createTransactionListFromJson(apiResponse.getJson());
+                        messageText.setText(getResources().getString(R.string.api_success_to_get_user_transactions));
                     } catch(Exception e) {
-                        messageText.setText(getResources().getString(R.string.api_failed_to_get_user_reports));
+                        messageText.setText(getResources().getString(R.string.api_failed_to_get_user_transactions));
                     }
                 }
             }
@@ -64,18 +64,18 @@ public class ReportHistoryActivity extends AppCompatActivity {
             e.printStackTrace();
             messageText.setText(getResources().getString(R.string.api_generic_call_failure));
         }
-        return reportList;
+        return transactionList;
     }
 
-    private void populateReportList(List<Report> reportList) {
-        ReportHistoryListAdapter reportHistoryListAdapter = new ReportHistoryListAdapter(
-                this, R.layout.report_history_list_view, reportList);
-        reportHistoryListView.setAdapter(reportHistoryListAdapter);
+    private void populateTransactionList(List<Transaction> transactionList) {
+        TransactionHistoryListAdapter transactionHistoryListAdapter = new TransactionHistoryListAdapter(
+                this, R.layout.transaction_list_view, transactionList);
+        transactionListView.setAdapter(transactionHistoryListAdapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.report_history_menu, menu);
+        getMenuInflater().inflate(R.menu.transaction_history_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -94,8 +94,8 @@ public class ReportHistoryActivity extends AppCompatActivity {
             case R.id.menu_payment:
                 ActivityStarter.openPaymentActivity(this);
                 return true;
-            case R.id.menu_transaction_history:
-                ActivityStarter.openTransactionHistoryActivity(this);
+            case R.id.menu_report_history:
+                ActivityStarter.openReportHistoryActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

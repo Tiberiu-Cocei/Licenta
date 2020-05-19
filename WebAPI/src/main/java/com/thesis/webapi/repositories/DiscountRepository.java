@@ -18,4 +18,7 @@ public interface DiscountRepository extends JpaRepository<Discount, UUID> {
 
     Discount getDiscountById(UUID id);
 
+    @Query(value = "SELECT u.discountValue FROM Discount u WHERE u.id = :discountId")
+    Double getDiscountValueById(@Param("discountId") UUID discountId);
+
 }

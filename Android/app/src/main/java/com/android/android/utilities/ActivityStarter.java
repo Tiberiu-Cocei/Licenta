@@ -7,6 +7,7 @@ import com.android.android.activities.MapActivity;
 import com.android.android.activities.MessageActivity;
 import com.android.android.activities.PaymentActivity;
 import com.android.android.activities.ReportHistoryActivity;
+import com.android.android.activities.TransactionHistoryActivity;
 
 public class ActivityStarter {
 
@@ -31,8 +32,8 @@ public class ActivityStarter {
     }
 
     public static void openTransactionHistoryActivity(Context context) {
-        //Intent intent = new Intent(context, TransactionHistoryActivity.class);
-        //context.startActivity(intent);
+        Intent intent = new Intent(context, TransactionHistoryActivity.class);
+        context.startActivity(intent);
     }
 
     public static void openMapActivity(Context context) {

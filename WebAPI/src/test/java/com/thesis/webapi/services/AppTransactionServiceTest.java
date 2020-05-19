@@ -99,36 +99,6 @@ public class AppTransactionServiceTest {
     }
 
     @Test
-    public void whenGetAppTransactionsByUserIdIsCalled_WithExistingId_ThenReturnCorrectList() {
-        //Arrange
-        Mockito.when(appTransactionRepository.getAppTransactionsByUserId(userId)).thenReturn(appTransactions);
-
-        //Act
-        ResponseEntity<List<AppTransaction>> transactions = appTransactionService.getAppTransactionsByUserId(userId);
-
-        //Assert
-        Assertions.assertThat(transactions).isNotNull();
-        Assertions.assertThat(transactions.getBody().size()).isEqualTo(2);
-        Assertions.assertThat(transactions.getBody().get(0)).isEqualToComparingFieldByFieldRecursively(appTransactions.get(0));
-        Assertions.assertThat(transactions.getBody().get(1)).isEqualToComparingFieldByFieldRecursively(appTransactions.get(1));
-        Assertions.assertThat(transactions.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-    }
-
-    @Test
-    public void whenGetAppTransactionsByUserIdIsCalled_WithNonexistentId_ThenReturnEmptyList() {
-        //Arrange
-        Mockito.when(appTransactionRepository.getAppTransactionsByUserId(userId)).thenReturn(appTransactions);
-
-        //Act
-        ResponseEntity<List<AppTransaction>> transactions = appTransactionService.getAppTransactionsByUserId(UUID.randomUUID());
-
-        //Assert
-        Assertions.assertThat(transactions).isNotNull();
-        Assertions.assertThat(transactions.getBody().size()).isEqualTo(0);
-        Assertions.assertThat(transactions.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-    }
-
-    @Test
     public void whenCreateTransactionIsCalled_WithNonexistentCityId_ThenError() {
         //Arrange
         Mockito.when(appUserRepository.getAppUserById(appUser.getId())).thenReturn(appUser);

@@ -9,6 +9,26 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="transaction_list_view_start_station">Start station</string>
+    <string name="transaction_list_view_planned_station">There is no planned station.</string>
+    <string name="transaction_list_view_finish_station">There is no finish station.</string>
+    <string name="transaction_list_view_start_time">Start time</string>
+    <string name="transaction_list_view_planned_time">Planned time</string>
+    <string name="transaction_list_view_finish_time">There is no finish time.</string>
+    <string name="transaction_list_view_initial_cost">Initial cost</string>
+    <string name="transaction_list_view_discount">There is no discount.</string>
+    <string name="transaction_list_view_penalty">There is no penalty.</string>
+
+    <string name="transaction_start_station">Start station: %1$s</string>
+    <string name="transaction_planned_station">Planned station: %1$s</string>
+    <string name="transaction_finish_station">Finish station: %1$s</string>
+    <string name="transaction_start_time">Start time: %1$s</string>
+    <string name="transaction_planned_time">Planned time: %1$s</string>
+    <string name="transaction_finish_time">Finish time: %1$s</string>
+    <string name="transaction_initial_cost">Initial cost: %1$s</string>
+    <string name="transaction_discount">Discount value: %1$s</string>
+    <string name="transaction_penalty">Penalty value: %1$s</string>
+
     <string name="payment_card_number">Card number</string>
     <string name="payment_expiry_date">Expiry date</string>
     <string name="payment_first_name">First name</string>
@@ -33,6 +53,8 @@
     <string name="api_success_to_get_user_messages">Successfully loaded user messages.</string>
     <string name="api_failed_to_get_user_reports">Failed to get user reports.</string>
     <string name="api_success_to_get_user_reports">Successfully loaded user reports.</string>
+    <string name="api_failed_to_get_user_transactions">Failed to get user transactions.</string>
+    <string name="api_success_to_get_user_transactions">Successfully loaded user transactions.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
     <string name="api_unsecure_prefix">http://10.0.2.2:8085/api/unsecure</string>
     <string name="api_generic_call_failure">Unexpected error while calling API.</string>
@@ -81,4 +103,5 @@
     <string name="password_empty_warning">Password field cannot be empty.</string>
     <string name="passwords_do_not_match">Passwords do not match.</string>
     <string name="password_length_warning">Password field must be between 8 and 50 characters.</string>
+    <string name="title_activity_transaction_history">TransactionHistoryActivity</string>
 </resources>
