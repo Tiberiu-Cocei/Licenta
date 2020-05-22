@@ -9,6 +9,18 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="bicycle_lv_status">Bicycle status</string>
+    <string name="bicycle_lv_arrival_time">Arrival time: N/A</string>
+    <string name="bicycle_lv_model">Bicycle model</string>
+    <string name="bicycle_lv_lock_number">Lock number: N/A</string>
+    <string name="bicycle_lv_select">Select</string>
+    <string name="bicycle_lv_reports">Reports</string>
+
+    <string name="bicycle_status">Status: %1$s</string>
+    <string name="bicycle_model">Model: %1$s</string>
+    <string name="bicycle_arrival_time">Arrival time: %1$s</string>
+    <string name="bicycle_lock_number">Lock number: %1$s</string>
+
     <string name="account_new_email">New email</string>
     <string name="account_old_password">Current password</string>
     <string name="account_new_password">New password</string>
@@ -77,6 +89,8 @@
     <string name="api_success_to_get_user_reports">Successfully loaded user reports.</string>
     <string name="api_failed_to_get_user_transactions">Failed to get user transactions.</string>
     <string name="api_success_to_get_user_transactions">Successfully loaded user transactions.</string>
+    <string name="api_failed_to_get_station_bicycles">Failed to get station bicycles.</string>
+    <string name="api_success_to_get_station_bicycles">Successfully loaded station bicycles.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
     <string name="api_unsecure_prefix">http://10.0.2.2:8085/api/unsecure</string>
     <string name="api_generic_call_failure">Unexpected error while calling API.</string>

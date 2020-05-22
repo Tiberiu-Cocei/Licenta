@@ -1,6 +1,7 @@
 package com.android.android.entities;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AppDetails {
 
@@ -9,6 +10,8 @@ public class AppDetails {
     private City city;
 
     private List<Station> stationList;
+
+    private UUID stationId;
 
     public static AppDetails getAppDetails() {
         if(appDetails == null) {
@@ -31,5 +34,13 @@ public class AppDetails {
 
     public void setStationList(List<Station> stationList) {
         this.stationList = stationList;
+    }
+
+    public UUID getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(UUID stationId) {
+        this.stationId = stationId;
     }
 }

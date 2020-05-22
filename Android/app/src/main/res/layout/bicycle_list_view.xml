@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="35"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/bicycle_model"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:text="@string/bicycle_lv_model" />
+
+        <TextView
+            android:id="@+id/bicycle_status"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:text="@string/bicycle_lv_status" />
+
+        <TextView
+            android:id="@+id/bicycle_arrival_time"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:text="@string/bicycle_lv_arrival_time" />
+
+        <TextView
+            android:id="@+id/bicycle_lock_number"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:text="@string/bicycle_lv_lock_number" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="65"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bicycleSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/bicycle_lv_select"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.631" />
+
+        <Button
+            android:id="@+id/bicycleReports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/bicycle_lv_reports"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.631" />
+
+    </LinearLayout>
+
+</LinearLayout>

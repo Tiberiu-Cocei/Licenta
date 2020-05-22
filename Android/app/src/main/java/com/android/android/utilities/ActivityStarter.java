@@ -8,6 +8,7 @@ import com.android.android.activities.MapActivity;
 import com.android.android.activities.MessageActivity;
 import com.android.android.activities.PaymentActivity;
 import com.android.android.activities.ReportHistoryActivity;
+import com.android.android.activities.StationActivity;
 import com.android.android.activities.TransactionHistoryActivity;
 
 public class ActivityStarter {
@@ -39,6 +40,11 @@ public class ActivityStarter {
 
     public static void openMapActivity(Context context) {
         Intent intent = new Intent(context, MapActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void openStationActivity(Context context) {
+        Intent intent = new Intent(context, StationActivity.class);
         context.startActivity(intent);
     }
 

@@ -129,7 +129,8 @@ public class MapActivity extends AppCompatActivity
         UUID stationId = (UUID) marker.getTag();
         if(stationId != null) {
             Log.d("MARKER", "UUID of clicked station is " + stationId.toString());
-            //TODO: lansat station activity
+            AppDetails.getAppDetails().setStationId(stationId);
+            ActivityStarter.openStationActivity(this);
         }
         return false;
     }
