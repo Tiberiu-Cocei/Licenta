@@ -24,9 +24,14 @@ public class AppTransactionController {
         this.appTransactionService = appTransactionService;
     }
 
-    @GetMapping(value = "/user/{id}")
+    @GetMapping(value = "/get-all-transactions/{id}")
     public ResponseEntity<List<AppTransactionHistoryDto>> getTransactionsByUserId(@PathVariable("id") UUID userId) {
         return appTransactionService.getAppTransactionsByUserId(userId);
+    }
+
+    @GetMapping(value = "/get-active-transaction/{id}")
+    public ResponseEntity<List<AppTransactionHistoryDto>> getActiveTransactionByUserId(@PathVariable("id") UUID userId) {
+        return appTransactionService.getActiveAppTransactionByUserId(userId);
     }
 
     @PostMapping(value = "/create")

@@ -54,6 +54,18 @@ public class AppTransactionServiceImpl implements AppTransactionService {
     @Override
     public ResponseEntity<List<AppTransactionHistoryDto>> getAppTransactionsByUserId(UUID userId) {
         List<AppTransaction> appTransactionList = appTransactionRepository.getAppTransactionsByUserId(userId);
+        List<AppTransactionHistoryDto> userTransactions = convertAppTransactionsToHistoryDtos(appTransactionList);
+        return new ResponseEntity<>(userTransactions, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<AppTransactionHistoryDto>> getActiveAppTransactionByUserId(UUID userId) {
+        List<AppTransaction> appTransactionList = appTransactionRepository.getUnfinishedTransactionsByUser(userId);
+        List<AppTransactionHistoryDto> userTransactions = convertAppTransactionsToHistoryDtos(appTransactionList);
+        return new ResponseEntity<>(userTransactions, HttpStatus.OK);
+    }
+
+    private List<AppTransactionHistoryDto> convertAppTransactionsToHistoryDtos(List<AppTransaction> appTransactionList) {
         List<AppTransactionHistoryDto> userTransactions = new ArrayList<>();
         for(AppTransaction appTransaction : appTransactionList) {
             String startStation = stationRepository.getStationNameById(appTransaction.getStartStationId());
@@ -84,7 +96,7 @@ public class AppTransactionServiceImpl implements AppTransactionService {
 
             userTransactions.add(appTransactionHistoryDto);
         }
-        return new ResponseEntity<>(userTransactions, HttpStatus.OK);
+        return userTransactions;
     }
 
     @Override

@@ -13,6 +13,8 @@ public interface AppTransactionService {
 
     ResponseEntity<List<AppTransactionHistoryDto>> getAppTransactionsByUserId(UUID userId);
 
+    ResponseEntity<List<AppTransactionHistoryDto>> getActiveAppTransactionByUserId(UUID userId);
+
     ResponseEntity<String> createTransaction(AppTransactionCreateDto appTransactionCreateDto);
 
     ResponseEntity<String> finalizeTransaction(AppTransactionUpdateDto appTransactionUpdateDto);

@@ -9,6 +9,28 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="account_new_email">New email</string>
+    <string name="account_old_password">Current password</string>
+    <string name="account_new_password">New password</string>
+    <string name="account_change_password_button">Change password</string>
+    <string name="account_change_email_button">Change email</string>
+    <string name="account_placeholder_text">N/A</string>
+    <string name="account_start_station">Start station :</string>
+    <string name="account_planned_station">Planned station :</string>
+    <string name="account_start_time">Start time :</string>
+    <string name="account_planned_time">Planned time :</string>
+    <string name="account_warnings">Number of warnings :</string>
+    <string name="account_too_many_active_transactions">You have more than one active transaction. Please contact an administrator.</string>
+    <string name="account_no_active_transaction_found">You do not have an active transaction.</string>
+    <string name="account_failed_to_get_active_transaction">You do not have an active transaction.</string>
+    <string name="account_invalid_new_email">The email is not valid.</string>
+    <string name="account_successfully_change_email">Your email has been successfully changed.</string>
+    <string name="account_failure_change_email">Wrong current password.</string>
+    <string name="account_empty_current_password">Current password field cannot be empty.</string>
+    <string name="account_empty_new_password">New password field cannot be empty.</string>
+    <string name="account_successfully_change_password">Your password has been successfully changed.</string>
+    <string name="account_failure_change_password">Wrong current password.</string>
+
     <string name="transaction_list_view_start_station">Start station</string>
     <string name="transaction_list_view_planned_station">There is no planned station.</string>
     <string name="transaction_list_view_finish_station">There is no finish station.</string>

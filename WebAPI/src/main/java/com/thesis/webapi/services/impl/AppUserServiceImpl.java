@@ -113,7 +113,9 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public ResponseEntity<AppUserLoggedInDto> modifyAppUser(AppUserUpdateDto appUserUpdateDto, PasswordHashing passwordHashing) {
         appUserUpdateDto.setUsername(appUserUpdateDto.getUsername().toLowerCase());
-        appUserUpdateDto.setEmail(appUserUpdateDto.getEmail().toLowerCase());
+        if(appUserUpdateDto.getEmail() != null) {
+            appUserUpdateDto.setEmail(appUserUpdateDto.getEmail().toLowerCase());
+        }
         try {
             String salt = appUserRepository.getSalt(appUserUpdateDto.getUsername());
             AppUser appUser = null;
