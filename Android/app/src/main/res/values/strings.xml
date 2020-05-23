@@ -62,6 +62,7 @@
     <string name="transaction_initial_cost">Initial cost: %1$s</string>
     <string name="transaction_discount">Discount value: %1$s</string>
     <string name="transaction_penalty">Penalty value: %1$s</string>
+    <string name="transaction_finish_button">Finalize transaction</string>
 
     <string name="payment_card_number">Card number</string>
     <string name="payment_expiry_date">Expiry date</string>

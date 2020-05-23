@@ -34,9 +34,9 @@ public class MapActivity extends AppCompatActivity
 
     private AppDetails appDetails;
 
-    public static Double longitude = null;
+    private static Double longitude = null;
 
-    public static Double latitude = null;
+    private static Double latitude = null;
 
     private LocationListener locationListener;
 
@@ -189,4 +189,11 @@ public class MapActivity extends AppCompatActivity
         }
     }
 
+    public static Double getLongitude() {
+        return longitude;
+    }
+
+    public static Double getLatitude() {
+        return latitude;
+    }
 }

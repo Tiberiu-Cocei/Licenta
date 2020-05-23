@@ -13,6 +13,8 @@ public class AppDetails {
 
     private UUID stationId;
 
+    private UUID bicycleId;
+
     public static AppDetails getAppDetails() {
         if(appDetails == null) {
             appDetails = new AppDetails();
@@ -42,5 +44,13 @@ public class AppDetails {
 
     public void setStationId(UUID stationId) {
         this.stationId = stationId;
+    }
+
+    public UUID getBicycleId() {
+        return bicycleId;
+    }
+
+    public void setBicycleId(UUID bicycleId) {
+        this.bicycleId = bicycleId;
     }
 }
