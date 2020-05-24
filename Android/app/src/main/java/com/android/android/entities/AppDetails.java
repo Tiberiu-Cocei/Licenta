@@ -13,6 +13,8 @@ public class AppDetails {
 
     private UUID stationId;
 
+    private String stationCoordinates;
+
     private UUID bicycleId;
 
     public static AppDetails getAppDetails() {
@@ -52,5 +54,13 @@ public class AppDetails {
 
     public void setBicycleId(UUID bicycleId) {
         this.bicycleId = bicycleId;
+    }
+
+    public String getStationCoordinates() {
+        return stationCoordinates;
+    }
+
+    public void setStationCoordinates(String stationCoordinates) {
+        this.stationCoordinates = stationCoordinates;
     }
 }

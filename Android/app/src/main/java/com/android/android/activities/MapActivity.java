@@ -130,6 +130,12 @@ public class MapActivity extends AppCompatActivity
         if(stationId != null) {
             Log.d("MARKER", "UUID of clicked station is " + stationId.toString());
             AppDetails.getAppDetails().setStationId(stationId);
+            for(Station station : AppDetails.getAppDetails().getStationList()) {
+                if(stationId == station.getId()) {
+                    AppDetails.getAppDetails().setStationCoordinates(station.getCoordinates());
+                    break;
+                }
+            }
             ActivityStarter.openStationActivity(this);
         }
         return false;

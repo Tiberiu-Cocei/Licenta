@@ -13,11 +13,8 @@ import androidx.annotation.NonNull;
 import com.android.android.R;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Bicycle;
-import com.android.android.entities.Station;
-import com.android.android.entities.Transaction;
-import com.android.android.entities.User;
+import com.android.android.utilities.ActivityStarter;
 import com.android.android.utilities.ApiCaller;
-import com.android.android.utilities.ApiResponse;
 import com.android.android.utilities.DistanceCalculator;
 
 import java.text.DateFormat;
@@ -39,7 +36,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
         super(context, resource, bicycleList);
         this.context = context;
         this.resource = resource;
-        this.transactionCount = getUnfinishedTransactionDetails().size();
+        this.transactionCount = ApiCaller.getUnfinishedTransactionDetails(context).size();
     }
 
     @Override
@@ -83,57 +80,30 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
             public void onClick(View v) {
                 UUID bicycleId = getItem(position).getId();
                 AppDetails.getAppDetails().setBicycleId(bicycleId);
-                //TODO : intent pentru ReportActivity
+                ActivityStarter.openReportActivity(context);
             }
         });
 
-        if(transactionCount == 0) {
-            String stationCoordinates = null;
-            for(Station station : AppDetails.getAppDetails().getStationList()) {
-                if(station.getId() == AppDetails.getAppDetails().getStationId()) {
-                    stationCoordinates = station.getCoordinates();
-                    break;
-                }
-            }
-            Double distanceDifference = DistanceCalculator.calculateDistance(stationCoordinates);
-            //TODO : in functie de distanta, se face grey-out la butonul de jos sau nu, de pus in if-ul asta?
-        }
-
-        Button selectButton = convertView.findViewById(R.id.bicycleSelect);
-        selectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UUID bicycleId = getItem(position).getId();
-                AppDetails.getAppDetails().setBicycleId(bicycleId);
-                //TODO: intent pentru Transaction Start Activity
-            }
-        });
-    }
-
-    private List<Transaction> getUnfinishedTransactionDetails() {
-        UUID userId = User.getUser().getId();
-        List<Transaction> transactionList = null;
-        ApiCaller apiCaller = new ApiCaller();
-        String url = context.getResources().getString(
-                R.string.api_secure_prefix) + "/transactions/get-active-transaction";
-        try {
-            apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
-                    userId.toString());
-            ApiResponse apiResponse = apiCaller.get();
-            if(apiResponse != null) {
-                if(apiResponse.getCode() == 200) {
-                    try {
-                        transactionList = Transaction.createTransactionListFromJson(apiResponse.getJson());
-                    } catch(Exception e) {
-                        e.printStackTrace();
+        final Button selectButton = convertView.findViewById(R.id.bicycleSelect);
+        if (transactionCount == 0) {
+            String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
+            boolean showSelectButton = DistanceCalculator.isCloseToStation(stationCoordinates);
+            if (showSelectButton) {
+                selectButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UUID bicycleId = getItem(position).getId();
+                        AppDetails.getAppDetails().setBicycleId(bicycleId);
+                        ActivityStarter.openCreateTransactionActivity(context);
                     }
-                }
+                });
+            } else {
+                selectButton.setAlpha(.5f);
+                selectButton.setClickable(false);
             }
+        } else {
+            selectButton.setAlpha(.5f);
+            selectButton.setClickable(false);
         }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return transactionList;
     }
-
 }

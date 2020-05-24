@@ -15,4 +15,6 @@ public interface ReportService {
 
     ResponseEntity<String> saveReport(ReportCreateDto reportCreateDto);
 
+    ResponseEntity<List<Report>> getReportsByBicycleId(UUID bicycleId);
+
 }

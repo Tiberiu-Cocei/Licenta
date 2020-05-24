@@ -1,6 +1,11 @@
 package com.android.android.utilities;
 
+import android.content.Context;
 import android.os.AsyncTask;
+
+import com.android.android.R;
+import com.android.android.entities.Transaction;
+import com.android.android.entities.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,6 +15,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
 
@@ -121,6 +127,32 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
             responseJson.append(responseLine.trim());
         }
         return new ApiResponse(responseJson.toString(), responseCode, responseMessage);
+    }
+
+    public static List<Transaction> getUnfinishedTransactionDetails(Context context) {
+        UUID userId = User.getUser().getId();
+        List<Transaction> transactionList = null;
+        ApiCaller apiCaller = new ApiCaller();
+        String url = context.getResources().getString(
+                R.string.api_secure_prefix) + "/transactions/get-active-transaction";
+        try {
+            apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
+                    userId.toString());
+            ApiResponse apiResponse = apiCaller.get();
+            if(apiResponse != null) {
+                if(apiResponse.getCode() == 200) {
+                    try {
+                        transactionList = Transaction.createTransactionListFromJson(apiResponse.getJson());
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return transactionList;
     }
 
 }

@@ -44,7 +44,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         UUID userId = user.getId();
         List<Transaction> transactionList = null;
         ApiCaller apiCaller = new ApiCaller();
-        String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/user";
+        String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/get-all-transactions";
         try {
             apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
                     userId.toString());

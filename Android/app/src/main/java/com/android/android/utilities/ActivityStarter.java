@@ -7,6 +7,7 @@ import com.android.android.activities.AccountActivity;
 import com.android.android.activities.MapActivity;
 import com.android.android.activities.MessageActivity;
 import com.android.android.activities.PaymentActivity;
+import com.android.android.activities.ReportActivity;
 import com.android.android.activities.ReportHistoryActivity;
 import com.android.android.activities.StationActivity;
 import com.android.android.activities.TransactionHistoryActivity;
@@ -46,6 +47,21 @@ public class ActivityStarter {
     public static void openStationActivity(Context context) {
         Intent intent = new Intent(context, StationActivity.class);
         context.startActivity(intent);
+    }
+
+    public static void openReportActivity(Context context) {
+        Intent intent = new Intent(context, ReportActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void openCreateTransactionActivity(Context context) {
+        //Intent intent = new Intent(context, CreateTransactionActivity.class);
+        //context.startActivity(intent);
+    }
+
+    public static void openFinishTransactionActivity(Context context) {
+        //Intent intent = new Intent(context, FinishTransactionActivity.class);
+        //context.startActivity(intent);
     }
 
 }

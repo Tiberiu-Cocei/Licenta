@@ -42,4 +42,8 @@ public class ReportServiceImpl implements ReportService {
         return new ResponseEntity<>("Successfully created report.", HttpStatus.CREATED);
     }
 
+    @Override
+    public ResponseEntity<List<Report>> getReportsByBicycleId(UUID bicycleId) {
+        return new ResponseEntity<>(reportRepository.getBicycleReports(bicycleId), HttpStatus.OK);
+    }
 }

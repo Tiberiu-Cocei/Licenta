@@ -37,4 +37,9 @@ public class ReportController {
         return reportService.saveReport(reportCreateDto);
     }
 
+    @GetMapping(value = "/bicycle/{id}")
+    public ResponseEntity<List<Report>> getReportsByBicycleId(@PathVariable("id") UUID bicycleId) {
+        return reportService.getReportsByBicycleId(bicycleId);
+    }
+
 }

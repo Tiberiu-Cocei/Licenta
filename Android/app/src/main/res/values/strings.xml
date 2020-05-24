@@ -9,6 +9,15 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="report_description">Report description</string>
+    <string name="report_severity">Severity (1 to 10)</string>
+    <string name="report_submit">Submit report</string>
+    <string name="report_wrong_description_size">Report description must be between 10 and 500 characters.</string>
+    <string name="report_wrong_severity">Report severity must be between 1 and 10.</string>
+    <string name="report_empty_severity">Report severity cannot be empty.</string>
+
+    <string name="far_from_station">You are too far away from the station.</string>
+
     <string name="bicycle_lv_status">Bicycle status</string>
     <string name="bicycle_lv_arrival_time">Arrival time: N/A</string>
     <string name="bicycle_lv_model">Bicycle model</string>
@@ -90,6 +99,8 @@
     <string name="api_success_to_get_user_reports">Successfully loaded user reports.</string>
     <string name="api_failed_to_get_user_transactions">Failed to get user transactions.</string>
     <string name="api_success_to_get_user_transactions">Successfully loaded user transactions.</string>
+    <string name="api_failed_to_get_bicycle_reports">Failed to get bicycle reports.</string>
+    <string name="api_success_to_get_bicycle_reports">Successfully loaded bicycle reports.</string>
     <string name="api_failed_to_get_station_bicycles">Failed to get station bicycles.</string>
     <string name="api_success_to_get_station_bicycles">Successfully loaded station bicycles.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>
