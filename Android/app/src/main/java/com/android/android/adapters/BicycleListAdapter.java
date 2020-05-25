@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.android.android.R;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Bicycle;
+import com.android.android.entities.Transaction;
 import com.android.android.utilities.ActivityStarter;
 import com.android.android.utilities.ApiCaller;
 import com.android.android.utilities.DistanceCalculator;
@@ -30,13 +31,13 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
 
     private int resource;
 
-    private int transactionCount;
+    private List<Transaction> transactionList;
 
     public BicycleListAdapter(Context context, int resource, List<Bicycle> bicycleList) {
         super(context, resource, bicycleList);
         this.context = context;
         this.resource = resource;
-        this.transactionCount = ApiCaller.getUnfinishedTransactionDetails(context).size();
+        this.transactionList = ApiCaller.getUnfinishedTransactionDetails(context);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
         });
 
         final Button selectButton = convertView.findViewById(R.id.bicycleSelect);
-        if (transactionCount == 0) {
+        if (transactionList.size() == 0) {
             String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
             boolean showSelectButton = DistanceCalculator.isCloseToStation(stationCoordinates);
             if (showSelectButton) {
@@ -94,6 +95,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
                     public void onClick(View v) {
                         UUID bicycleId = getItem(position).getId();
                         AppDetails.getAppDetails().setBicycleId(bicycleId);
+                        AppDetails.getAppDetails().setTransaction(transactionList.get(0));
                         ActivityStarter.openCreateTransactionActivity(context);
                     }
                 });

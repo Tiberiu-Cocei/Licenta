@@ -15,7 +15,11 @@ public class AppDetails {
 
     private String stationCoordinates;
 
+    private String stationName;
+
     private UUID bicycleId;
+
+    private Transaction transaction;
 
     public static AppDetails getAppDetails() {
         if(appDetails == null) {
@@ -62,5 +66,21 @@ public class AppDetails {
 
     public void setStationCoordinates(String stationCoordinates) {
         this.stationCoordinates = stationCoordinates;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
 }

@@ -133,6 +133,7 @@ public class MapActivity extends AppCompatActivity
             for(Station station : AppDetails.getAppDetails().getStationList()) {
                 if(stationId == station.getId()) {
                     AppDetails.getAppDetails().setStationCoordinates(station.getCoordinates());
+                    AppDetails.getAppDetails().setStationName(station.getName());
                     break;
                 }
             }

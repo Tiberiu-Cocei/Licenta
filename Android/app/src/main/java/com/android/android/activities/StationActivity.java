@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -104,5 +106,37 @@ public class StationActivity extends AppCompatActivity {
         BicycleListAdapter bicycleListAdapter = new BicycleListAdapter(
                 this, R.layout.bicycle_list_view, bicycleList);
         bicycleListView.setAdapter(bicycleListAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.station_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_map:
+                ActivityStarter.openMapActivity(this);
+                return true;
+            case R.id.menu_account:
+                ActivityStarter.openAccountActivity(this);
+                return true;
+            case R.id.menu_message:
+                ActivityStarter.openMessageActivity(this);
+                return true;
+            case R.id.menu_payment:
+                ActivityStarter.openPaymentActivity(this);
+                return true;
+            case R.id.menu_report_history:
+                ActivityStarter.openReportHistoryActivity(this);
+                return true;
+            case R.id.menu_transaction_history:
+                ActivityStarter.openTransactionHistoryActivity(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
