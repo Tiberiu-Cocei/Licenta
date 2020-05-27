@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.TransactionFinishActivity"></activity>
+        <activity android:name=".activities.TransactionCreateActivity"></activity>
+        <activity android:name=".activities.TransactionFinishActivity" />
         <activity android:name=".activities.ReportActivity" />
         <activity android:name=".activities.StationActivity" />
         <activity android:name=".activities.AccountActivity" />

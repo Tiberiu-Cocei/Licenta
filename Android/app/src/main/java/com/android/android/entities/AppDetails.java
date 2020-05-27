@@ -11,11 +11,17 @@ public class AppDetails {
 
     private List<Station> stationList;
 
-    private UUID stationId;
+    private UUID startStationId;
+
+    private UUID plannedStationId;
 
     private String stationCoordinates;
 
-    private String stationName;
+    private String startStationName;
+
+    private String plannedStationName;
+
+    private boolean choosingPlannedStation;
 
     private UUID bicycleId;
 
@@ -44,12 +50,12 @@ public class AppDetails {
         this.stationList = stationList;
     }
 
-    public UUID getStationId() {
-        return stationId;
+    public UUID getStartStationId() {
+        return startStationId;
     }
 
-    public void setStationId(UUID stationId) {
-        this.stationId = stationId;
+    public void setStartStationId(UUID startStationId) {
+        this.startStationId = startStationId;
     }
 
     public UUID getBicycleId() {
@@ -76,11 +82,35 @@ public class AppDetails {
         this.transaction = transaction;
     }
 
-    public String getStationName() {
-        return stationName;
+    public String getStartStationName() {
+        return startStationName;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setStartStationName(String startStationName) {
+        this.startStationName = startStationName;
+    }
+
+    public String getPlannedStationName() {
+        return plannedStationName;
+    }
+
+    public void setPlannedStationName(String plannedStationName) {
+        this.plannedStationName = plannedStationName;
+    }
+
+    public boolean isChoosingPlannedStation() {
+        return choosingPlannedStation;
+    }
+
+    public void setChoosingPlannedStation(boolean choosingPlannedStation) {
+        this.choosingPlannedStation = choosingPlannedStation;
+    }
+
+    public UUID getPlannedStationId() {
+        return plannedStationId;
+    }
+
+    public void setPlannedStationId(UUID plannedStationId) {
+        this.plannedStationId = plannedStationId;
     }
 }

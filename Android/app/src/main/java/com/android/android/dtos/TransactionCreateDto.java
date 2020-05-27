@@ -32,7 +32,7 @@ public class TransactionCreateDto {
         this.paymentMethodId = user.getPaymentMethodId();
         this.userId = user.getId();
         this.bicycleId = appDetails.getBicycleId();
-        this.startStationId = appDetails.getStationId();
+        this.startStationId = appDetails.getStartStationId();
         this.plannedStationId = plannedStationId;
         this.discountId = discountId;
         this.plannedTime = plannedTime;

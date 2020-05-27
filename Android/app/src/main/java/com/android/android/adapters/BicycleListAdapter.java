@@ -86,7 +86,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
         });
 
         final Button selectButton = convertView.findViewById(R.id.bicycleSelect);
-        if (transactionList.size() == 0) {
+        if (transactionList.size() == 0 && getItem(position).getStatus().equals("Station")) {
             String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
             boolean showSelectButton = DistanceCalculator.isCloseToStation(stationCoordinates);
             if (showSelectButton) {
@@ -95,8 +95,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
                     public void onClick(View v) {
                         UUID bicycleId = getItem(position).getId();
                         AppDetails.getAppDetails().setBicycleId(bicycleId);
-                        AppDetails.getAppDetails().setTransaction(transactionList.get(0));
-                        ActivityStarter.openCreateTransactionActivity(context);
+                        ActivityStarter.openTransactionCreateActivity(context);
                     }
                 });
             } else {

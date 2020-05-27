@@ -15,6 +15,7 @@ import com.android.android.R;
 import com.android.android.adapters.BicycleListAdapter;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Bicycle;
+import com.android.android.entities.Transaction;
 import com.android.android.entities.User;
 import com.android.android.utilities.ActivityStarter;
 import com.android.android.utilities.ApiCaller;
@@ -47,7 +48,8 @@ public class StationActivity extends AppCompatActivity {
 
     private void createButtonListener() {
         final Button finishTransactionButton = findViewById(R.id.transactionFinishButton);
-        int transactionCount = ApiCaller.getUnfinishedTransactionDetails(this).size();
+        final List<Transaction> transactionList = ApiCaller.getUnfinishedTransactionDetails(this);
+        int transactionCount = transactionList.size();
         if(transactionCount == 1) {
             String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
             boolean isCloseToStation = DistanceCalculator.isCloseToStation(stationCoordinates);
@@ -55,7 +57,8 @@ public class StationActivity extends AppCompatActivity {
                 finishTransactionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ActivityStarter.openFinishTransactionActivity(context);
+                        AppDetails.getAppDetails().setTransaction(transactionList.get(0));
+                        ActivityStarter.openTransactionFinishActivity(context);
                     }
                 });
             }
@@ -83,7 +86,7 @@ public class StationActivity extends AppCompatActivity {
         String url = getResources().getString(R.string.api_secure_prefix) + "/bicycles/station";
         try {
             apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
-                    AppDetails.getAppDetails().getStationId().toString());
+                    AppDetails.getAppDetails().getStartStationId().toString());
             ApiResponse apiResponse = apiCaller.get();
             if (apiResponse != null) {
                 if (apiResponse.getCode() == 200) {
@@ -138,5 +141,11 @@ public class StationActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AppDetails.getAppDetails().setChoosingPlannedStation(false);
     }
 }

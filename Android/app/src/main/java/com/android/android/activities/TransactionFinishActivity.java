@@ -56,7 +56,7 @@ public class TransactionFinishActivity extends AppCompatActivity {
         AppDetails appDetails = AppDetails.getAppDetails();
         boolean closeToStation = DistanceCalculator.isCloseToStation(appDetails.getStationCoordinates());
         if(closeToStation) {
-            TransactionFinishDto transactionFinishDto = new TransactionFinishDto(appDetails.getStationId());
+            TransactionFinishDto transactionFinishDto = new TransactionFinishDto(appDetails.getStartStationId());
             ApiCaller apiCaller = new ApiCaller();
             String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/finalize";
             String jsonString = JsonConverter.objectToJson(transactionFinishDto);
@@ -99,7 +99,7 @@ public class TransactionFinishActivity extends AppCompatActivity {
         if(transaction.getPlannedStation() != null) {
             plannedStation.setText(getResources().getString(R.string.transaction_planned_station, transaction.getPlannedStation()));
         }
-        finishStation.setText(getResources().getString(R.string.transaction_finish_station, appDetails.getStationName()));
+        finishStation.setText(getResources().getString(R.string.transaction_finish_station, appDetails.getStartStationName()));
         startTime.setText(getResources().getString(R.string.transaction_start_time, dateFormat.format(transaction.getStartTime())));
         plannedTime.setText(getResources().getString(R.string.transaction_planned_time, dateFormat.format(transaction.getPlannedTime())));
         currentTime.setText(getResources().getString(R.string.transaction_finish_time, dateFormat.format(new Date())));

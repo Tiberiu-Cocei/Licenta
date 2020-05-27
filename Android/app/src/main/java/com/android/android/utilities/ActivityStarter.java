@@ -10,6 +10,8 @@ import com.android.android.activities.PaymentActivity;
 import com.android.android.activities.ReportActivity;
 import com.android.android.activities.ReportHistoryActivity;
 import com.android.android.activities.StationActivity;
+import com.android.android.activities.TransactionCreateActivity;
+import com.android.android.activities.TransactionFinishActivity;
 import com.android.android.activities.TransactionHistoryActivity;
 
 public class ActivityStarter {
@@ -54,14 +56,14 @@ public class ActivityStarter {
         context.startActivity(intent);
     }
 
-    public static void openCreateTransactionActivity(Context context) {
-        //Intent intent = new Intent(context, CreateTransactionActivity.class);
-        //context.startActivity(intent);
+    public static void openTransactionCreateActivity(Context context) {
+        Intent intent = new Intent(context, TransactionCreateActivity.class);
+        context.startActivity(intent);
     }
 
-    public static void openFinishTransactionActivity(Context context) {
-        //Intent intent = new Intent(context, FinishTransactionActivity.class);
-        //context.startActivity(intent);
+    public static void openTransactionFinishActivity(Context context) {
+        Intent intent = new Intent(context, TransactionFinishActivity.class);
+        context.startActivity(intent);
     }
 
 }

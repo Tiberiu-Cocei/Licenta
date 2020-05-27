@@ -129,15 +129,26 @@ public class MapActivity extends AppCompatActivity
         UUID stationId = (UUID) marker.getTag();
         if(stationId != null) {
             Log.d("MARKER", "UUID of clicked station is " + stationId.toString());
-            AppDetails.getAppDetails().setStationId(stationId);
-            for(Station station : AppDetails.getAppDetails().getStationList()) {
-                if(stationId == station.getId()) {
-                    AppDetails.getAppDetails().setStationCoordinates(station.getCoordinates());
-                    AppDetails.getAppDetails().setStationName(station.getName());
+            for (Station station : appDetails.getStationList()) {
+                if (stationId == station.getId()) {
+                    if(!appDetails.isChoosingPlannedStation()) {
+                        appDetails.setStationCoordinates(station.getCoordinates());
+                        appDetails.setStartStationName(station.getName());
+                    }
+                    else {
+                        appDetails.setPlannedStationName(station.getName());
+                    }
                     break;
                 }
             }
-            ActivityStarter.openStationActivity(this);
+            if(!appDetails.isChoosingPlannedStation()) {
+                appDetails.setStartStationId(stationId);
+                ActivityStarter.openStationActivity(this);
+            }
+            else {
+                appDetails.setPlannedStationId(stationId);
+                ActivityStarter.openTransactionCreateActivity(this);
+            }
         }
         return false;
     }
@@ -169,7 +180,9 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        if(!appDetails.isChoosingPlannedStation()) {
+            getMenuInflater().inflate(R.menu.main_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

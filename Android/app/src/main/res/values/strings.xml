@@ -73,6 +73,15 @@
     <string name="transaction_penalty">Penalty value: %1$s</string>
     <string name="transaction_finish_button">Finalize transaction</string>
 
+    <string name="transaction_create_planned_station">Planned station:</string>
+    <string name="transaction_create_discount_value">Discount percentage:</string>
+    <string name="transaction_create_planned_time">Planned arrival time</string>
+    <string name="transaction_create_card_pin">Card PIN</string>
+    <string name="transaction_create_choose_discount">Select</string>
+    <string name="transaction_create_choose_planned_station">Select</string>
+    <string name="transaction_create_transaction">Create transaction</string>
+    <string name="transaction_create_preview">Preview price</string>
+
     <string name="payment_card_number">Card number</string>
     <string name="payment_expiry_date">Expiry date</string>
     <string name="payment_first_name">First name</string>
