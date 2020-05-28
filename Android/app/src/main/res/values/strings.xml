@@ -9,6 +9,24 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="transaction_obtained_preview_price">Cost of transaction: %1$s</string>
+    <string name="transaction_failed_preview_price">Failed to preview transactions price.</string>
+
+    <string name="transaction_create_invalid_arrival_time">Arrival time cannot be empty or in the past.</string>
+    <string name="transaction_create_invalid_pin">Invalid PIN number.</string>
+    <string name="transaction_create_invalid_arrival_station">No arrival station selected.</string>
+    <string name="transaction_create_invalid_payment_method">No payment method found. Please create one in "Account" menu.</string>
+
+    <string name="discount_lv_station_name">To station</string>
+    <string name="discount_lv_value">Value percentage</string>
+    <string name="discount_lv_number_left">Number left</string>
+    <string name="discount_lv_end_date">End date</string>
+
+    <string name="discount_lv_station_name_text">To: %1$s</string>
+    <string name="discount_lv_value_text">% Value: %1$s</string>
+    <string name="discount_lv_number_left_text">Nr. left: %1$s</string>
+    <string name="discount_lv_end_date_text">Expires: %1$s</string>
+
     <string name="report_description">Report description</string>
     <string name="report_severity">Severity (1 to 10)</string>
     <string name="report_submit">Submit report</string>
@@ -110,6 +128,8 @@
     <string name="api_success_to_get_user_transactions">Successfully loaded user transactions.</string>
     <string name="api_failed_to_get_bicycle_reports">Failed to get bicycle reports.</string>
     <string name="api_success_to_get_bicycle_reports">Successfully loaded bicycle reports.</string>
+    <string name="api_failed_to_get_discounts">Failed to get discounts.</string>
+    <string name="api_success_to_get_discounts">Successfully loaded discounts.</string>
     <string name="api_failed_to_get_station_bicycles">Failed to get station bicycles.</string>
     <string name="api_success_to_get_station_bicycles">Successfully loaded station bicycles.</string>
     <string name="api_secure_prefix">http://10.0.2.2:8085/api/secure</string>

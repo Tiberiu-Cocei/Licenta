@@ -27,11 +27,22 @@ public class AppDetails {
 
     private Transaction transaction;
 
+    private Discount discount;
+
     public static AppDetails getAppDetails() {
         if(appDetails == null) {
             appDetails = new AppDetails();
         }
         return appDetails;
+    }
+
+    public static void resetTransactionValues() {
+        if(appDetails != null) {
+            appDetails.setChoosingPlannedStation(false);
+            appDetails.setPlannedStationName(null);
+            appDetails.setPlannedStationId(null);
+            appDetails.setDiscount(null);
+        }
     }
 
     public City getCity() {
@@ -112,5 +123,13 @@ public class AppDetails {
 
     public void setPlannedStationId(UUID plannedStationId) {
         this.plannedStationId = plannedStationId;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }

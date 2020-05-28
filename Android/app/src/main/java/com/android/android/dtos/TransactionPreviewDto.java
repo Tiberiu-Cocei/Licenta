@@ -13,8 +13,14 @@ public class TransactionPreviewDto {
 
     private UUID cityId;
 
-    public TransactionPreviewDto(UUID discountId, Date plannedTime) {
-        this.discountId = discountId;
+    public TransactionPreviewDto(Date plannedTime) {
+        AppDetails appDetails = AppDetails.getAppDetails();
+        if(appDetails.getDiscount() != null) {
+            this.discountId = AppDetails.getAppDetails().getDiscount().getId();
+        }
+        else {
+            this.discountId = null;
+        }
         this.plannedTime = plannedTime;
         this.cityId = AppDetails.getAppDetails().getCity().getCityId();
     }

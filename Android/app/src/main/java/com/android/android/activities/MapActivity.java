@@ -147,6 +147,7 @@ public class MapActivity extends AppCompatActivity
             }
             else {
                 appDetails.setPlannedStationId(stationId);
+                appDetails.setDiscount(null);
                 ActivityStarter.openTransactionCreateActivity(this);
             }
         }

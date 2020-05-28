@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.android.activities.AccountActivity;
+import com.android.android.activities.DiscountActivity;
 import com.android.android.activities.MapActivity;
 import com.android.android.activities.MessageActivity;
 import com.android.android.activities.PaymentActivity;
@@ -63,6 +64,11 @@ public class ActivityStarter {
 
     public static void openTransactionFinishActivity(Context context) {
         Intent intent = new Intent(context, TransactionFinishActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void openDiscountActivity(Context context) {
+        Intent intent = new Intent(context, DiscountActivity.class);
         context.startActivity(intent);
     }
 

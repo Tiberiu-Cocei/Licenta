@@ -26,15 +26,15 @@ public class TransactionCreateDto {
 
     private UUID cityId;
 
-    public TransactionCreateDto(UUID plannedStationId, UUID discountId, Date plannedTime, String cardSecurityCode) {
+    public TransactionCreateDto(Date plannedTime, String cardSecurityCode) {
         User user = User.getUser();
         AppDetails appDetails = AppDetails.getAppDetails();
         this.paymentMethodId = user.getPaymentMethodId();
         this.userId = user.getId();
         this.bicycleId = appDetails.getBicycleId();
         this.startStationId = appDetails.getStartStationId();
-        this.plannedStationId = plannedStationId;
-        this.discountId = discountId;
+        this.plannedStationId = appDetails.getPlannedStationId();
+        this.discountId = appDetails.getDiscount().getId();
         this.plannedTime = plannedTime;
         this.cardSecurityCode = cardSecurityCode;
         this.cityId = appDetails.getCity().getCityId();

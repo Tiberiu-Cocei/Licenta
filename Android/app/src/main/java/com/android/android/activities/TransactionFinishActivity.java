@@ -61,7 +61,7 @@ public class TransactionFinishActivity extends AppCompatActivity {
             String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/finalize";
             String jsonString = JsonConverter.objectToJson(transactionFinishDto);
             try {
-                apiCaller.execute("POST", url, User.getUser().getAuthenticationToken().toString(), jsonString);
+                apiCaller.execute("PUT", url, User.getUser().getAuthenticationToken().toString(), jsonString);
                 ApiResponse apiResponse = apiCaller.get();
                 messageText.setText(apiResponse.getJson());
                 finishButton.setClickable(false);

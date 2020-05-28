@@ -146,6 +146,6 @@ public class StationActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        AppDetails.getAppDetails().setChoosingPlannedStation(false);
+        AppDetails.resetTransactionValues();
     }
 }
