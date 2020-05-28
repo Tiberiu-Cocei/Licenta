@@ -82,7 +82,6 @@ public class TransactionCreateActivity extends AppCompatActivity {
                         calendar.set(Calendar.MINUTE, selectedMinute);
                         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1); // -1 din cauza ca incepe de la 0 ziua in calendar
                         plannedArrivalTime = calendar.getTime();
-                        messageText.setText(plannedArrivalTime.toString());
                     }
                 }, hour, minute, true);
                 mTimePicker.setTitle("Select planned arrival time");
@@ -153,8 +152,8 @@ public class TransactionCreateActivity extends AppCompatActivity {
     }
 
     private void setCreateButtonAction() {
-        Button createButton = this.findViewById(R.id.createTransaction);
-        createButton.setOnClickListener(new View.OnClickListener() {
+        Button createTransactionButton = this.findViewById(R.id.createTransaction);
+        createTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createTransaction();
@@ -163,8 +162,14 @@ public class TransactionCreateActivity extends AppCompatActivity {
     }
 
     private void createTransaction() {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        if(currentHour < 7 || currentHour > 21) {
+            messageText.setText(getResources().getString(R.string.transaction_create_invalid_time));
+            return;
+        }
         AppDetails appDetails = AppDetails.getAppDetails();
-        boolean closeToStation = DistanceCalculator.isCloseToStation(appDetails.getStationCoordinates());
+        boolean closeToStation = DistanceCalculator.isCloseToStation(appDetails.getStartStation().getCoordinates());
         if(closeToStation) {
             if(plannedArrivalTime == null || plannedArrivalTime.compareTo(new Date()) < 0) {
                 messageText.setText(getResources().getString(R.string.transaction_create_invalid_arrival_time));
@@ -191,16 +196,27 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 apiCaller.execute("POST", url, User.getUser().getAuthenticationToken().toString(), jsonString);
                 ApiResponse apiResponse = apiCaller.get();
                 messageText.setText(apiResponse.getJson());
+
                 findViewById(R.id.createTransaction).setClickable(false);
+                findViewById(R.id.createTransaction).setAlpha(.5f);
+                findViewById(R.id.createPreviewTransaction).setClickable(false);
+                findViewById(R.id.createPreviewTransaction).setAlpha(.5f);
+                findViewById(R.id.createChooseDiscount).setClickable(false);
+                findViewById(R.id.createChooseDiscount).setAlpha(.5f);
+                findViewById(R.id.createChoosePlannedStation).setClickable(false);
+                findViewById(R.id.createChoosePlannedStation).setAlpha(.5f);
+
                 AppDetails.resetTransactionValues();
-                final Handler handler = new Handler();
+
                 //TODO : start notification service thing
+
+                final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         ActivityStarter.openMapActivity(context);
                     }
-                }, 7500);
+                }, 3500);
             } catch(Exception e) {
                 e.printStackTrace();
                 messageText.setText(getResources().getString(R.string.api_generic_call_failure));

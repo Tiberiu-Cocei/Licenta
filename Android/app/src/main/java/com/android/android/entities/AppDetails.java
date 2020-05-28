@@ -11,13 +11,9 @@ public class AppDetails {
 
     private List<Station> stationList;
 
-    private UUID startStationId;
+    private Station startStation;
 
     private UUID plannedStationId;
-
-    private String stationCoordinates;
-
-    private String startStationName;
 
     private String plannedStationName;
 
@@ -61,14 +57,6 @@ public class AppDetails {
         this.stationList = stationList;
     }
 
-    public UUID getStartStationId() {
-        return startStationId;
-    }
-
-    public void setStartStationId(UUID startStationId) {
-        this.startStationId = startStationId;
-    }
-
     public UUID getBicycleId() {
         return bicycleId;
     }
@@ -77,28 +65,12 @@ public class AppDetails {
         this.bicycleId = bicycleId;
     }
 
-    public String getStationCoordinates() {
-        return stationCoordinates;
-    }
-
-    public void setStationCoordinates(String stationCoordinates) {
-        this.stationCoordinates = stationCoordinates;
-    }
-
     public Transaction getTransaction() {
         return transaction;
     }
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
-    }
-
-    public String getStartStationName() {
-        return startStationName;
-    }
-
-    public void setStartStationName(String startStationName) {
-        this.startStationName = startStationName;
     }
 
     public String getPlannedStationName() {
@@ -131,5 +103,13 @@ public class AppDetails {
 
     public void setDiscount(Discount discount) {
         this.discount = discount;
+    }
+
+    public Station getStartStation() {
+        return startStation;
+    }
+
+    public void setStartStation(Station startStation) {
+        this.startStation = startStation;
     }
 }

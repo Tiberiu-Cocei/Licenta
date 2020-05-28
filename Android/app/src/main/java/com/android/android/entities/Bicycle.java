@@ -1,9 +1,9 @@
 package com.android.android.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +14,7 @@ public class Bicycle {
 
     private UUID stationId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private Date arrivalTime;
 
     private String status;

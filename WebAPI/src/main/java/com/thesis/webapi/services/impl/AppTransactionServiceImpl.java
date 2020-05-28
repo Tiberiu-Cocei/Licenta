@@ -157,6 +157,10 @@ public class AppTransactionServiceImpl implements AppTransactionService {
         }
         appTransaction.setFinishStationId(appTransactionUpdateDto.getFinishStationId());
         appTransaction.setFinishTime(finishTime);
+        if(appTransaction.getPlannedStationId() == null) {
+            finishStation.incrementCurrentCapacity();
+            stationRepository.save(finishStation);
+        }
         appTransactionRepository.save(appTransaction);
         return new ResponseEntity<>("Successfully finished transaction", HttpStatus.OK);
     }

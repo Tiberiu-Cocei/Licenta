@@ -53,7 +53,7 @@ public class ReportActivity extends AppCompatActivity {
         reportCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DistanceCalculator.isCloseToStation(AppDetails.getAppDetails().getStationCoordinates())) {
+                if(DistanceCalculator.isCloseToStation(AppDetails.getAppDetails().getStartStation().getCoordinates())) {
                     createReport();
                 }
                 else {

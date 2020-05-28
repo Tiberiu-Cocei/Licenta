@@ -35,7 +35,6 @@ public class TransactionFinishActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO : de testat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_finish);
 
@@ -54,9 +53,9 @@ public class TransactionFinishActivity extends AppCompatActivity {
 
     private void finishTransaction() {
         AppDetails appDetails = AppDetails.getAppDetails();
-        boolean closeToStation = DistanceCalculator.isCloseToStation(appDetails.getStationCoordinates());
+        boolean closeToStation = DistanceCalculator.isCloseToStation(appDetails.getStartStation().getCoordinates());
         if(closeToStation) {
-            TransactionFinishDto transactionFinishDto = new TransactionFinishDto(appDetails.getStartStationId());
+            TransactionFinishDto transactionFinishDto = new TransactionFinishDto(appDetails.getStartStation().getId());
             ApiCaller apiCaller = new ApiCaller();
             String url = getResources().getString(R.string.api_secure_prefix) + "/transactions/finalize";
             String jsonString = JsonConverter.objectToJson(transactionFinishDto);
@@ -71,7 +70,7 @@ public class TransactionFinishActivity extends AppCompatActivity {
                     public void run() {
                         ActivityStarter.openMapActivity(context);
                     }
-                }, 7500);
+                }, 3500);
             } catch(Exception e) {
                 e.printStackTrace();
                 messageText.setText(getResources().getString(R.string.api_generic_call_failure));
@@ -99,7 +98,7 @@ public class TransactionFinishActivity extends AppCompatActivity {
         if(transaction.getPlannedStation() != null) {
             plannedStation.setText(getResources().getString(R.string.transaction_planned_station, transaction.getPlannedStation()));
         }
-        finishStation.setText(getResources().getString(R.string.transaction_finish_station, appDetails.getStartStationName()));
+        finishStation.setText(getResources().getString(R.string.transaction_finish_station, appDetails.getStartStation().getName()));
         startTime.setText(getResources().getString(R.string.transaction_start_time, dateFormat.format(transaction.getStartTime())));
         plannedTime.setText(getResources().getString(R.string.transaction_planned_time, dateFormat.format(transaction.getPlannedTime())));
         currentTime.setText(getResources().getString(R.string.transaction_finish_time, dateFormat.format(new Date())));

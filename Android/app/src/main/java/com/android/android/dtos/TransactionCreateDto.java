@@ -32,9 +32,14 @@ public class TransactionCreateDto {
         this.paymentMethodId = user.getPaymentMethodId();
         this.userId = user.getId();
         this.bicycleId = appDetails.getBicycleId();
-        this.startStationId = appDetails.getStartStationId();
+        this.startStationId = appDetails.getStartStation().getId();
         this.plannedStationId = appDetails.getPlannedStationId();
-        this.discountId = appDetails.getDiscount().getId();
+        if(appDetails.getDiscount() != null) {
+            this.discountId = appDetails.getDiscount().getId();
+        }
+        else {
+            this.discountId = null;
+        }
         this.plannedTime = plannedTime;
         this.cardSecurityCode = cardSecurityCode;
         this.cityId = appDetails.getCity().getCityId();

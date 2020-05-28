@@ -132,8 +132,7 @@ public class MapActivity extends AppCompatActivity
             for (Station station : appDetails.getStationList()) {
                 if (stationId == station.getId()) {
                     if(!appDetails.isChoosingPlannedStation()) {
-                        appDetails.setStationCoordinates(station.getCoordinates());
-                        appDetails.setStartStationName(station.getName());
+                        appDetails.setStartStation(station);
                     }
                     else {
                         appDetails.setPlannedStationName(station.getName());
@@ -142,7 +141,6 @@ public class MapActivity extends AppCompatActivity
                 }
             }
             if(!appDetails.isChoosingPlannedStation()) {
-                appDetails.setStartStationId(stationId);
                 ActivityStarter.openStationActivity(this);
             }
             else {

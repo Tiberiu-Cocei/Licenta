@@ -9,6 +9,11 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="station_name">Station name: %1$s</string>
+    <string name="station_capacity">Capacity: %1$s/%2$s</string>
+
+    <string name="transaction_create_invalid_time">You may only start a new transaction between 7 and 21.</string>
+
     <string name="transaction_obtained_preview_price">Cost of transaction: %1$s</string>
     <string name="transaction_failed_preview_price">Failed to preview transactions price.</string>
 

@@ -20,7 +20,7 @@ public class Station {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "coordinates")
+    @Column(name = "coordinates", updatable = false)
     private String coordinates;
 
     @Column(name = "max_capacity")
@@ -75,5 +75,9 @@ public class Station {
 
     public void decrementCurrentCapacity() {
         this.currentCapacity -= 1;
+    }
+
+    public void incrementCurrentCapacity() {
+        this.currentCapacity += 1;
     }
 }

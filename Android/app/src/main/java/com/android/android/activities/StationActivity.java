@@ -15,6 +15,7 @@ import com.android.android.R;
 import com.android.android.adapters.BicycleListAdapter;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Bicycle;
+import com.android.android.entities.Station;
 import com.android.android.entities.Transaction;
 import com.android.android.entities.User;
 import com.android.android.utilities.ActivityStarter;
@@ -32,12 +33,22 @@ public class StationActivity extends AppCompatActivity {
 
     private Context context;
 
+    private Station startStation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
         bicycleListView = findViewById(R.id.stationBicycleList);
         messageText = findViewById(R.id.messageText);
+
+        TextView stationCapacity = findViewById(R.id.stationCapacity);
+        TextView stationName = findViewById(R.id.stationName);
+        startStation = AppDetails.getAppDetails().getStartStation();
+        stationName.setText(getResources().getString(R.string.station_name, startStation.getName()));
+        stationCapacity.setText(getResources().getString(R.string.station_capacity,
+                startStation.getCurrentCapacity().toString(), startStation.getMaxCapacity().toString()));
+
         List<Bicycle> bicycleList = getStationBicycles();
         context = this;
         if (bicycleList != null) {
@@ -51,7 +62,7 @@ public class StationActivity extends AppCompatActivity {
         final List<Transaction> transactionList = ApiCaller.getUnfinishedTransactionDetails(this);
         int transactionCount = transactionList.size();
         if(transactionCount == 1) {
-            String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
+            String stationCoordinates = startStation.getCoordinates();
             boolean isCloseToStation = DistanceCalculator.isCloseToStation(stationCoordinates);
             if(isCloseToStation) {
                 finishTransactionButton.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +97,7 @@ public class StationActivity extends AppCompatActivity {
         String url = getResources().getString(R.string.api_secure_prefix) + "/bicycles/station";
         try {
             apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
-                    AppDetails.getAppDetails().getStartStationId().toString());
+                    startStation.getId().toString());
             ApiResponse apiResponse = apiCaller.get();
             if (apiResponse != null) {
                 if (apiResponse.getCode() == 200) {
@@ -94,6 +105,7 @@ public class StationActivity extends AppCompatActivity {
                         bicycleList = Bicycle.createBicycleListFromJson(apiResponse.getJson());
                         messageText.setText(getResources().getString(R.string.api_success_to_get_station_bicycles));
                     } catch (Exception e) {
+                        e.printStackTrace();
                         messageText.setText(getResources().getString(R.string.api_failed_to_get_station_bicycles));
                     }
                 }

@@ -43,7 +43,7 @@ public class DiscountActivity extends AppCompatActivity {
         String url = getResources().getString(R.string.api_secure_prefix) + "/discounts/station";
         try {
             apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(),
-                    AppDetails.getAppDetails().getStartStationId().toString());
+                    AppDetails.getAppDetails().getStartStation().getId().toString());
             ApiResponse apiResponse = apiCaller.get();
             if(apiResponse != null) {
                 if(apiResponse.getCode() == 200) {

@@ -56,20 +56,23 @@ public class BicycleServiceImpl implements BicycleService {
         Date date = new Date();
         LocalTime localTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
         int hour = localTime.getHour();
-        if(hour > 7 && hour < 22) {
+        if(hour >= 7 && hour <= 22) {
             System.out.println("Checking for late users...");
             List<Bicycle> bicycleList = bicycleRepository.getLateBicycles(localTime);
+            int numberOfChanges = bicycleList.size();
             for(Bicycle bicycle : bicycleList) {
-                Station station = stationRepository.getStationById(bicycle.getStationId());
-                station.decrementCurrentCapacity();
-                stationRepository.save(station);
-                bicycle.setStationId(null);
-                bicycleRepository.save(bicycle);
                 AppTransaction appTransaction = appTransactionRepository.getUnfinishedTransactionByBicycleId(bicycle.getId());
-                appTransaction.setPlannedStationId(null);
-                appTransactionRepository.save(appTransaction);
+                if(appTransaction.getPlannedStationId() != null) {
+                    bicycle.setStationId(null);
+                    bicycleRepository.save(bicycle);
+                    appTransaction.setPlannedStationId(null);
+                    appTransactionRepository.save(appTransaction);
+                }
+                else {
+                    numberOfChanges--;
+                }
             }
-            System.out.println("Modified station, transaction and bicycle for " + bicycleList.size() + " cases.");
+            System.out.println("Modified station, transaction and bicycle for " + numberOfChanges + " cases.");
         }
     }
 

@@ -20,6 +20,7 @@ import com.android.android.utilities.DistanceCalculator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -65,8 +66,11 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
             tvLockNumber.setText(context.getResources().getString(R.string.bicycle_lock_number, lockNumber.toString()));
         }
         if(arrivalTime != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(arrivalTime);
+            calendar.add(Calendar.HOUR, -2);
+            arrivalTime = calendar.getTime();
             tvArrivalTime.setText(context.getResources().getString(R.string.bicycle_arrival_time, dateFormat.format(arrivalTime)));
-            //TODO : de verificat daca merge
         }
 
         createButtonListeners(convertView, position);
@@ -87,7 +91,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
 
         final Button selectButton = convertView.findViewById(R.id.bicycleSelect);
         if (transactionList.size() == 0 && getItem(position).getStatus().equals("Station")) {
-            String stationCoordinates = AppDetails.getAppDetails().getStationCoordinates();
+            String stationCoordinates = AppDetails.getAppDetails().getStartStation().getCoordinates();
             boolean showSelectButton = DistanceCalculator.isCloseToStation(stationCoordinates);
             if (showSelectButton) {
                 selectButton.setOnClickListener(new View.OnClickListener() {

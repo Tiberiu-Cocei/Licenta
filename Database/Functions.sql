@@ -178,43 +178,54 @@ CREATE OR REPLACE FUNCTION transaction_on_update_modifies_activity_and_penalty()
     SET SCHEMA 'public'
     AS $$
     BEGIN
+
+	IF NEW.finish_station_id IS NOT NULL THEN
  
- 	IF NEW.finish_station_id != OLD.planned_station_id THEN
+		IF NEW.finish_station_id != OLD.planned_station_id THEN
+		
+			IF NEW.planned_station_id IS NOT NULL THEN
+				UPDATE station
+					SET current_capacity = current_capacity - 1
+					WHERE id = NEW.planned_station_id;
+			END IF;
+
+			UPDATE station
+				SET current_capacity = current_capacity + 1
+				WHERE id = NEW.finish_station_id;
+
+			UPDATE app_user
+				SET warning_count = warning_count + 1
+				WHERE id = OLD.user_id;
+		END IF;
+
+		IF NEW.finish_station_id != OLD.planned_station_id OR NEW.finish_time > OLD.planned_time THEN
+			NEW.penalty = NEW.penalty + extract(minute from NEW.finish_time - OLD.planned_time) 
+				+ extract(hour from NEW.finish_time - OLD.planned_time)*60;
+		ELSE
+			NEW.penalty = 0;
+		END IF;
+
+		UPDATE bicycle
+			SET station_id = NEW.finish_station_id,
+				status = 'Station',
+				arrival_time = NULL,
+				lock_number = 1
+			WHERE id = OLD.bicycle_id;
+
+		UPDATE app_user
+			SET bicycle_id = NULL
+			WHERE id = OLD.user_id;
+
+		UPDATE activity
+			SET bicycles_brought = bicycles_brought + 1
+			WHERE station_id = NEW.finish_station_id AND day = NEW.finish_time::DATE 
+				AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.finish_time));
+				
+	ELSIF NEW.planned_station_id IS NULL THEN
 		UPDATE station
 			SET current_capacity = current_capacity - 1
-			WHERE id = OLD.planned_station_id;
-		
-		UPDATE station
-			SET current_capacity = current_capacity + 1
-			WHERE id = NEW.finish_station_id;
-			
-		UPDATE app_user
-			SET warning_count = warning_count + 1
-			WHERE id = OLD.user_id;
+			WHERE id = OLD.planned_station_id;		
 	END IF;
- 
- 	IF NEW.finish_station_id != OLD.planned_station_id OR NEW.finish_time > OLD.planned_time THEN
-		NEW.penalty = NEW.penalty + extract(minute from NEW.finish_time - OLD.planned_time) 
-			+ extract(hour from NEW.finish_time - OLD.planned_time)*60;
-	ELSE
-		NEW.penalty = 0;
-	END IF;
- 
-	UPDATE bicycle
-		SET station_id = NEW.finish_station_id,
-			status = 'Station',
-			arrival_time = NULL,
-			lock_number = 1
-		WHERE id = OLD.bicycle_id;
-
-	UPDATE app_user
-		SET bicycle_id = NULL
-		WHERE id = OLD.user_id;
-		
-	UPDATE activity
-        SET bicycles_brought = bicycles_brought + 1
-        WHERE station_id = NEW.finish_station_id AND day = NEW.finish_time::DATE 
-			AND hour_from = (SELECT EXTRACT(HOUR FROM NEW.finish_time));
 	
  	RETURN NEW;
     END;
