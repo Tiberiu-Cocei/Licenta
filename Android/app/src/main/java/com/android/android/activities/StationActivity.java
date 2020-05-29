@@ -35,25 +35,24 @@ public class StationActivity extends AppCompatActivity {
 
     private Station startStation;
 
+    private TextView stationCapacity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
         bicycleListView = findViewById(R.id.stationBicycleList);
         messageText = findViewById(R.id.messageText);
+        context = this;
 
-        TextView stationCapacity = findViewById(R.id.stationCapacity);
+        stationCapacity = findViewById(R.id.stationCapacity);
         TextView stationName = findViewById(R.id.stationName);
         startStation = AppDetails.getAppDetails().getStartStation();
         stationName.setText(getResources().getString(R.string.station_name, startStation.getName()));
         stationCapacity.setText(getResources().getString(R.string.station_capacity,
                 startStation.getCurrentCapacity().toString(), startStation.getMaxCapacity().toString()));
 
-        List<Bicycle> bicycleList = getStationBicycles();
-        context = this;
-        if (bicycleList != null) {
-            populateBicycleList(bicycleList);
-        }
+        refreshStationInfo();
         createButtonListener();
     }
 
@@ -117,6 +116,15 @@ public class StationActivity extends AppCompatActivity {
         return bicycleList;
     }
 
+    private void refreshStationInfo() {
+        List<Bicycle> bicycleList = getStationBicycles();
+        if (bicycleList != null) {
+            populateBicycleList(bicycleList);
+            stationCapacity.setText(getResources().getString(R.string.station_capacity,
+                    Integer.toString(bicycleList.size()), startStation.getMaxCapacity().toString()));
+        }
+    }
+
     private void populateBicycleList(List<Bicycle> bicycleList) {
         BicycleListAdapter bicycleListAdapter = new BicycleListAdapter(
                 this, R.layout.bicycle_list_view, bicycleList);
@@ -153,6 +161,12 @@ public class StationActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshStationInfo();
     }
 
     @Override

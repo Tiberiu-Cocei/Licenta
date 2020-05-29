@@ -3,7 +3,7 @@ package com.android.android.entities;
 import java.util.List;
 import java.util.UUID;
 
-public class AppDetails {
+public final class AppDetails {
 
     private static AppDetails appDetails = null;
 

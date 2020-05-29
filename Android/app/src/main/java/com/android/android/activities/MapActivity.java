@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -98,7 +99,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        locationListener = null;
+        //locationListener = null;
     }
 
     @Override
@@ -160,7 +161,10 @@ public class MapActivity extends AppCompatActivity
             Marker marker = markerHashMap.get("Current point");
             marker.remove();
             LatLng currentPoint = new LatLng(latitude, longitude);
-            marker = googleMap.addMarker(new MarkerOptions().position(currentPoint).title("Current point"));
+            marker = googleMap.addMarker(
+                    new MarkerOptions()
+                    .position(currentPoint).title("Current point")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             markerHashMap.put("Current point", marker);
         }
     }
@@ -168,7 +172,10 @@ public class MapActivity extends AppCompatActivity
     private void createAndMoveToCurrentPosition() {
         if(latitude != null && longitude != null && googleMap != null) {
             LatLng currentPoint = new LatLng(latitude, longitude);
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(currentPoint).title("Current point"));
+            Marker marker = googleMap.addMarker(
+                    new MarkerOptions()
+                    .position(currentPoint).title("Current point")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             markerHashMap.put("Current point", marker);
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentPoint));
             googleMap.animateCamera(CameraUpdateFactory.zoomIn());

@@ -28,4 +28,9 @@ public class StationController {
         return stationService.getStationsByCityId(cityId);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Station> getStationById(@PathVariable("id") UUID stationId) {
+        return stationService.getStationById(stationId);
+    }
+
 }

@@ -20,6 +20,11 @@ public class Station {
 
     private Integer currentCapacity;
 
+    public static Station createStationFromJson(String json) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, Station.class);
+    }
+
     public static List<Station> createStationListFromJson(String json) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, new TypeReference<List<Station>>(){});

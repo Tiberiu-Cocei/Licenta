@@ -10,4 +10,6 @@ public interface StationService {
 
     ResponseEntity<List<Station>> getStationsByCityId(UUID cityId);
 
+    ResponseEntity<Station> getStationById(UUID stationId);
+
 }

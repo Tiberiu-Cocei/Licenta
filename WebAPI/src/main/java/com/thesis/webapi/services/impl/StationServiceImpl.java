@@ -26,4 +26,8 @@ public class StationServiceImpl implements StationService {
         return new ResponseEntity<>(stationRepository.getStationsByCityId(cityId), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Station> getStationById(UUID stationId) {
+        return new ResponseEntity<>(stationRepository.getStationById(stationId), HttpStatus.OK);
+    }
 }
