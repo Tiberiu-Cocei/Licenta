@@ -45,6 +45,8 @@ CREATE TABLE activity (
 	discounts_to                          INTEGER DEFAULT 0 CHECK (discounts_to >= 0),
 	was_station_empty                     BOOLEAN DEFAULT false,
 	was_station_full                      BOOLEAN DEFAULT false,
+	times_clicked_while_empty             INTEGER DEFAULT 0,
+	times_clicked_while_full              INTEGER DEFAULT 0,
 	CONSTRAINT unique_datetime_activity   UNIQUE(station_id, day, hour_from)
 );
 

@@ -13,8 +13,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
@@ -34,6 +36,27 @@ public class ActivityServiceImpl implements ActivityService {
         this.stationRepository = stationRepository;
     }
 
+    private Activity getActivityForIncrement(UUID stationId) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        int hourFrom = calendar.get(Calendar.HOUR_OF_DAY);
+        return activityRepository.getActivityByStationIdAndDayAndHourFrom(stationId, date, hourFrom);
+    }
+
+    @Override
+    public void incrementTimesClickedWhileEmpty(UUID stationId) {
+        Activity activity = getActivityForIncrement(stationId);
+        activity.incrementTimesClickedWhileEmpty();
+        activityRepository.save(activity);
+    }
+
+    @Override
+    public void incrementTimesClickedWhileFull(UUID stationId) {
+        Activity activity = getActivityForIncrement(stationId);
+        activity.incrementTimesClickedWhileFull();
+        activityRepository.save(activity);
+    }
+
     @Override
     public void generateRowsForActivity() {
         Date date = new Date();
@@ -43,7 +66,7 @@ public class ActivityServiceImpl implements ActivityService {
             System.out.println("Checking stations for the city " + city.getName() + "...");
             List<Station> stationList = stationRepository.getStationsByCityId(city.getCityId());
             for(Station station : stationList) {
-                List<Activity> activityList = activityRepository.getActivityByStationIdAndDay(station.getId(), date);
+                List<Activity> activityList = activityRepository.getActivitiesByStationIdAndDay(station.getId(), date);
                 if(activityList.size() != 0) {
                     System.out.println("Station " + station.getName() + " already has activity rows generated.");
                 }

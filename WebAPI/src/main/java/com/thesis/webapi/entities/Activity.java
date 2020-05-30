@@ -45,6 +45,12 @@ public class Activity {
     @Column(name = "was_station_full")
     private boolean wasStationFull;
 
+    @Column(name = "times_clicked_while_empty")
+    private int timesClickedWhileEmpty;
+
+    @Column(name = "times_clicked_while_full")
+    private int timesClickedWhileFull;
+
     public Activity() {}
 
     public Activity(UUID stationId, Date day, int hourFrom) {
@@ -103,5 +109,21 @@ public class Activity {
 
     public boolean wasStationFull() {
         return wasStationFull;
+    }
+
+    public int getTimesClickedWhileEmpty() {
+        return timesClickedWhileEmpty;
+    }
+
+    public int getTimesClickedWhileFull() {
+        return timesClickedWhileFull;
+    }
+
+    public void incrementTimesClickedWhileEmpty() {
+        this.timesClickedWhileEmpty++;
+    }
+
+    public void incrementTimesClickedWhileFull() {
+        this.timesClickedWhileFull++;
     }
 }
