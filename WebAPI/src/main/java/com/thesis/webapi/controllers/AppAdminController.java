@@ -26,7 +26,7 @@ public class AppAdminController {
 
 //    @PostMapping(value = "/unsecure/admins/register")
 //    public ResponseEntity<String> register(@Valid @RequestBody AppAdminCreateDto appAdminCreateDto) {
-//        return appAdminService.saveAppAdmin(appAdminCreateDto, passwordHashing);
+//        return appAdminService.register(appAdminCreateDto, passwordHashing);
 //    }
 
     @PostMapping(value = "/unsecure/admins/login")

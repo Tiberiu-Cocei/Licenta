@@ -61,7 +61,7 @@ public class AppAdminServiceImpl implements AppAdminService {
     }
 
     @Override
-    public ResponseEntity<String> saveAppAdmin(AppAdminCreateDto appAdminCreateDto, PasswordHashing passwordHashing) {
+    public ResponseEntity<String> register(AppAdminCreateDto appAdminCreateDto, PasswordHashing passwordHashing) {
         appAdminCreateDto.setUsername(appAdminCreateDto.getUsername().toLowerCase());
         if(appAdminRepository.isUsernameTaken(appAdminCreateDto.getUsername()) != null) {
             return new ResponseEntity<>("Username is already in use.", HttpStatus.OK);

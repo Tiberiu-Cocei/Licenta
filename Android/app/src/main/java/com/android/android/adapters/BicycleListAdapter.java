@@ -15,8 +15,10 @@ import com.android.android.R;
 import com.android.android.entities.AppDetails;
 import com.android.android.entities.Bicycle;
 import com.android.android.entities.Transaction;
+import com.android.android.entities.User;
 import com.android.android.utilities.ActivityStarter;
 import com.android.android.utilities.ApiCaller;
+import com.android.android.utilities.ApiResponse;
 import com.android.android.utilities.DistanceCalculator;
 
 import java.text.DateFormat;
@@ -91,7 +93,12 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
     }
 
     private void createButtonListeners(View convertView, final int position) {
-        Button reportButton = convertView.findViewById(R.id.bicycleReports);
+        final Button reportButton = convertView.findViewById(R.id.bicycleReports);
+        UUID bicycleId = getItem(position).getId();
+        Integer reportNumber = getReportNumberForBicycle(bicycleId);
+        reportButton.setText(context.getResources().getString(
+                R.string.report_button_text, reportNumber.toString()));
+
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,5 +129,29 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
             selectButton.setAlpha(.5f);
             selectButton.setClickable(false);
         }
+    }
+
+    private Integer getReportNumberForBicycle(UUID bicycleId) {
+        Integer reportNumber = 0;
+        ApiCaller apiCaller = new ApiCaller();
+        String url = context.getResources().getString(R.string.api_secure_prefix) + "/reports/count";
+        try {
+            apiCaller.execute("GET", url, User.getUser().getAuthenticationToken().toString(), bicycleId.toString());
+            ApiResponse apiResponse = apiCaller.get();
+            if(apiResponse != null) {
+                if(apiResponse.getCode() == 200) {
+                    try {
+                        String numberResponse = apiResponse.getJson();
+                        reportNumber = Integer.valueOf(numberResponse);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return reportNumber;
     }
 }

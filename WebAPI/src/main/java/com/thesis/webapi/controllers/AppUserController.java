@@ -1,7 +1,6 @@
 package com.thesis.webapi.controllers;
 
 import com.thesis.webapi.dtos.*;
-import com.thesis.webapi.entities.PaymentMethod;
 import com.thesis.webapi.security.PasswordHashing;
 import com.thesis.webapi.services.AppUserService;
 import com.thesis.webapi.services.EmailService;
@@ -32,7 +31,7 @@ public class AppUserController {
 
     @PostMapping(value = "/unsecure/users/register")
     public ResponseEntity<String> register(@Valid @RequestBody AppUserCreateDto appUserCreateDto) {
-        return appUserService.saveAppUser(appUserCreateDto, passwordHashing);
+        return appUserService.register(appUserCreateDto, passwordHashing);
     }
 
     @PostMapping(value = "/unsecure/users/login")

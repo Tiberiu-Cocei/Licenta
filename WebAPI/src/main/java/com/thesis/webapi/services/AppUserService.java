@@ -15,7 +15,7 @@ public interface AppUserService {
 
     Optional<User> findUserByAuthenticationToken(String authenticationToken);
 
-    ResponseEntity<String> saveAppUser(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing);
+    ResponseEntity<String> register(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing);
 
     ResponseEntity<UUID> savePaymentMethod(UUID userId, PaymentMethodCreateDto paymentMethodCreateDto);
 

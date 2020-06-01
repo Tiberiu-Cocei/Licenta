@@ -9,6 +9,8 @@
     <string name="menu_report_history">Report History</string>
     <string name="menu_transaction_history">Transaction History</string>
 
+    <string name="report_button_text">%1$s REPORT(S)</string>
+
     <string name="station_name">Station name: %1$s</string>
     <string name="station_capacity">Capacity: %1$s/%2$s</string>
 

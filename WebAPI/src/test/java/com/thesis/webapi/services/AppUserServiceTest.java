@@ -124,7 +124,7 @@ public class AppUserServiceTest {
         Mockito.when(appUserRepository.isUsernameTaken("test_username")).thenReturn("test_username");
 
         //Act
-        ResponseEntity<String> response = appUserService.saveAppUser(appUserCreateDto, passwordHashing);
+        ResponseEntity<String> response = appUserService.register(appUserCreateDto, passwordHashing);
 
         //Assert
         Assertions.assertThat(response).isNotNull();
@@ -138,7 +138,7 @@ public class AppUserServiceTest {
         Mockito.when(appUserRepository.isEmailTaken("test@gmail.com")).thenReturn("test@gmail.com");
 
         //Act
-        ResponseEntity<String> response = appUserService.saveAppUser(appUserCreateDto, passwordHashing);
+        ResponseEntity<String> response = appUserService.register(appUserCreateDto, passwordHashing);
 
         //Assert
         Assertions.assertThat(response).isNotNull();
@@ -151,7 +151,7 @@ public class AppUserServiceTest {
         //Arrange
 
         //Act
-        ResponseEntity<String> response = appUserService.saveAppUser(appUserCreateDto, passwordHashing);
+        ResponseEntity<String> response = appUserService.register(appUserCreateDto, passwordHashing);
 
         //Assert
         Assertions.assertThat(response).isNotNull();

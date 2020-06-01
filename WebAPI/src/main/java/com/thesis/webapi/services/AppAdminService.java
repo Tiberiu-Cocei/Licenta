@@ -14,6 +14,6 @@ public interface AppAdminService {
 
     Optional<User> findAdminByAuthenticationToken(String authenticationToken);
 
-    ResponseEntity<String> saveAppAdmin(AppAdminCreateDto appAdminCreateDto, PasswordHashing passwordHashing);
+    ResponseEntity<String> register(AppAdminCreateDto appAdminCreateDto, PasswordHashing passwordHashing);
 
 }

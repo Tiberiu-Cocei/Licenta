@@ -70,7 +70,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public ResponseEntity<String> saveAppUser(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing) {
+    public ResponseEntity<String> register(AppUserCreateDto appUserCreateDto, PasswordHashing passwordHashing) {
         appUserCreateDto.setUsername(appUserCreateDto.getUsername().toLowerCase());
         appUserCreateDto.setEmail(appUserCreateDto.getEmail().toLowerCase());
         if(appUserRepository.isUsernameTaken(appUserCreateDto.getUsername()) != null) {

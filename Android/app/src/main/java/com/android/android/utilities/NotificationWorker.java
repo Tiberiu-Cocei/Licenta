@@ -50,6 +50,9 @@ public class NotificationWorker extends Worker {
         int minutesToArrival = hourDelta * 60 + minuteDelta;
 
         int sleepTime = (minutesToArrival - 5) * 60 * 1000;
+        if(sleepTime < 0) {
+            sleepTime = 0;
+        }
 
         try {
             Thread.sleep(sleepTime); //sleep until 5 minutes before planned time
@@ -97,7 +100,7 @@ public class NotificationWorker extends Worker {
         String description = "";
         switch(mode) {
             case 0:
-                description = "There are 5 minutes left until your planned arrival time.";
+                description = "There are 5 or less minutes left until your planned arrival time.";
                 break;
             case 1:
                 description = "There is 1 minute left until your planned arrival time.";
