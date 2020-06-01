@@ -1,7 +1,8 @@
 package com.thesis.webapi.config;
 
 import com.thesis.webapi.security.AuthenticationFilter;
-import com.thesis.webapi.security.AuthenticationProvider;
+import com.thesis.webapi.security.AuthenticationProviderAdmin;
+import com.thesis.webapi.security.AuthenticationProviderUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,20 +25,26 @@ import org.springframework.security.web.util.matcher.*;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private AuthenticationProvider authenticationProvider;
+    private AuthenticationProviderUser authenticationProviderUser;
+
+    private AuthenticationProviderAdmin authenticationProviderAdmin;
 
     private static final RequestMatcher PROTECTED_URLS
-            = new OrRequestMatcher(new AntPathRequestMatcher("/api/secure/**"));
+            = new OrRequestMatcher(new AntPathRequestMatcher("/api/secure/**"),
+                                   new AntPathRequestMatcher("/api/admin/**"));
 
     @Autowired
-    public SecurityConfig(AuthenticationProvider authenticationProvider) {
+    public SecurityConfig(AuthenticationProviderUser authenticationProvider,
+                          AuthenticationProviderAdmin authenticationProviderAdmin) {
         super();
-        this.authenticationProvider = authenticationProvider;
+        this.authenticationProviderUser = authenticationProvider;
+        this.authenticationProviderAdmin = authenticationProviderAdmin;
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(authenticationProviderUser);
+        authenticationManagerBuilder.authenticationProvider(authenticationProviderAdmin);
     }
 
     @Override
@@ -52,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                     .exceptionHandling()
                     .and()
-                    .authenticationProvider(authenticationProvider)
+                    .authenticationProvider(authenticationProviderUser)
+                    .authenticationProvider(authenticationProviderAdmin)
                     .addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
                     .authorizeRequests()
                     .requestMatchers(PROTECTED_URLS)

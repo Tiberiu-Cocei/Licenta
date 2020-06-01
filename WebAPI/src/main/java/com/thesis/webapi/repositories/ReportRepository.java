@@ -17,4 +17,7 @@ public interface ReportRepository extends JpaRepository<Report, UUID> {
     @Query(value = "SELECT u FROM Report u WHERE u.bicycleId = :bicycleId AND u.reviewed = false")
     List<Report> getBicycleReports(@Param("bicycleId") UUID bicycleId);
 
+    @Query(value = "SELECT COUNT(u) FROM Report u WHERE u.bicycleId = :bicycleId AND u.reviewed = false")
+    Integer getBicycleReportCount(@Param("bicycleId") UUID bicycleId);
+
 }

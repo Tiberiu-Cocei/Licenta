@@ -42,4 +42,9 @@ public class ReportController {
         return reportService.getReportsByBicycleId(bicycleId);
     }
 
+    @GetMapping(value = "/count/{id}")
+    public ResponseEntity<Integer> getReportCountByBicycleId(@PathVariable("id") UUID bicycleId) {
+        return reportService.getReportCountByBicycleId(bicycleId);
+    }
+
 }

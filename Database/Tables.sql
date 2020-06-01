@@ -124,6 +124,8 @@ CREATE TABLE app_admin (
 	username                      TEXT NOT NULL,
 	password                      TEXT NOT NULL,
 	CONSTRAINT admin_username     UNIQUE(username),
+	authentication_token          UUID,
+	salt                          TEXT,
 	FOREIGN KEY (staff_id)        REFERENCES staff (id)
 );
 

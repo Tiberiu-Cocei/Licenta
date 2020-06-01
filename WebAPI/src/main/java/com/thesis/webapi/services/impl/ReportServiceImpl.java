@@ -46,4 +46,9 @@ public class ReportServiceImpl implements ReportService {
     public ResponseEntity<List<Report>> getReportsByBicycleId(UUID bicycleId) {
         return new ResponseEntity<>(reportRepository.getBicycleReports(bicycleId), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Integer> getReportCountByBicycleId(UUID bicycleId) {
+        return new ResponseEntity<>(reportRepository.getBicycleReportCount(bicycleId), HttpStatus.OK);
+    }
 }

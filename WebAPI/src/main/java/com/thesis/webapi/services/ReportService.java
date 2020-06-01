@@ -17,4 +17,6 @@ public interface ReportService {
 
     ResponseEntity<List<Report>> getReportsByBicycleId(UUID bicycleId);
 
+    ResponseEntity<Integer> getReportCountByBicycleId(UUID bicycleId);
+
 }

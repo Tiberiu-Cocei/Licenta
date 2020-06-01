@@ -1,5 +1,6 @@
 package com.thesis.webapi.security;
 
+import com.thesis.webapi.services.AppAdminService;
 import com.thesis.webapi.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,13 +13,13 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+public class AuthenticationProviderAdmin extends AbstractUserDetailsAuthenticationProvider {
 
-    private final AppUserService appUserService;
+    private final AppAdminService appAdminService;
 
     @Autowired
-    public AuthenticationProvider(AppUserService appUserService) {
-        this.appUserService = appUserService;
+    public AuthenticationProviderAdmin(AppAdminService appAdminService) {
+        this.appAdminService = appAdminService;
     }
 
     @Override
@@ -31,8 +32,8 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
         return Optional
                 .ofNullable(token)
                 .map(String::valueOf)
-                .flatMap(appUserService::findUserByAuthenticationToken)
-                .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with authentication token = " + token));
+                .flatMap(appAdminService::findAdminByAuthenticationToken)
+                .orElseThrow(() -> new UsernameNotFoundException("Cannot find admin with authentication token = " + token));
     }
 
 }
