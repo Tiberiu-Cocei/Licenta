@@ -1,6 +1,8 @@
 package com.android.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -22,6 +24,7 @@ import com.android.android.utilities.ApiCaller;
 import com.android.android.utilities.ApiResponse;
 import com.android.android.utilities.DistanceCalculator;
 import com.android.android.utilities.JsonConverter;
+import com.android.android.utilities.NotificationWorker;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -208,7 +211,8 @@ public class TransactionCreateActivity extends AppCompatActivity {
 
                 AppDetails.resetTransactionValues();
 
-                //TODO : start notification service thing
+                OneTimeWorkRequest locationWorkRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class).build();
+                WorkManager.getInstance(this).enqueue(locationWorkRequest);
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

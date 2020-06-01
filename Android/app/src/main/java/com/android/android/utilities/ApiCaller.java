@@ -77,7 +77,7 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
     }
 
     private ApiResponse callPostOrPutApi(String stringUrl, String bearerToken, String jsonBody, String type) {
-        if(stringUrl == null || jsonBody == null) {
+        if(stringUrl == null) {
             return null;
         }
         try {
@@ -93,9 +93,11 @@ public class ApiCaller extends AsyncTask<String, Void, ApiResponse> {
                 connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
             }
 
-            OutputStream os = connection.getOutputStream();
-            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
+            if(jsonBody != null) {
+                OutputStream os = connection.getOutputStream();
+                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
 
             int responseCode = connection.getResponseCode();
             String responseMessage = connection.getResponseMessage();

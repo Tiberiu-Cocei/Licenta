@@ -33,6 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             = new OrRequestMatcher(new AntPathRequestMatcher("/api/secure/**"),
                                    new AntPathRequestMatcher("/api/admin/**"));
 
+    private static final RequestMatcher PROTECTED_URLS_USER
+            = new OrRequestMatcher(new AntPathRequestMatcher("/api/secure/**"));
+
+    private static final RequestMatcher PROTECTED_URLS_ADMIN
+            = new OrRequestMatcher(new AntPathRequestMatcher("/api/admin/**"));
+
     @Autowired
     public SecurityConfig(AuthenticationProviderUser authenticationProvider,
                           AuthenticationProviderAdmin authenticationProviderAdmin) {
@@ -63,8 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationProvider(authenticationProviderAdmin)
                     .addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
                     .authorizeRequests()
-                    .requestMatchers(PROTECTED_URLS)
-                    .authenticated()
+                    .requestMatchers(PROTECTED_URLS_USER)
+                    .hasAuthority("USER")
+                    .and()
+                    .authorizeRequests()
+                    .requestMatchers(PROTECTED_URLS_ADMIN)
+                    .hasAuthority("ADMIN")
                     .and()
                     .csrf().disable()
                     .formLogin().disable()

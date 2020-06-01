@@ -1,6 +1,7 @@
 package com.android.android.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,17 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
         TextView tvArrivalTime = convertView.findViewById(R.id.bicycle_arrival_time);
 
         tvStatus.setText(context.getResources().getString(R.string.bicycle_status, status));
+
+        if(status.equals("Station")) {
+            tvStatus.setTextColor(Color.GREEN);
+        }
+        else if(status.equals("Damaged") || status.equals("Stolen")) {
+            tvStatus.setTextColor(Color.RED);
+        }
+        else {
+            tvStatus.setTextColor(Color.YELLOW);
+        }
+
         tvModel.setText(context.getResources().getString(R.string.bicycle_model, model));
         if(lockNumber != null) {
             tvLockNumber.setText(context.getResources().getString(R.string.bicycle_lock_number, lockNumber.toString()));

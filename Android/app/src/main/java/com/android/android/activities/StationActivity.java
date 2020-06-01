@@ -120,6 +120,7 @@ public class StationActivity extends AppCompatActivity {
         List<Bicycle> bicycleList = getStationBicycles();
         if (bicycleList != null) {
             populateBicycleList(bicycleList);
+            startStation.setCurrentCapacity(bicycleList.size());
             stationCapacity.setText(getResources().getString(R.string.station_capacity,
                     Integer.toString(bicycleList.size()), startStation.getMaxCapacity().toString()));
         }

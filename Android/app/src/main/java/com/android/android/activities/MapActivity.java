@@ -15,8 +15,12 @@ import android.view.MenuItem;
 
 import com.android.android.R;
 import com.android.android.entities.AppDetails;
+import com.android.android.entities.Message;
 import com.android.android.entities.Station;
+import com.android.android.entities.User;
 import com.android.android.utilities.ActivityStarter;
+import com.android.android.utilities.ApiCaller;
+import com.android.android.utilities.ApiResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -99,7 +103,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        //locationListener = null;
+        locationListener = null;
     }
 
     @Override
@@ -129,6 +133,8 @@ public class MapActivity extends AppCompatActivity
     public boolean onMarkerClick(final Marker marker) {
         UUID stationId = (UUID) marker.getTag();
         if(stationId != null) {
+            int currentCapacity = -100;
+            int maxCapacity = 100;
             Log.d("MARKER", "UUID of clicked station is " + stationId.toString());
             for (Station station : appDetails.getStationList()) {
                 if (stationId == station.getId()) {
@@ -138,19 +144,49 @@ public class MapActivity extends AppCompatActivity
                     else {
                         appDetails.setPlannedStationName(station.getName());
                     }
+                    currentCapacity = station.getCurrentCapacity();
+                    maxCapacity = station.getMaxCapacity();
                     break;
                 }
             }
             if(!appDetails.isChoosingPlannedStation()) {
+                if(currentCapacity == 0) {
+                    callIncrementTimesClickedWhileEmptyOrFull(false, stationId);
+                }
+                else if(currentCapacity == maxCapacity) {
+                    callIncrementTimesClickedWhileEmptyOrFull(true, stationId);
+                }
                 ActivityStarter.openStationActivity(this);
             }
             else {
                 appDetails.setPlannedStationId(stationId);
                 appDetails.setDiscount(null);
+                if(currentCapacity == maxCapacity) {
+                    callIncrementTimesClickedWhileEmptyOrFull(true, stationId);
+                }
                 ActivityStarter.openTransactionCreateActivity(this);
             }
         }
         return false;
+    }
+
+    private void callIncrementTimesClickedWhileEmptyOrFull(boolean full, UUID stationId) {
+        ApiCaller apiCaller = new ApiCaller();
+        String url;
+        if(!full) {
+            url = getResources().getString(R.string.api_secure_prefix) +
+                    "/stations/increment-times-clicked-while-empty/" + stationId.toString();
+        }
+        else {
+            url = getResources().getString(R.string.api_secure_prefix) +
+                    "/stations/increment-times-clicked-while-full/" + stationId.toString();
+        }
+        try {
+            apiCaller.execute("PUT", url, User.getUser().getAuthenticationToken().toString(), null);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateCurrentPosition() {

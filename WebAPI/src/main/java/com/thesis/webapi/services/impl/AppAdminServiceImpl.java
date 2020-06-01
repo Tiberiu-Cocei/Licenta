@@ -54,7 +54,7 @@ public class AppAdminServiceImpl implements AppAdminService {
         if(appAdminOpt.isPresent()){
             AppAdmin appAdmin = appAdminOpt.get();
             User admin = new User(appAdmin.getUsername(), appAdmin.getPassword(), true, true,
-                    true, true, AuthorityUtils.createAuthorityList("USER"));
+                    true, true, AuthorityUtils.createAuthorityList("ADMIN"));
             return Optional.of(admin);
         }
         return Optional.empty();
