@@ -170,9 +170,21 @@ class Activity:
         self.discounts_to = 0
         self.was_station_empty = False
         self.was_station_full = False
+        self.times_clicked_while_empty = 0
+        self.times_clicked_while_full = 0
 
         global activity_list
         activity_list.append(self)
+
+    def randomise_values(self):
+        self.bicycles_taken = random.randint(3, 20)
+        self.bicycles_brought = random.randint(3, 20)
+        self.discounts_from = random.randint(0, self.bicycles_taken)
+        self.discounts_to = random.randint(0, self.bicycles_brought)
+        self.times_clicked_while_empty = random.randint(0, 30)
+        self.times_clicked_while_full = random.randint(0, 30)
+        self.was_station_full = random.choice([True, False, False, False])
+        self.was_station_empty = random.choice([True, False, False, False])
 
 
 def random_date():
@@ -511,10 +523,46 @@ def insert_daily_activity():
             connection.close()
 
 
+def insert_new_activity():
+    new_activities = []
+    existing_stations = ["ad2c5d0d-4e72-43fa-adca-cdb971b646cc", "4d5ef4cb-1b49-4e7d-9016-7746abb43bcf",
+                         "3c739323-fb4d-4a1d-a44f-cfc011322892", "5a24be37-e98d-4523-8e5d-0cc280ae2b3b",
+                         "71c265b0-b78f-46a0-93ed-0bcb83461e8b", "bfc1ac70-679a-4d55-aabe-ab7e6e283cce",
+                         "9aa3c38e-e1c3-4259-8bcc-3dc83f36c3cd", "104b759f-ab73-468e-9c05-420e80074a5e",
+                         "d5acb894-24bc-4145-8d41-b7c426ca8a92"]
+    current = datetime.strptime('2020/6/16 00:00:00', '%Y/%m/%d %H:%M:%S')
+    end = datetime.strptime('2020/7/15 00:00:00', '%Y/%m/%d %H:%M:%S')
+    while current < end:
+        for hour_of_departure in range(7, 22):
+            for station_id in existing_stations:
+                activity = Activity(station_id, current.date(), hour_of_departure, hour_of_departure + 1)
+                activity.randomise_values()
+                new_activities.append(activity)
+        current = current + timedelta(days=1)
+    connection = None
+    try:
+        connection = get_database_connection()
+        cursor = connection.cursor()
+        for activity in new_activities:
+            cursor.execute("INSERT INTO activity VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                           (activity.activity_id, activity.station_id, activity.day, activity.hour_from,
+                            activity.hour_to, activity.bicycles_taken, activity.bicycles_brought,
+                            activity.discounts_from, activity.discounts_to, activity.was_station_empty,
+                            activity.was_station_full, activity.times_clicked_while_empty, activity.times_clicked_while_full))
+        connection.commit()
+        cursor.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if connection is not None:
+            connection.close()
+
+
 if __name__ == '__main__':
-    clear_tables()
-    create_persons()
-    create_city_and_settings()
-    create_stations()
-    create_bicycles()
-    insert_daily_activity()
+    # clear_tables()
+    # create_persons()
+    # create_city_and_settings()
+    # create_stations()
+    # create_bicycles()
+    # insert_daily_activity()
+    insert_new_activity()
