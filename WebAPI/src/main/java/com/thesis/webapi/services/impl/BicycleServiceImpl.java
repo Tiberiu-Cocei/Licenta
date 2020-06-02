@@ -77,7 +77,7 @@ public class BicycleServiceImpl implements BicycleService {
     }
 
     @Override
-    @Scheduled(cron = "30 */5 * * * *")
+    @Scheduled(cron = "30 */2 * * * *")
     public void onScheduleCallClearStationsOfLateBicycles() {
         clearStationsOfLateBicycles();
     }

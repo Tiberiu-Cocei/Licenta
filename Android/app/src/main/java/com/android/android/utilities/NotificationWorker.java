@@ -59,7 +59,15 @@ public class NotificationWorker extends Worker {
             if(verifyUserTransactionAndCreateNotification(NotificationMode.FIVE_MINUTES_BEFORE_ARRIVAL)) {
                 return Result.success();
             }
-            Thread.sleep(4 * 60 * 1000); //sleep until 1 minute before planned time
+
+            if(sleepTime == 0) {
+                sleepTime = (minutesToArrival - 1) * 60 * 1000;
+            }
+            else {
+                sleepTime = 4 * 60 * 1000;
+            }
+
+            Thread.sleep(sleepTime); //sleep until 1 minute before planned time
             if(verifyUserTransactionAndCreateNotification(NotificationMode.ONE_MINUTE_BEFORE_ARRIVAL)) {
                 return Result.success();
             }
@@ -106,13 +114,14 @@ public class NotificationWorker extends Worker {
                 description = "There is 1 minute left until your planned arrival time.";
                 break;
             case 2:
-                description = "Your arrival time has passed. You have lost your reserved spot in the station.";
+                description = "Your planned time has passed. You have lost your reserved spot in the station.";
                 break;
             case 3:
                 description = "Your arrival is late by 5 minutes or more. From now on you will be penalised.";
                 break;
         }
 
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(description));
         builder.setContentText(description);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

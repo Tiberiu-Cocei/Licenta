@@ -153,9 +153,6 @@ public class MapActivity extends AppCompatActivity
                 if(currentCapacity == 0) {
                     callIncrementTimesClickedWhileEmptyOrFull(false, stationId);
                 }
-                else if(currentCapacity == maxCapacity) {
-                    callIncrementTimesClickedWhileEmptyOrFull(true, stationId);
-                }
                 ActivityStarter.openStationActivity(this);
             }
             else {

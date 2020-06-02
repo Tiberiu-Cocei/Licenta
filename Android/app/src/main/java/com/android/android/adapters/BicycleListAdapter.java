@@ -72,7 +72,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
             tvStatus.setTextColor(Color.RED);
         }
         else {
-            tvStatus.setTextColor(Color.YELLOW);
+            tvStatus.setTextColor(Color.BLUE);
         }
 
         tvModel.setText(context.getResources().getString(R.string.bicycle_model, model));
