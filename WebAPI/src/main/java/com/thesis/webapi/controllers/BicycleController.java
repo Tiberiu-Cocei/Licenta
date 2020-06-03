@@ -5,10 +5,7 @@ import com.thesis.webapi.entities.Bicycle;
 import com.thesis.webapi.services.BicycleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +34,12 @@ public class BicycleController {
     @GetMapping(value = "/admin/bicycles/status-numbers")
     public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus() {
         return bicycleService.getBicycleCountByStatus();
+    }
+
+    @GetMapping(value = "/admin/bicycles")
+    public ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(
+            @RequestParam Integer limit, @RequestParam Integer offset) {
+        return bicycleService.getBicyclesWithLimitAndOffset(limit, offset);
     }
 
 }

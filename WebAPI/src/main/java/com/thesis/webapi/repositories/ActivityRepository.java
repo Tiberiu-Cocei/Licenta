@@ -13,4 +13,6 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
 
     Activity getActivityByStationIdAndDayAndHourFrom(UUID stationId, Date day, int hourFrom);
 
+    List<Activity> getActivitiesByStationId(UUID stationId);
+
 }

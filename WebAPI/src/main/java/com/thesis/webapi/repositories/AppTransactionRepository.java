@@ -21,4 +21,10 @@ public interface AppTransactionRepository extends JpaRepository<AppTransaction, 
     @Query(value = "SELECT u FROM AppTransaction u WHERE u.bicycleId = :bicycleId AND u.finishStationId IS NULL AND u.finishTime IS NULL")
     AppTransaction getUnfinishedTransactionByBicycleId(@Param("bicycleId") UUID bicycleId);
 
+    @Query(value = "SELECT * FROM App_Transaction WHERE start_station_id = ?1 LIMIT ?2 OFFSET ?3", nativeQuery = true)
+    List<AppTransaction> getTransactionsByStartStationWithLimitAndOffset(UUID startStationId, int limit, int offset);
+
+    @Query(value = "SELECT * FROM App_Transaction WHERE finish_station_id = ?1 LIMIT ?2 OFFSET ?3", nativeQuery = true)
+    List<AppTransaction> getTransactionsByFinishStationWithLimitAndOffset(UUID finishStationId, int limit, int offset);
+
 }

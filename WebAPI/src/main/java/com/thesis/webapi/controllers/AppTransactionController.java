@@ -4,6 +4,7 @@ import com.thesis.webapi.dtos.AppTransactionCreateDto;
 import com.thesis.webapi.dtos.AppTransactionHistoryDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
+import com.thesis.webapi.entities.AppTransaction;
 import com.thesis.webapi.services.AppTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/secure/transactions")
+@RequestMapping(value = "/api")
 public class AppTransactionController {
 
     private final AppTransactionService appTransactionService;
@@ -24,29 +25,41 @@ public class AppTransactionController {
         this.appTransactionService = appTransactionService;
     }
 
-    @GetMapping(value = "/get-all-transactions/{id}")
+    @GetMapping(value = "/secure/transactions/get-all-transactions/{id}")
     public ResponseEntity<List<AppTransactionHistoryDto>> getTransactionsByUserId(@PathVariable("id") UUID userId) {
         return appTransactionService.getAppTransactionsByUserId(userId);
     }
 
-    @GetMapping(value = "/get-active-transaction/{id}")
+    @GetMapping(value = "/secure/transactions/get-active-transaction/{id}")
     public ResponseEntity<List<AppTransactionHistoryDto>> getActiveTransactionByUserId(@PathVariable("id") UUID userId) {
         return appTransactionService.getActiveAppTransactionByUserId(userId);
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/secure/transactions/create")
     public ResponseEntity<String> createTransaction(@Valid @RequestBody AppTransactionCreateDto appTransactionCreateDto) {
         return appTransactionService.createTransaction(appTransactionCreateDto);
     }
 
-    @PutMapping(value = "/finalize")
+    @PutMapping(value = "/secure/transactions/finalize")
     public ResponseEntity<String> finalizeTransaction(@Valid @RequestBody AppTransactionUpdateDto appTransactionUpdateDto) {
         return appTransactionService.finalizeTransaction(appTransactionUpdateDto);
     }
 
-    @PostMapping(value = "/preview")
+    @PostMapping(value = "/secure/transactions/preview")
     public ResponseEntity<Double> previewTransaction(@Valid @RequestBody AppTransactionPreviewDto appTransactionPreviewDto) {
         return appTransactionService.previewTransaction(appTransactionPreviewDto);
+    }
+
+    @GetMapping(value = "/admin/transactions/with-start-station")
+    public ResponseEntity<List<AppTransaction>> getTransactionsByStartStationWithLimitAndOffset(
+            @RequestParam UUID startStationId, @RequestParam Integer limit, @RequestParam Integer offset) {
+        return appTransactionService.getTransactionsByStartStationWithLimitAndOffset(startStationId, limit, offset);
+    }
+
+    @GetMapping(value = "/admin/transactions/with-finish-station")
+    public ResponseEntity<List<AppTransaction>> getTransactionsByFinishStationWithLimitAndOffset(
+            @RequestParam UUID finishStationId, @RequestParam Integer limit, @RequestParam Integer offset) {
+        return appTransactionService.getTransactionsByFinishStationWithLimitAndOffset(finishStationId, limit, offset);
     }
 
 }

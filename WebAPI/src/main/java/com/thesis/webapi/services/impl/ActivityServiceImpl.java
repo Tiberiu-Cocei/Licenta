@@ -10,6 +10,8 @@ import com.thesis.webapi.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,11 @@ public class ActivityServiceImpl implements ActivityService {
         this.activityRepository = activityRepository;
         this.cityRepository = cityRepository;
         this.stationRepository = stationRepository;
+    }
+
+    @Override
+    public ResponseEntity<List<Activity>> getActivitiesByStationId(UUID stationId) {
+        return new ResponseEntity<>(activityRepository.getActivitiesByStationIdAndDay(stationId, new Date()), HttpStatus.OK);
     }
 
     private Activity getActivityForIncrement(UUID stationId) {

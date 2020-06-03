@@ -4,6 +4,7 @@ import com.thesis.webapi.dtos.AppTransactionCreateDto;
 import com.thesis.webapi.dtos.AppTransactionHistoryDto;
 import com.thesis.webapi.dtos.AppTransactionPreviewDto;
 import com.thesis.webapi.dtos.AppTransactionUpdateDto;
+import com.thesis.webapi.entities.AppTransaction;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public interface AppTransactionService {
     ResponseEntity<String> finalizeTransaction(AppTransactionUpdateDto appTransactionUpdateDto);
 
     ResponseEntity<Double> previewTransaction(AppTransactionPreviewDto appTransactionPreviewDto);
+
+    ResponseEntity<List<AppTransaction>> getTransactionsByStartStationWithLimitAndOffset(UUID startStationId, Integer limit, Integer offset);
+
+    ResponseEntity<List<AppTransaction>> getTransactionsByFinishStationWithLimitAndOffset(UUID finishStationId, Integer limit, Integer offset);
 
     void solveOverdueTransactions();
 

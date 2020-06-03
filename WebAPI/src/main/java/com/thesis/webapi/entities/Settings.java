@@ -12,22 +12,22 @@ public class Settings {
     private UUID cityId;
 
     @Column(name="base_price")
-    private double basePrice;
+    private Double basePrice;
 
     @Column(name="interval_price")
-    private double intervalPrice;
+    private Double intervalPrice;
 
     @Column(name="interval_time")
-    private int intervalTime;
+    private Integer intervalTime;
 
     @Column(name="discounts_used")
-    private boolean discountsUsed;
+    private Boolean discountsUsed;
 
     @Column(name="discount_value")
-    private double discountValue;
+    private Double discountValue;
 
     @Column(name="transports_used")
-    private boolean transportsUsed;
+    private Boolean transportsUsed;
 
     public Settings() {}
 
@@ -45,27 +45,55 @@ public class Settings {
         return cityId;
     }
 
-    public double getBasePrice() {
+    public void setCityId(UUID cityId) {
+        this.cityId = cityId;
+    }
+
+    public Double getBasePrice() {
         return basePrice;
     }
 
-    public double getIntervalPrice() {
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public Double getIntervalPrice() {
         return intervalPrice;
     }
 
-    public int getIntervalTime() {
+    public void setIntervalPrice(Double intervalPrice) {
+        this.intervalPrice = intervalPrice;
+    }
+
+    public Integer getIntervalTime() {
         return intervalTime;
     }
 
-    public boolean areDiscountsUsed() {
+    public void setIntervalTime(Integer intervalTime) {
+        this.intervalTime = intervalTime;
+    }
+
+    public Boolean getDiscountsUsed() {
         return discountsUsed;
     }
 
-    public double getDiscountValue() {
+    public void setDiscountsUsed(Boolean discountsUsed) {
+        this.discountsUsed = discountsUsed;
+    }
+
+    public Double getDiscountValue() {
         return discountValue;
     }
 
-    public boolean areTransportsUsed() {
+    public void setDiscountValue(Double discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public Boolean getTransportsUsed() {
         return transportsUsed;
+    }
+
+    public void setTransportsUsed(Boolean transportsUsed) {
+        this.transportsUsed = transportsUsed;
     }
 }

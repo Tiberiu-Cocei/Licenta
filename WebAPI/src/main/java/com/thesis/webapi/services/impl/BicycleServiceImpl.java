@@ -68,6 +68,11 @@ public class BicycleServiceImpl implements BicycleService {
     }
 
     @Override
+    public ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset) {
+        return new ResponseEntity<>(bicycleRepository.getBicyclesWithLimitAndOffset(limit, offset), HttpStatus.OK);
+    }
+
+    @Override
     public void clearStationsOfLateBicycles() {
         Date date = new Date();
         LocalTime localTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();

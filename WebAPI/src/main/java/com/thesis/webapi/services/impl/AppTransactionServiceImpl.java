@@ -186,6 +186,18 @@ public class AppTransactionServiceImpl implements AppTransactionService {
     }
 
     @Override
+    public ResponseEntity<List<AppTransaction>> getTransactionsByStartStationWithLimitAndOffset(UUID startStationId, Integer limit, Integer offset) {
+        return new ResponseEntity<>(
+                appTransactionRepository.getTransactionsByStartStationWithLimitAndOffset(startStationId, limit, offset), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<AppTransaction>> getTransactionsByFinishStationWithLimitAndOffset(UUID finishStationId, Integer limit, Integer offset) {
+        return new ResponseEntity<>(
+                appTransactionRepository.getTransactionsByFinishStationWithLimitAndOffset(finishStationId, limit, offset), HttpStatus.OK);
+    }
+
+    @Override
     public void solveOverdueTransactions() {
         Date date = new Date();
         int hour = date.toInstant().atZone(ZoneId.systemDefault()).getHour();

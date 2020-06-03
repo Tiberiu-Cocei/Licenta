@@ -15,6 +15,8 @@ public interface BicycleService {
 
     ResponseEntity<BicycleStatusDto> getBicycleCountByStatus();
 
+    ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset);
+
     void clearStationsOfLateBicycles();
 
     void onScheduleCallClearStationsOfLateBicycles();
