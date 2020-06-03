@@ -21,7 +21,7 @@ public class Bicycle {
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    @Column(name = "status", updatable = false)
+    @Column(name = "status")
     private String status;
 
     @Column(name = "model")

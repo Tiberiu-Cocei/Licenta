@@ -1,8 +1,10 @@
 package com.thesis.webapi.services.impl;
 
+import com.thesis.webapi.dtos.BicycleStatusDto;
 import com.thesis.webapi.entities.AppTransaction;
 import com.thesis.webapi.entities.Bicycle;
 import com.thesis.webapi.entities.Station;
+import com.thesis.webapi.enums.BicycleStatus;
 import com.thesis.webapi.repositories.AppTransactionRepository;
 import com.thesis.webapi.repositories.BicycleRepository;
 import com.thesis.webapi.repositories.StationRepository;
@@ -49,6 +51,20 @@ public class BicycleServiceImpl implements BicycleService {
             return new ResponseEntity<>(bicycle, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus() {
+        int stationNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STATION.getValue());
+        int warehouseNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.WAREHOUSE.getValue());
+        int transportNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.TRANSPORT.getValue());
+        int userNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.USER.getValue());
+        int damagedNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.DAMAGED.getValue());
+        int stolenNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STOLEN.getValue());
+
+        BicycleStatusDto bicycleStatusDto = new BicycleStatusDto(
+                stationNumber, warehouseNumber, transportNumber, userNumber, damagedNumber, stolenNumber);
+        return new ResponseEntity<>(bicycleStatusDto, HttpStatus.OK);
     }
 
     @Override

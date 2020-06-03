@@ -1,7 +1,6 @@
 package com.thesis.webapi.services;
 
 import com.thesis.webapi.dtos.*;
-import com.thesis.webapi.entities.PaymentMethod;
 import com.thesis.webapi.security.PasswordHashing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;

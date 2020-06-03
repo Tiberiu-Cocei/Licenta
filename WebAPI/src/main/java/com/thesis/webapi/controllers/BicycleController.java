@@ -1,5 +1,6 @@
 package com.thesis.webapi.controllers;
 
+import com.thesis.webapi.dtos.BicycleStatusDto;
 import com.thesis.webapi.entities.Bicycle;
 import com.thesis.webapi.services.BicycleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/secure/bicycles")
+@RequestMapping(value = "/api")
 public class BicycleController {
 
     private final BicycleService bicycleService;
@@ -23,14 +24,19 @@ public class BicycleController {
         this.bicycleService = bicycleService;
     }
 
-    @GetMapping(value = "/station/{id}")
+    @GetMapping(value = "/secure/bicycles/station/{id}")
     public ResponseEntity<List<Bicycle>> getBicyclesByStationId(@PathVariable("id") UUID stationId) {
         return bicycleService.getBicyclesByStationId(stationId);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/secure/bicycles/{id}")
     public ResponseEntity<Bicycle> getBicycleById(@PathVariable("id") UUID bicycleId) {
         return bicycleService.getBicycleById(bicycleId);
+    }
+
+    @GetMapping(value = "/admin/bicycles/status-numbers")
+    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus() {
+        return bicycleService.getBicycleCountByStatus();
     }
 
 }

@@ -1,7 +1,6 @@
 package com.thesis.webapi.dtos;
 
 import com.thesis.webapi.entities.AppUser;
-import com.thesis.webapi.entities.PaymentMethod;
 
 import java.util.UUID;
 
