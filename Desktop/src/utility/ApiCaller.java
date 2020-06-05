@@ -12,8 +12,8 @@ import java.util.List;
 public class ApiCaller {
 
     public ApiResponse callApi(String requestMethod, String stringUrl, String bearerToken, String body) {
-        String[] alphabet = new String[]{"PUT", "POST", "GET"};
-        List<String> requestMethodList = Arrays.asList(alphabet);
+        String[] validMethods = new String[]{"PUT", "POST", "GET"};
+        List<String> requestMethodList = Arrays.asList(validMethods);
         if(!requestMethodList.contains(requestMethod)) {
             return null;
         }
@@ -101,14 +101,19 @@ public class ApiCaller {
     }
 
     private ApiResponse processApiStream(HttpURLConnection connection, int responseCode, String responseMessage) throws Exception {
-        BufferedReader bufferedReader;
+        BufferedReader bufferedReader = null;
         if(responseCode < 400) {
             bufferedReader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         }
         else {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+            if(connection != null && connection.getErrorStream() != null) {
+                bufferedReader = new BufferedReader(
+                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+            }
+        }
+        if(bufferedReader == null) {
+            return new ApiResponse(null, responseCode, responseMessage);
         }
         StringBuilder responseJson = new StringBuilder();
         String responseLine;
