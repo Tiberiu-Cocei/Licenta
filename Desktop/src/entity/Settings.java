@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.UUID;
 
 public class Settings {
@@ -17,6 +19,11 @@ public class Settings {
     private Double discountValue;
 
     private Boolean transportsUsed;
+
+    public static Settings createSettingsFromJson(String json) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, Settings.class);
+    }
 
     public UUID getCityId() {
         return cityId;

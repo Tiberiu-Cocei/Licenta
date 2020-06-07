@@ -2,6 +2,7 @@ package entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +11,8 @@ public final class AdminLoggedIn {
     private static AdminLoggedIn adminLoggedIn;
 
     private static List<City> cityList;
+
+    private static HashMap<UUID, List<StationInfo>> stationLists;
 
     private UUID staffId;
 
@@ -59,5 +62,13 @@ public final class AdminLoggedIn {
 
     public void setAuthenticationToken(UUID authenticationToken) {
         this.authenticationToken = authenticationToken;
+    }
+
+    public static HashMap<UUID, List<StationInfo>> getStationLists() {
+        return stationLists;
+    }
+
+    public static void setStationLists(HashMap<UUID, List<StationInfo>> stationLists) {
+        AdminLoggedIn.stationLists = stationLists;
     }
 }

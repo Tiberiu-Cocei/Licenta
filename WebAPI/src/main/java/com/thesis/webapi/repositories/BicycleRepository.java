@@ -30,7 +30,13 @@ public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
     @Query(value = "SELECT COUNT(u) FROM Bicycle u WHERE u.status = :status")
     Integer getBicycleCountByStatus(@Param("status") String status);
 
+    @Query(value = "SELECT COUNT(u) FROM Bicycle u WHERE u.status = :status AND u.stationId = :stationId")
+    Integer getBicycleCountByStatusAndStationId(@Param("status") String status, @Param("stationId") UUID stationId);
+
     @Query(value = "SELECT * FROM Bicycle LIMIT ?1 OFFSET ?2", nativeQuery = true)
     List<Bicycle> getBicyclesWithLimitAndOffset(int limit, int offset);
+
+    @Query(value = "SELECT * FROM Bicycle WHERE station_id = ?1 LIMIT ?2 OFFSET ?3", nativeQuery = true)
+    List<Bicycle> getBicyclesWithLimitAndOffsetAndStationId(UUID stationId, int limit, int offset);
 
 }

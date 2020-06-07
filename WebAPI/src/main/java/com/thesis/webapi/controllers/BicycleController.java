@@ -31,15 +31,15 @@ public class BicycleController {
         return bicycleService.getBicycleById(bicycleId);
     }
 
-    @GetMapping(value = "/admin/bicycles/status-numbers")
-    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus() {
-        return bicycleService.getBicycleCountByStatus();
+    @GetMapping(value = "/admin/bicycles/status-numbers/")
+    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus(@RequestParam(value = "id", required = false) UUID stationId) {
+        return bicycleService.getBicycleCountByStatus(stationId);
     }
 
     @GetMapping(value = "/admin/bicycles")
     public ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(
-            @RequestParam Integer limit, @RequestParam Integer offset) {
-        return bicycleService.getBicyclesWithLimitAndOffset(limit, offset);
+            @RequestParam Integer limit, @RequestParam Integer offset, @RequestParam(value = "id", required = false) UUID stationId) {
+        return bicycleService.getBicyclesWithLimitAndOffset(limit, offset, stationId);
     }
 
 }

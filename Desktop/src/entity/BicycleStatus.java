@@ -1,9 +1,6 @@
 package entity;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.List;
 
 public class BicycleStatus {
 
@@ -19,9 +16,9 @@ public class BicycleStatus {
 
     private int stolenNumber;
 
-    public static List<BicycleStatus> createBicycleStatusListFromJson(String json) throws Exception {
+    public static BicycleStatus createBicycleStatusFromJson(String json) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, new TypeReference<List<BicycleStatus>>(){});
+        return objectMapper.readValue(json, BicycleStatus.class);
     }
 
     public int getStationNumber() {

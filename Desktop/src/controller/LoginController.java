@@ -3,6 +3,7 @@ package controller;
 import dto.LoginDto;
 import entity.AdminLoggedIn;
 import entity.City;
+import entity.StationInfo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +19,10 @@ import utility.ApiResponse;
 import utility.JsonConverter;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class LoginController implements Initializable {
 
@@ -71,6 +75,7 @@ public class LoginController implements Initializable {
                             if(AdminLoggedIn.getAdminLoggedIn() != null) {
                                 boolean success = getCities();
                                 if(success) {
+                                    messageText.setText("Successfully logged in.");
                                     openAdminPanel();
                                 }
                             }
@@ -101,9 +106,9 @@ public class LoginController implements Initializable {
                 if(apiResponse.getCode() == 200) {
                     try {
                         AdminLoggedIn.setCityList(City.createCityListFromJson(apiResponse.getJson()));
-                        messageText.setText("Successfully logged in.");
-                        return true;
+                        return getStationInfoForEachCity();
                     } catch(Exception e) {
+                        e.printStackTrace();
                         messageText.setText("Failed to create city list from JSON");
                     }
                 }
@@ -116,11 +121,42 @@ public class LoginController implements Initializable {
         return false;
     }
 
+    private boolean getStationInfoForEachCity() {
+        ApiCaller apiCaller = new ApiCaller();
+        HashMap<UUID, List<StationInfo>> stationLists = new HashMap<>();
+        String url = "http://localhost:8085/api/admin/stations/city/";
+        for(City city : AdminLoggedIn.getCityList()) {
+            try {
+                ApiResponse apiResponse = apiCaller.callApi("GET", url + city.getCityId().toString(),
+                        AdminLoggedIn.getAdminLoggedIn().getAuthenticationToken().toString(), null);
+                if (apiResponse != null) {
+                    try {
+                        List<StationInfo> stationInfoList = StationInfo.createStationInfoListFromJson(apiResponse.getJson());
+                        stationLists.put(city.getCityId(), stationInfoList);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        messageText.setText("Failed to create station list from JSON");
+                    }
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                messageText.setText("Failed to call get all stations by city API.");
+            }
+        }
+        if(stationLists.isEmpty()) {
+            return false;
+        }
+        else {
+            AdminLoggedIn.setStationLists(stationLists);
+            return true;
+        }
+    }
+
     private void openAdminPanel() {
         try {
-            FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("/view/test.fxml")); //TODO: change with actual fxml
+            FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("/view/admin_panel.fxml"));
             AnchorPane login = loader.load();
-            Scene scene = new Scene(login); //TODO : de vazut daca rezolutia si resize-ul sunt cum trebuie
+            Scene scene = new Scene(login);
             stage.setScene(scene);
         } catch(Exception e) {
             e.printStackTrace();

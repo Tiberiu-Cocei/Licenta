@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<AnchorPane fx:id="anchorPane" maxHeight="625.0" maxWidth="800.0" minHeight="625.0" minWidth="800.0" prefHeight="625.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminPanelController">
+  <BorderPane fx:id="borderPane" layoutY="25.0" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" />
+  <MenuBar>
+      <Menu fx:id="bicyclesMenu" mnemonicParsing="false" text="Bicycles" />
+      <Menu fx:id="activitiesMenu" mnemonicParsing="false" text="Activities" />
+      <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Settings" />
+  </MenuBar>
+</AnchorPane>

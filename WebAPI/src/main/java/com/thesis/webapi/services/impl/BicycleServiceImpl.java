@@ -54,13 +54,24 @@ public class BicycleServiceImpl implements BicycleService {
     }
 
     @Override
-    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus() {
-        int stationNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STATION.getValue());
-        int warehouseNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.WAREHOUSE.getValue());
-        int transportNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.TRANSPORT.getValue());
-        int userNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.USER.getValue());
-        int damagedNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.DAMAGED.getValue());
-        int stolenNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STOLEN.getValue());
+    public ResponseEntity<BicycleStatusDto> getBicycleCountByStatus(UUID stationId) {
+        int stationNumber, warehouseNumber, transportNumber, userNumber, damagedNumber, stolenNumber;
+        if(stationId == null) {
+            stationNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STATION.getValue());
+            warehouseNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.WAREHOUSE.getValue());
+            transportNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.TRANSPORT.getValue());
+            userNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.USER.getValue());
+            damagedNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.DAMAGED.getValue());
+            stolenNumber = bicycleRepository.getBicycleCountByStatus(BicycleStatus.STOLEN.getValue());
+        }
+        else {
+            stationNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.STATION.getValue(), stationId);
+            warehouseNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.WAREHOUSE.getValue(), stationId);
+            transportNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.TRANSPORT.getValue(), stationId);
+            userNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.USER.getValue(), stationId);
+            damagedNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.DAMAGED.getValue(), stationId);
+            stolenNumber = bicycleRepository.getBicycleCountByStatusAndStationId(BicycleStatus.STOLEN.getValue(), stationId);
+        }
 
         BicycleStatusDto bicycleStatusDto = new BicycleStatusDto(
                 stationNumber, warehouseNumber, transportNumber, userNumber, damagedNumber, stolenNumber);
@@ -68,8 +79,14 @@ public class BicycleServiceImpl implements BicycleService {
     }
 
     @Override
-    public ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset) {
-        return new ResponseEntity<>(bicycleRepository.getBicyclesWithLimitAndOffset(limit, offset), HttpStatus.OK);
+    public ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset, UUID stationId) {
+        if(stationId == null) {
+            return new ResponseEntity<>(bicycleRepository.getBicyclesWithLimitAndOffset(limit, offset), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(
+                    bicycleRepository.getBicyclesWithLimitAndOffsetAndStationId(stationId, limit, offset), HttpStatus.OK);
+        }
     }
 
     @Override

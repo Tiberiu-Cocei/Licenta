@@ -13,9 +13,9 @@ public interface BicycleService {
 
     ResponseEntity<Bicycle> getBicycleById(UUID bicycleId);
 
-    ResponseEntity<BicycleStatusDto> getBicycleCountByStatus();
+    ResponseEntity<BicycleStatusDto> getBicycleCountByStatus(UUID stationId);
 
-    ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset);
+    ResponseEntity<List<Bicycle>> getBicyclesWithLimitAndOffset(Integer limit, Integer offset, UUID stationId);
 
     void clearStationsOfLateBicycles();
 
