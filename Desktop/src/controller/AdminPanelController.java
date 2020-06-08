@@ -3,7 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -20,13 +20,13 @@ public class AdminPanelController implements Initializable {
     private BorderPane borderPane;
 
     @FXML
-    private Menu bicyclesMenu;
+    private MenuItem bicyclesMenu;
 
     @FXML
-    private Menu activitiesMenu;
+    private MenuItem activitiesMenu;
 
     @FXML
-    private Menu settingsMenu;
+    private MenuItem settingsMenu;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,7 +40,6 @@ public class AdminPanelController implements Initializable {
     private void startView(String filename) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/" + filename));
-            //loader.setController(this);
             borderPane.setCenter(loader.load());
         }
         catch (IOException e) {
