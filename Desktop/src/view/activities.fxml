@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController"/>
+<AnchorPane maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController">
+    <ComboBox fx:id="cityCombo" layoutX="55.0" layoutY="48.0" prefHeight="25.0" prefWidth="235.0" promptText="City" />
+    <ComboBox fx:id="stationCombo" layoutX="352.0" layoutY="48.0" prefHeight="25.0" prefWidth="235.0" promptText="Station" />
+    <Button fx:id="getActivitiesButton" layoutX="651.0" layoutY="48.0" mnemonicParsing="false" text="Get activities" />
+    <ListView fx:id="activityListView" layoutX="55.0" layoutY="84.0" prefHeight="319.0" prefWidth="297.0" style="-fx-border-color: orange;" />
+    <ListView fx:id="predictedActivityListView" layoutX="439.0" layoutY="325.0" prefHeight="231.0" prefWidth="297.0" style="-fx-border-color: blue;" />
+    <Button fx:id="activityPreviousPage" layoutX="55.0" layoutY="413.0" mnemonicParsing="false" text="Previous page" />
+    <Button fx:id="activityNextPage" layoutX="281.0" layoutY="413.0" mnemonicParsing="false" text="Next page" />
+    <Text layoutX="173.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page:" />
+    <Text fx:id="activityPageNumber" layoutX="217.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="36.13671875" />
+    <Button fx:id="predictedActivityPreviousPage" layoutX="439.0" layoutY="561.0" mnemonicParsing="false" text="Previous page" />
+    <Button fx:id="predictedActivityNextPage" layoutX="665.0" layoutY="561.0" mnemonicParsing="false" text="Next page" />
+    <Text layoutX="556.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page:" />
+    <Text fx:id="predictedActivityPageNumber" layoutX="601.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="36.13671875" />
+    <Text layoutX="449.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id:" wrappingWidth="71.0" />
+    <Text layoutX="448.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bicycles taken:" wrappingWidth="84.0" />
+    <Text layoutX="448.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bicycles brought:" wrappingWidth="91.0" />
+    <Text layoutX="448.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discounts from:" wrappingWidth="84.0" />
+    <Text layoutX="448.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discounts to:" wrappingWidth="71.0" />
+    <Text layoutX="448.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Was station full:" wrappingWidth="91.0" />
+    <Text layoutX="448.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Was station empty:" wrappingWidth="106.0" />
+    <Text layoutX="448.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Times clicked while full:" wrappingWidth="135.0" />
+    <Text layoutX="447.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Times clicked while empty:" wrappingWidth="145.0" />
+    <Separator layoutX="437.0" layoutY="82.0" orientation="VERTICAL" prefHeight="231.0" prefWidth="0.0" style="-fx-background-color: orange;" />
+    <Separator layoutX="729.0" layoutY="82.0" orientation="VERTICAL" prefHeight="231.0" prefWidth="0.0" style="-fx-background-color: orange;" />
+    <Separator layoutX="439.0" layoutY="82.0" prefHeight="8.0" prefWidth="297.0" style="-fx-background-color: orange;" />
+    <Separator layoutX="438.0" layoutY="313.0" prefHeight="8.0" prefWidth="297.0" style="-fx-background-color: orange;" />
+    <Text fx:id="activityClickedEmpty" layoutX="601.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityClickedFull" layoutX="601.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityWasEmpty" layoutX="601.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityWasFull" layoutX="601.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityDiscountsTo" layoutX="601.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityDiscountsFrom" layoutX="601.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityBicyclesBrought" layoutX="601.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text fx:id="activityId" layoutX="496.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="227.0" />
+    <Text fx:id="activityBicyclesTaken" layoutX="601.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.0" />
+    <Text layoutX="68.0" layoutY="492.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id:" wrappingWidth="122.0" />
+    <Text layoutX="67.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of bicycles:" wrappingWidth="122.0" />
+    <Text fx:id="predictedActivityId" layoutX="113.0" layoutY="491.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="201.0" />
+    <Text fx:id="predictedActivityNumber" layoutX="211.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="84.0" />
+    <Separator layoutX="54.0" layoutY="445.0" orientation="VERTICAL" prefHeight="140.0" prefWidth="6.0" style="-fx-background-color: blue;" />
+    <Separator layoutX="346.0" layoutY="444.0" orientation="VERTICAL" prefHeight="140.0" prefWidth="6.0" style="-fx-background-color: blue;" />
+    <Separator layoutX="57.0" layoutY="443.0" prefHeight="8.0" prefWidth="291.0" style="-fx-background-color: blue;" />
+    <Separator layoutX="57.0" layoutY="577.0" prefHeight="8.0" prefWidth="291.0" style="-fx-background-color: blue;" />
+</AnchorPane>

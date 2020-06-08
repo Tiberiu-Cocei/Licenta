@@ -39,8 +39,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ResponseEntity<List<Activity>> getActivitiesByStationId(UUID stationId) {
-        return new ResponseEntity<>(activityRepository.getActivitiesByStationIdAndDay(stationId, new Date()), HttpStatus.OK);
+    public ResponseEntity<List<Activity>> getActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset) {
+        return new ResponseEntity<>(activityRepository.getActivitiesWithLimitAndOffsetAndStationId(stationId, limit, offset), HttpStatus.OK);
     }
 
     private Activity getActivityForIncrement(UUID stationId) {

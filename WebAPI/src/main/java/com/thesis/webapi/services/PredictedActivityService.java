@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface PredictedActivityService {
 
-    ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationId(UUID stationId);
+    ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset);
 
 }

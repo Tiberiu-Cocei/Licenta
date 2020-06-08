@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +22,8 @@ public class PredictedActivityServiceImpl implements PredictedActivityService {
     }
 
     @Override
-    public ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationId(UUID stationId) {
+    public ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset) {
         return new ResponseEntity<>(
-                predictedActivityRepository.getPredictedActivityByStationIdAndDay(stationId, new Date()), HttpStatus.OK);
+                predictedActivityRepository.getPredictedActivitiesWithLimitAndOffsetAndStationId(stationId, limit, offset), HttpStatus.OK);
     }
 }

@@ -25,14 +25,16 @@ public class ActivityController {
         this.predictedActivityService = predictedActivityService;
     }
 
-    @GetMapping(value = "/activities/station/{id}")
-    public ResponseEntity<List<Activity>> getActivitiesByStationId(@PathVariable("id") UUID stationId) {
-        return activityService.getActivitiesByStationId(stationId);
+    @GetMapping(value = "/activities/")
+    public ResponseEntity<List<Activity>> getActivitiesByStationId(
+            @RequestParam Integer limit, @RequestParam Integer offset, @RequestParam(value = "id") UUID stationId) {
+        return activityService.getActivitiesByStationIdWithLimitAndOffset(stationId, limit, offset);
     }
 
-    @GetMapping(value = "/predicted-activities/station/{id}")
-    public ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationId(@PathVariable("id") UUID stationId) {
-        return predictedActivityService.getPredictedActivitiesByStationId(stationId);
+    @GetMapping(value = "/predicted-activities/")
+    public ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationId(
+            @RequestParam Integer limit, @RequestParam Integer offset, @RequestParam(value = "id") UUID stationId) {
+        return predictedActivityService.getPredictedActivitiesByStationIdWithLimitAndOffset(stationId, limit, offset);
     }
 
 }
