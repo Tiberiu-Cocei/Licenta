@@ -96,9 +96,9 @@ public class ActivitiesController implements Initializable {
 
     private List<PredictedActivity> predictedActivityList;
 
-    private int currentActivityPage = 1;
+    private int currentActivityPage;
 
-    private int currentPredictedActivityPage = 1;
+    private int currentPredictedActivityPage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -110,12 +110,57 @@ public class ActivitiesController implements Initializable {
 
         activityPageNumber.setText("1");
         predictedActivityPageNumber.setText("1");
+        currentActivityPage = 1;
+        currentPredictedActivityPage = 1;
 
         addCityComboBoxListener();
         addStationComboBoxListener();
         getActivitiesButton.setOnAction(e -> addGetActivitiesButtonListener());
         activityListView.getSelectionModel().selectedItemProperty().addListener(e -> showActivityDetails());
         predictedActivityListView.getSelectionModel().selectedItemProperty().addListener(e -> showPredictedActivityDetails());
+
+        activityNextPage.setOnAction(e -> addActivityNextPageListener());
+        activityPreviousPage.setOnAction(e -> addActivityPreviousPageListener());
+        predictedActivityNextPage.setOnAction(e -> addPredictedActivityNextPageListener());
+        predictedActivityPreviousPage.setOnAction(e -> addPredictedActivityPreviousPageListener());
+    }
+
+    private void addPredictedActivityNextPageListener() {
+        currentPredictedActivityPage++;
+        getAndUpdatePredictedActivityListAfterButtonClick();
+    }
+
+    private void addPredictedActivityPreviousPageListener() {
+        if(currentPredictedActivityPage == 1) {
+            return;
+        }
+        currentPredictedActivityPage--;
+        getAndUpdatePredictedActivityListAfterButtonClick();
+    }
+
+    private void getAndUpdatePredictedActivityListAfterButtonClick() {
+        predictedActivityPageNumber.setText(Integer.valueOf(currentPredictedActivityPage).toString());
+        getPredictedActivityList((currentPredictedActivityPage - 1) * ACTIVITIES_PER_PAGE);
+        showPredictedActivityList();
+    }
+
+    private void addActivityNextPageListener() {
+        currentActivityPage++;
+        getAndUpdateActivityListAfterButtonClick();
+    }
+
+    private void addActivityPreviousPageListener() {
+        if(currentActivityPage == 1) {
+            return;
+        }
+        currentActivityPage--;
+        getAndUpdateActivityListAfterButtonClick();
+    }
+
+    private void getAndUpdateActivityListAfterButtonClick() {
+        activityPageNumber.setText(Integer.valueOf(currentActivityPage).toString());
+        getActivityList((currentActivityPage - 1) * ACTIVITIES_PER_PAGE);
+        showActivityList();
     }
 
     private void showActivityDetails() {
@@ -153,23 +198,35 @@ public class ActivitiesController implements Initializable {
             predictedActivityListView.getItems().clear();
             getActivityList(0);
             getPredictedActivityList(0);
-            String datePattern = "MM/dd/yyyy";
-            DateFormat dateFormat = new SimpleDateFormat(datePattern, Locale.US);
-            if(activityList != null) {
-                int i = 0;
-                for(Activity activity : activityList) {
-                    String date = dateFormat.format(activity.getDay());
-                    activityListView.getItems().add(i, date + " " + activity.getHourFrom() + ":00");
-                    i++;
-                }
+            showActivityList();
+            showPredictedActivityList();
+        }
+    }
+
+    private void showActivityList() {
+        activityListView.getItems().clear();
+        String datePattern = "MM/dd/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(datePattern, Locale.US);
+        if(activityList != null) {
+            int i = 0;
+            for(Activity activity : activityList) {
+                String date = dateFormat.format(activity.getDay());
+                activityListView.getItems().add(i, date + " " + activity.getHourFrom() + ":00");
+                i++;
             }
-            if(predictedActivityList != null) {
-                int i = 0;
-                for(PredictedActivity predictedActivity : predictedActivityList) {
-                    String date = dateFormat.format(predictedActivity.getDay());
-                    activityListView.getItems().add(i, date + " " + predictedActivity.getHour() + ":00");
-                    i++;
-                }
+        }
+    }
+
+    private void showPredictedActivityList() {
+        predictedActivityListView.getItems().clear();
+        String datePattern = "MM/dd/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(datePattern, Locale.US);
+        if(predictedActivityList != null) {
+            int i = 0;
+            for(PredictedActivity predictedActivity : predictedActivityList) {
+                String date = dateFormat.format(predictedActivity.getDay());
+                activityListView.getItems().add(i, date + " " + predictedActivity.getHour() + ":00");
+                i++;
             }
         }
     }

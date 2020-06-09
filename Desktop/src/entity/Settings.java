@@ -52,4 +52,32 @@ public class Settings {
     public Boolean getTransportsUsed() {
         return transportsUsed;
     }
+
+    public void setCityId(UUID cityId) {
+        this.cityId = cityId;
+    }
+
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setIntervalPrice(Double intervalPrice) {
+        this.intervalPrice = intervalPrice;
+    }
+
+    public void setIntervalTime(Integer intervalTime) {
+        this.intervalTime = intervalTime;
+    }
+
+    public void setDiscountsUsed(Boolean discountsUsed) {
+        this.discountsUsed = discountsUsed;
+    }
+
+    public void setDiscountValue(Double discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public void setTransportsUsed(Boolean transportsUsed) {
+        this.transportsUsed = transportsUsed;
+    }
 }

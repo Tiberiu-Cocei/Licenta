@@ -75,6 +75,8 @@ public class SettingsServiceImpl implements SettingsService {
             settings.setTransportsUsed(transportsUsed);
         }
 
+        settingsRepository.save(settings);
+
         return new ResponseEntity<>("Successfully updated city settings.", HttpStatus.OK);
     }
 }
