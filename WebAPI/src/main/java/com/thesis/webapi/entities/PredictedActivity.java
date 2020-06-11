@@ -27,6 +27,16 @@ public class PredictedActivity {
     @Column(name = "number_of_bicycles")
     private int numberOfBicycles;
 
+    public PredictedActivity() {}
+
+    public PredictedActivity(UUID stationId, Date day, int hour, int numberOfBicycles) {
+        this.id = UUID.randomUUID();
+        this.stationId = stationId;
+        this.day = day;
+        this.hour = hour;
+        this.numberOfBicycles = numberOfBicycles;
+    }
+
     public UUID getId() {
         return id;
     }

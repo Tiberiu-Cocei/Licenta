@@ -10,4 +10,10 @@ public interface PredictedActivityService {
 
     ResponseEntity<List<PredictedActivity>> getPredictedActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset);
 
+    void calculateAllPredictedActivitiesForToday();
+
+    void onScheduleCallCalculateAllPredictedActivitiesForToday();
+
+    void onStartupCallCalculateAllPredictedActivitiesForToday();
+
 }

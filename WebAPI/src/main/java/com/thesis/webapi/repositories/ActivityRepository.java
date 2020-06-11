@@ -18,6 +18,9 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     List<Activity> getActivitiesByStationId(UUID stationId);
 
     @Query(value = "SELECT * FROM Activity WHERE station_id = ?1 ORDER BY day DESC, hour_from DESC LIMIT ?2 OFFSET ?3", nativeQuery = true)
-    List<Activity> getActivitiesWithLimitAndOffsetAndStationId(UUID stationId, int limit, int offset);
+    List<Activity> getActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset);
+
+    @Query(value = "SELECT * FROM Activity WHERE station_id = ?1 AND hour_from = ?2 ORDER BY day DESC LIMIT ?3", nativeQuery = true)
+    List<Activity> getActivitiesByStationIdAndHourWithLimit(UUID stationId, int hour, int limit);
 
 }
