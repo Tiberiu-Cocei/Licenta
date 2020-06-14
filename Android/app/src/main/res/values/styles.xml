@@ -1,9 +1,23 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorSecondary</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarStyle">@style/toolbar</item>
+        <item name="actionOverflowButtonStyle">@style/menu</item>
+        <item name="colorButtonNormal">@color/colorBlue</item>
+    </style>
+
+    <style name="toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="menu" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_icon</item>
     </style>
 
 </resources>

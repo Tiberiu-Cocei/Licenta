@@ -66,7 +66,7 @@ public class BicycleListAdapter extends ArrayAdapter<Bicycle> {
         tvStatus.setText(context.getResources().getString(R.string.bicycle_status, status));
 
         if(status.equals("Station")) {
-            tvStatus.setTextColor(Color.GREEN);
+            tvStatus.setTextColor(context.getColor(R.color.colorDarkGreen));
         }
         else if(status.equals("Damaged") || status.equals("Stolen")) {
             tvStatus.setTextColor(Color.RED);
