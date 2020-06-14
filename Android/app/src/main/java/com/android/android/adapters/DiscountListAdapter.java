@@ -86,7 +86,7 @@ public class DiscountListAdapter extends ArrayAdapter<Discount> {
 
     private String getStationName(UUID stationId) {
         for(Station station : appDetails.getStationList()) {
-            if (station.getId() == stationId) {
+            if (station.getId().equals(stationId)) {
                 return station.getName();
             }
         }

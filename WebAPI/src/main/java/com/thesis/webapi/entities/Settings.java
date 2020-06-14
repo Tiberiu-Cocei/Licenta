@@ -73,7 +73,7 @@ public class Settings {
         this.intervalTime = intervalTime;
     }
 
-    public Boolean getDiscountsUsed() {
+    public Boolean areDiscountsUsed() {
         return discountsUsed;
     }
 
@@ -89,7 +89,7 @@ public class Settings {
         this.discountValue = discountValue;
     }
 
-    public Boolean getTransportsUsed() {
+    public Boolean areTransportsUsed() {
         return transportsUsed;
     }
 

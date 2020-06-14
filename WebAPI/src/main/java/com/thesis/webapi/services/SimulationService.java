@@ -10,4 +10,8 @@ public interface SimulationService {
 
     void onScheduleCallChangeAvailabilityForDrivers();
 
+    void generateBicyclesForStations();
+
+    void updateActivityNumbers();
+
 }

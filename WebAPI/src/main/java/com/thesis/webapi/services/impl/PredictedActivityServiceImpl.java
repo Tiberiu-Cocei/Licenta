@@ -67,8 +67,8 @@ public class PredictedActivityServiceImpl implements PredictedActivityService {
                 }
                 else {
                     System.out.println("Generating predicted activities for station " + station.getName() + "...");
-                    int minVal = (int)( ((float)station.getMaxCapacity()) / 100 * 15);
-                    int maxVal = (int)( ((float)station.getMaxCapacity()) / 100 * 85);
+                    int minVal = (int)( ((float)station.getMaxCapacity()) / 100 * 5);
+                    int maxVal = (int)( ((float)station.getMaxCapacity()) / 100 * 95);
                     for(int hour = 7; hour <= 21; hour++) {
                         calculatePredictedActivityForStationAndHour(station.getId(), date, hour, minVal, maxVal);
                     }
@@ -84,11 +84,11 @@ public class PredictedActivityServiceImpl implements PredictedActivityService {
         for(Activity activity : pastActivities) {
             int calculatedBicycleNr = 0;
             calculatedBicycleNr += activity.getBicyclesTaken();
-            calculatedBicycleNr -= activity.getBicyclesBrought();
-            calculatedBicycleNr += activity.getDiscountsTo();
-            calculatedBicycleNr -= activity.getDiscountsFrom();
-            calculatedBicycleNr += activity.getTimesClickedWhileEmpty() / 100;
-            calculatedBicycleNr -= activity.getTimesClickedWhileFull() / 100;
+            calculatedBicycleNr -= activity.getBicyclesBrought() * 0.5;
+            calculatedBicycleNr += activity.getDiscountsTo() * 0.5;
+            calculatedBicycleNr -= activity.getDiscountsFrom() * 0.5;
+            calculatedBicycleNr += activity.getTimesClickedWhileEmpty() * 0.0025;
+            calculatedBicycleNr -= activity.getTimesClickedWhileFull() * 0.0025;
 
             if(calculatedBicycleNr < minVal) {
                 calculatedBicycleNr = minVal;
@@ -104,14 +104,18 @@ public class PredictedActivityServiceImpl implements PredictedActivityService {
         double currentRate = 1;
         double rateSum = 0;
         for(int calculatedBicycleNr : calculatedHourlyBicycleNr) {
-            predictedBicycleNr += (float) calculatedBicycleNr / currentRate;
+            if(currentRate <= 0) {
+                break;
+            }
+            predictedBicycleNr += (float) calculatedBicycleNr * currentRate;
             rateSum += currentRate;
-            currentRate += 0.05;
+            currentRate *= 0.975;
+
         }
 
         if(rateSum > 0) {
             predictedBicycleNr /= rateSum;
-            PredictedActivity predictedActivity = new PredictedActivity(stationId, day, hour, (int)predictedBicycleNr);
+            PredictedActivity predictedActivity = new PredictedActivity(stationId, day, hour, (int)Math.round(predictedBicycleNr));
             predictedActivityRepository.save(predictedActivity);
         }
     }

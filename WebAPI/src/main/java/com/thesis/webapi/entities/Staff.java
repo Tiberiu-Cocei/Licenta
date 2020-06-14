@@ -17,7 +17,7 @@ public class Staff {
     @Column(name = "cnp")
     private String cnp;
 
-    @Column(name = "position")
+    @Column(name = "position", updatable = false)
     private String position;
 
     @Column(name = "first_name")

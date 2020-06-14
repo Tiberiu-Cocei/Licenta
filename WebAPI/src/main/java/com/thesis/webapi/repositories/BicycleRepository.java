@@ -39,4 +39,7 @@ public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
     @Query(value = "SELECT * FROM Bicycle WHERE station_id = ?1 LIMIT ?2 OFFSET ?3", nativeQuery = true)
     List<Bicycle> getBicyclesWithLimitAndOffsetAndStationId(UUID stationId, int limit, int offset);
 
+    @Query(value = "UPDATE Bicycle SET status = ?1::bicycle_status WHERE id = ?2", nativeQuery = true)
+    void setStatus(String status, UUID id);
+
 }

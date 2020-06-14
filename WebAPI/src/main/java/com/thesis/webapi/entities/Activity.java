@@ -126,4 +126,36 @@ public class Activity {
     public void incrementTimesClickedWhileFull() {
         this.timesClickedWhileFull++;
     }
+
+    public void setBicyclesTaken(int bicyclesTaken) {
+        this.bicyclesTaken = bicyclesTaken;
+    }
+
+    public void setBicyclesBrought(int bicyclesBrought) {
+        this.bicyclesBrought = bicyclesBrought;
+    }
+
+    public void setDiscountsFrom(int discountsFrom) {
+        this.discountsFrom = discountsFrom;
+    }
+
+    public void setDiscountsTo(int discountsTo) {
+        this.discountsTo = discountsTo;
+    }
+
+    public void setTimesClickedWhileEmpty(int timesClickedWhileEmpty) {
+        this.timesClickedWhileEmpty = timesClickedWhileEmpty;
+    }
+
+    public void setTimesClickedWhileFull(int timesClickedWhileFull) {
+        this.timesClickedWhileFull = timesClickedWhileFull;
+    }
+
+    public void setWasStationEmpty(boolean wasStationEmpty) {
+        this.wasStationEmpty = wasStationEmpty;
+    }
+
+    public void setWasStationFull(boolean wasStationFull) {
+        this.wasStationFull = wasStationFull;
+    }
 }

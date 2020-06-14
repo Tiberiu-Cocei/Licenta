@@ -1,9 +1,8 @@
 package com.thesis.webapi.services.impl;
 
-import com.thesis.webapi.entities.Bicycle;
-import com.thesis.webapi.entities.Staff;
-import com.thesis.webapi.repositories.BicycleRepository;
-import com.thesis.webapi.repositories.StaffRepository;
+import com.thesis.webapi.entities.*;
+import com.thesis.webapi.enums.BicycleStatus;
+import com.thesis.webapi.repositories.*;
 import com.thesis.webapi.services.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,20 +10,110 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SimulationServiceImpl implements SimulationService {
 
-    private BicycleRepository bicycleRepository;
+    private final BicycleRepository bicycleRepository;
 
-    private StaffRepository staffRepository;
+    private final StaffRepository staffRepository;
+
+    private final StationRepository stationRepository;
+
+    private final ActivityRepository activityRepository;
+
+    private final CityRepository cityRepository;
 
     @Autowired
-    public SimulationServiceImpl(BicycleRepository bicycleRepository, StaffRepository staffRepository) {
+    public SimulationServiceImpl(BicycleRepository bicycleRepository,
+                                 StaffRepository staffRepository,
+                                 StationRepository stationRepository,
+                                 ActivityRepository activityRepository,
+                                 CityRepository cityRepository) {
         this.bicycleRepository = bicycleRepository;
         this.staffRepository = staffRepository;
+        this.stationRepository = stationRepository;
+        this.activityRepository = activityRepository;
+        this.cityRepository = cityRepository;
+    }
+
+    @Override
+    public void generateBicyclesForStations() {
+        List<City> cityList = cityRepository.findAll();
+        List<Character> randomChars = Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k');
+        Random random = new Random();
+        for(City city : cityList) {
+            List<Station> stationList = stationRepository.getStationsByCityId(city.getCityId());
+            for(Station station : stationList) {
+                int nrOfBicyclesToGenerate = station.getMaxCapacity() - station.getCurrentCapacity() - 5;
+                nrOfBicyclesToGenerate -= random.nextInt((int)(station.getMaxCapacity() * 0.80));
+                for(int i = 0; i < nrOfBicyclesToGenerate; i++) {
+                    StringBuilder modelBuilder = new StringBuilder();
+                    for(int j = 0; j < 3 ; j++) {
+                        modelBuilder.append(randomChars.get(random.nextInt(randomChars.size())));
+                    }
+                    modelBuilder.append('-');
+                    modelBuilder.append(random.nextInt(899) + 100);
+                    String model = modelBuilder.toString();
+                    Bicycle bicycle = new Bicycle(station.getId(), model);
+                    bicycle.setStatus(BicycleStatus.STATION.getValue());
+                    bicycleRepository.save(bicycle);
+                    station.incrementCurrentCapacity();
+                    stationRepository.save(station);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateActivityNumbers() {
+        HashMap<UUID, Station> idStationHashMap = new HashMap<>();
+        List<Station> stationList = stationRepository.findAll();
+        for(Station station : stationList) {
+            idStationHashMap.put(station.getId(), station);
+        }
+
+        Random random = new Random();
+        List<Activity> activityList = activityRepository.findAll();
+        for(Activity activity : activityList) {
+            Station station = idStationHashMap.get(activity.getStationId());
+            int bicyclesTaken = Math.max(random.nextInt((int)(station.getMaxCapacity() * 2.0)), 5);
+            boolean moreBicyclesTakenThanBrought = random.nextBoolean();
+            int bicyclesBrought;
+            if(moreBicyclesTakenThanBrought) {
+                bicyclesBrought = Math.max(bicyclesTaken - random.nextInt((int)(bicyclesTaken * 0.5)), 5);
+            }
+            else {
+                bicyclesBrought = Math.max(bicyclesTaken + random.nextInt((int)(bicyclesTaken * 0.5)), 5);
+            }
+            int discountsFrom = random.nextInt((int)(bicyclesTaken * 0.25));
+            int discountsTo = random.nextInt((int)(bicyclesBrought * 0.25));
+
+            List<Boolean> randomBooleans = Arrays.asList(false, false, false, true, false);
+            boolean wasStationFull = randomBooleans.get(random.nextInt(randomBooleans.size()));
+            boolean wasStationEmpty = randomBooleans.get(random.nextInt(randomBooleans.size()));
+            int timesClickedWhileFull = 0;
+            int timesClickedWhileEmpty = 0;
+
+            if(wasStationFull) {
+                 timesClickedWhileFull = random.nextInt((int)(bicyclesBrought * 2.5));
+            }
+
+            if(wasStationEmpty) {
+                timesClickedWhileEmpty = random.nextInt((int)(bicyclesTaken * 2.5));
+            }
+
+            activity.setBicyclesTaken(bicyclesTaken);
+            activity.setBicyclesBrought(bicyclesBrought);
+            activity.setDiscountsFrom(discountsFrom);
+            activity.setDiscountsTo(discountsTo);
+            activity.setWasStationFull(wasStationFull);
+            activity.setWasStationEmpty(wasStationEmpty);
+            activity.setTimesClickedWhileFull(timesClickedWhileFull);
+            activity.setTimesClickedWhileEmpty(timesClickedWhileEmpty);
+            activityRepository.save(activity);
+        }
     }
 
     @Override
@@ -36,7 +125,7 @@ public class SimulationServiceImpl implements SimulationService {
             System.out.println("[Simulation] Checking for finished transports...");
             List<Bicycle> bicycleList = bicycleRepository.getArrivedTransportBicycles(localTime);
             for(Bicycle bicycle : bicycleList) {
-                bicycle.setStatus("Station");
+                bicycle.setStatus(BicycleStatus.STATION.getValue());
                 bicycle.setArrivalTime(null);
                 bicycleRepository.save(bicycle);
             }
@@ -65,4 +154,10 @@ public class SimulationServiceImpl implements SimulationService {
     public void onScheduleCallChangeAvailabilityForDrivers() {
         changeAvailabilityForDrivers();
     }
+
+//    @EventListener(ContextRefreshedEvent.class)
+//    public void onStartupCallCalculateAllPredictedActivitiesForToday() {
+//        //generateBicyclesForStations();
+//        updateActivityNumbers();
+//    }
 }

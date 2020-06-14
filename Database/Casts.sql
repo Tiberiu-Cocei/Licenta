@@ -1,0 +1,1 @@
+CREATE CAST (character varying AS bicycle_status) WITH INOUT AS ASSIGNMENT;

@@ -30,7 +30,7 @@
     <string name="discount_lv_end_date">End date</string>
 
     <string name="discount_lv_station_name_text">To: %1$s</string>
-    <string name="discount_lv_value_text">% Value: %1$s</string>
+    <string name="discount_lv_value_text">Value percentage: %1$s</string>
     <string name="discount_lv_number_left_text">Nr. left: %1$s</string>
     <string name="discount_lv_end_date_text">Expires: %1$s</string>
 

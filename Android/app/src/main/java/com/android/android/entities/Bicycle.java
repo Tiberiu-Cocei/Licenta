@@ -14,7 +14,7 @@ public class Bicycle {
 
     private UUID stationId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Date arrivalTime;
 
     private String status;
