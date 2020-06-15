@@ -74,14 +74,19 @@ public class TransactionCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Calendar calendar = Calendar.getInstance();
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                final int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         plannedArrivalTimeText.setText(selectedHour + ":" + selectedMinute);
-                        calendar.set(Calendar.HOUR, selectedHour + 12); // +12 din cauza ca ora 16 devine 4
+                        if(hour >= 12) {
+                            calendar.set(Calendar.HOUR, selectedHour + 12); // +12 din cauza ca ora 16 devine 4
+                        }
+                        else {
+                            calendar.set(Calendar.HOUR, selectedHour + 24);
+                        }
                         calendar.set(Calendar.MINUTE, selectedMinute);
                         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1); // -1 din cauza ca incepe de la 0 ziua in calendar
                         plannedArrivalTime = calendar.getTime();

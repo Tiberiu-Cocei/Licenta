@@ -225,7 +225,7 @@ public class ActivitiesController implements Initializable {
             int i = 0;
             for(PredictedActivity predictedActivity : predictedActivityList) {
                 String date = dateFormat.format(predictedActivity.getDay());
-                activityListView.getItems().add(i, date + " " + predictedActivity.getHour() + ":00");
+                predictedActivityListView.getItems().add(i, date + " " + predictedActivity.getHour() + ":00");
                 i++;
             }
         }

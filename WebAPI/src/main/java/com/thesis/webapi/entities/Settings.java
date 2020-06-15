@@ -96,4 +96,12 @@ public class Settings {
     public void setTransportsUsed(Boolean transportsUsed) {
         this.transportsUsed = transportsUsed;
     }
+
+    public Boolean getDiscountsUsed() {
+        return discountsUsed;
+    }
+
+    public Boolean getTransportsUsed() {
+        return transportsUsed;
+    }
 }
