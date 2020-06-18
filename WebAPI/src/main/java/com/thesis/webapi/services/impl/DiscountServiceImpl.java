@@ -114,7 +114,7 @@ public class DiscountServiceImpl implements DiscountService {
             if((positivePair.getValue() <= maxValueForDiscount || staffList.size() == 0 || forceDiscounts) && settings.areDiscountsUsed()) {
                 for(Map.Entry<Station, Integer> negativePair : negativeDifference.entrySet()) {
                     int minValueForDiscount = -(int)(negativePair.getKey().getMaxCapacity()*(20.0f / 100.0f));
-                    if(positivePair.getValue() > 0 && negativePair.getValue() >= minValueForDiscount && negativePair.getValue() < 0) {
+                    if(positivePair.getValue() > 0 && (negativePair.getValue() >= minValueForDiscount || forceDiscounts) && negativePair.getValue() < 0) {
                         int numberOfDiscounts = Math.min(positivePair.getValue(), -negativePair.getValue()) + 1;
                         Discount discount = new Discount(positivePair.getKey().getId(), negativePair.getKey().getId(), numberOfDiscounts,
                                 settings.getDiscountValue(), date);
