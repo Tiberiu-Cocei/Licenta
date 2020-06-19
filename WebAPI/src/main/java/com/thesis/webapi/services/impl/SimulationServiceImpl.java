@@ -6,6 +6,8 @@ import com.thesis.webapi.repositories.*;
 import com.thesis.webapi.services.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+//import org.springframework.context.event.ContextRefreshedEvent;
+//import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -25,17 +27,21 @@ public class SimulationServiceImpl implements SimulationService {
 
     private final CityRepository cityRepository;
 
+    private final PredictedActivityRepository predictedActivityRepository;
+
     @Autowired
     public SimulationServiceImpl(BicycleRepository bicycleRepository,
                                  StaffRepository staffRepository,
                                  StationRepository stationRepository,
                                  ActivityRepository activityRepository,
-                                 CityRepository cityRepository) {
+                                 CityRepository cityRepository,
+                                 PredictedActivityRepository predictedActivityRepository) {
         this.bicycleRepository = bicycleRepository;
         this.staffRepository = staffRepository;
         this.stationRepository = stationRepository;
         this.activityRepository = activityRepository;
         this.cityRepository = cityRepository;
+        this.predictedActivityRepository = predictedActivityRepository;
     }
 
     @Override
@@ -117,6 +123,47 @@ public class SimulationServiceImpl implements SimulationService {
     }
 
     @Override
+    public void generateDependentVariablesForLinearRegression() {
+        List<Station> stationList = stationRepository.findAll();
+        HashMap<UUID, Integer> minValues = new HashMap<>();
+        HashMap<UUID, Integer> maxValues = new HashMap<>();
+        for(Station station : stationList) {
+            int minVal = (int)( ((float)station.getMaxCapacity()) / 100 * 5);
+            int maxVal = (int)( ((float)station.getMaxCapacity()) / 100 * 95);
+            minValues.put(station.getId(), minVal);
+            maxValues.put(station.getId(), maxVal);
+        }
+        List<Activity> activityList = activityRepository.getActivitiesOrderedByDayAscending();
+        Date date = new Date();
+        for(Activity activity : activityList) {
+            if(activity.getDay().compareTo(date) >= 0) {
+                break;
+            }
+            int calculatedBicycleNr = 0;
+            calculatedBicycleNr += activity.getBicyclesTaken();
+            calculatedBicycleNr -= activity.getBicyclesBrought() * 0.5;
+            calculatedBicycleNr += activity.getDiscountsTo() * 0.5;
+            calculatedBicycleNr -= activity.getDiscountsFrom() * 0.5;
+            calculatedBicycleNr += activity.getTimesClickedWhileEmpty() * 0.0025;
+            calculatedBicycleNr -= activity.getTimesClickedWhileFull() * 0.0025;
+
+            int minVal = minValues.get(activity.getStationId());
+            int maxVal = maxValues.get(activity.getStationId());
+
+            if(calculatedBicycleNr < minVal) {
+                calculatedBicycleNr = minVal;
+            }
+            else if(calculatedBicycleNr > maxVal) {
+                calculatedBicycleNr = maxVal;
+            }
+
+            PredictedActivity predictedActivity = new PredictedActivity(
+                    activity.getStationId(), activity.getDay(), activity.getHourFrom(), calculatedBicycleNr);
+            predictedActivityRepository.save(predictedActivity);
+        }
+    }
+
+    @Override
     public void changeStatusForArrivedTransportBicycles() {
         Date date = new Date();
         LocalTime localTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
@@ -158,6 +205,7 @@ public class SimulationServiceImpl implements SimulationService {
 //    @EventListener(ContextRefreshedEvent.class)
 //    public void onStartupCallCalculateAllPredictedActivitiesForToday() {
 //        //generateBicyclesForStations();
-//        updateActivityNumbers();
+//        //updateActivityNumbers();
+//        generateDependentVariablesForLinearRegression();
 //    }
 }

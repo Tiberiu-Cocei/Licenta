@@ -19,4 +19,6 @@ public interface PredictedActivityRepository extends JpaRepository<PredictedActi
     @Query(value = "SELECT * FROM Predicted_activity WHERE station_id = ?1 ORDER BY day DESC, hour DESC LIMIT ?2 OFFSET ?3", nativeQuery = true)
     List<PredictedActivity> getPredictedActivitiesByStationIdWithLimitAndOffset(UUID stationId, int limit, int offset);
 
+    @Query(value = "SELECT u FROM PredictedActivity u ORDER BY day ASC")
+    List<PredictedActivity> getPredictedActivitiesOrderedByDayAscending();
 }

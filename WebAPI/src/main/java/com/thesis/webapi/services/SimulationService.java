@@ -14,4 +14,6 @@ public interface SimulationService {
 
     void updateActivityNumbers();
 
+    void generateDependentVariablesForLinearRegression();
+
 }

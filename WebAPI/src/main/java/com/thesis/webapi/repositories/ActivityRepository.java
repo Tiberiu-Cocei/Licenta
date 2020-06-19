@@ -23,4 +23,7 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     @Query(value = "SELECT * FROM Activity WHERE station_id = ?1 AND hour_from = ?2 ORDER BY day DESC LIMIT ?3", nativeQuery = true)
     List<Activity> getActivitiesByStationIdAndHourWithLimit(UUID stationId, int hour, int limit);
 
+    @Query(value = "SELECT u FROM Activity u ORDER BY day ASC")
+    List<Activity> getActivitiesOrderedByDayAscending();
+
 }
