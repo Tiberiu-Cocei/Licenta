@@ -6,8 +6,8 @@ import com.thesis.webapi.repositories.*;
 import com.thesis.webapi.services.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-//import org.springframework.context.event.ContextRefreshedEvent;
-//import org.springframework.context.event.EventListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -202,10 +202,11 @@ public class SimulationServiceImpl implements SimulationService {
         changeAvailabilityForDrivers();
     }
 
-//    @EventListener(ContextRefreshedEvent.class)
-//    public void onStartupCallCalculateAllPredictedActivitiesForToday() {
-//        //generateBicyclesForStations();
-//        //updateActivityNumbers();
-//        generateDependentVariablesForLinearRegression();
-//    }
+    @EventListener(ContextRefreshedEvent.class)
+    public void onStartupCallCalculateAllPredictedActivitiesForToday() {
+        //generateBicyclesForStations();
+        //updateActivityNumbers();
+        //generateDependentVariablesForLinearRegression();
+        changeAvailabilityForDrivers();
+    }
 }

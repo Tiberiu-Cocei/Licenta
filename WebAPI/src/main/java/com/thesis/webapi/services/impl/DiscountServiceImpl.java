@@ -116,8 +116,8 @@ public class DiscountServiceImpl implements DiscountService {
                     int minValueForDiscount = -(int)(negativePair.getKey().getMaxCapacity()*(20.0f / 100.0f));
                     if(positivePair.getValue() > 0 && (negativePair.getValue() >= minValueForDiscount || forceDiscounts) && negativePair.getValue() < 0) {
                         int numberOfDiscounts = Math.min(positivePair.getValue(), -negativePair.getValue()) + 1;
-                        Discount discount = new Discount(positivePair.getKey().getId(), negativePair.getKey().getId(), numberOfDiscounts,
-                                settings.getDiscountValue(), date);
+                        Discount discount = new Discount(positivePair.getKey().getId(), negativePair.getKey().getId(),
+                                numberOfDiscounts, settings.getDiscountValue(), date);
                         discountRepository.save(discount);
                         System.out.println("Successfully created discount from the station " + positivePair.getKey().getName() +
                                 " to the station " + negativePair.getKey().getName() + ". Number of discounts: " + numberOfDiscounts);
@@ -127,13 +127,13 @@ public class DiscountServiceImpl implements DiscountService {
                 }
             }
             else if(settings.areTransportsUsed()) {
-                Staff staff = staffList.get(0);
-                staffList.remove(0);
                 List<Bicycle> availableBicycles = bicycleRepository.getAvailableBicycles(positivePair.getKey().getId());
                 positivePair.setValue(Math.min(availableBicycles.size(), positivePair.getValue()));
                 for(Map.Entry<Station, Integer> negativePair : negativeDifference.entrySet()) {
                     int minValueForTransport = -(int)(negativePair.getKey().getMaxCapacity()*(20.0f / 100.0f));
                     if(positivePair.getValue() > 0 && negativePair.getValue() < minValueForTransport) {
+                        Staff staff = staffList.get(0);
+                        staffList.remove(0);
                         Transport transport = new Transport(staff.getId(), date);
                         transportRepository.save(transport);
                         int numberOfTransportLines = Math.min(positivePair.getValue(), -negativePair.getValue());
